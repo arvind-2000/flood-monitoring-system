@@ -4,10 +4,6 @@ import 'package:floodsystem/const.dart';
 import 'package:http/http.dart' as http;
 class Service{
   
-  
-
-
-
   Future getdata(String url) async{
     try{
 
