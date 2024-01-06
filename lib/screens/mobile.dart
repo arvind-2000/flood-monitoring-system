@@ -41,7 +41,7 @@ class _MobileScreenState extends State<MobileScreen> {
             GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: 6 / 7,
+                  childAspectRatio: 6 / 9,
                   crossAxisSpacing: 16,
                   mainAxisSpacing: 16),
               shrinkWrap: true,
@@ -50,15 +50,19 @@ class _MobileScreenState extends State<MobileScreen> {
                 if (index == 0) {
                   print(index);
                   return DashboardCard(
-                    riverlist: nambulprov.getnambulrivers
+                    riverlist: nambulprov.getnambulrivers,
+                    floodindicator: nambulprov.floodindicator,
                   );
                 } else if (index == 1) {
                   return DashboardCard(
-                    riverlist: Provider.of<ImphalRiverProvider>(context).getallimphalrivers,
+                    riverlist: imphalprov.getallimphalrivers,
+                    floodindicator: imphalprov.floodindicator,
                   );
                 } else {
                   return DashboardCard(
-                  riverlist: Provider.of<IrilRiverProvider>(context).getallirilrivers,
+                  riverlist: irilprov.getallirilrivers,
+                  floodindicator: irilprov.floodindicator,
+
                   );
                 }
               },

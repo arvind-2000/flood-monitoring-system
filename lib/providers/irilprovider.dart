@@ -12,7 +12,7 @@ class IrilRiverProvider with ChangeNotifier {
   bool isLoading = true;
   int responsevalue = 0;
   get http => null;
-
+  bool floodindicator = false;
 
   Future<void> getdata() async{
   
@@ -22,8 +22,22 @@ class IrilRiverProvider with ChangeNotifier {
   responsevalue = ser.responsecode;
   print(responsevalue);
   isLoading = false;
+  indicator();
   notifyListeners();   
   }
-  
+
+    void indicator(){
+    Service ser  = Service();
+    double value = 0.0;
+    try{
+      value = double.parse(_irilriverlist.river.last.hv);
+    }
+    catch(e){
+      print('no value for doubles');
+      value = 0.0;
+    }
+    floodindicator =  ser.floodIndicator(value);
+    notifyListeners();
+  }
 
 }

@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       title: appname,
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: normalColor),
         useMaterial3: true,
       ),
       home: const HomePage(),

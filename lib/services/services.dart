@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:floodsystem/const.dart';
 import 'package:floodsystem/models/riverdetails.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/river.dart';
@@ -48,4 +49,12 @@ class Service{
      return rivers;
 
   }
+
+
+    bool floodIndicator(double value){
+      if(value>threshold){
+        return true;
+      }
+      return false;
+    }
 }
