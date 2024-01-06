@@ -1,9 +1,14 @@
 import 'package:floodsystem/const.dart';
+import 'package:floodsystem/providers/imphalriverprovider.dart';
+import 'package:floodsystem/providers/irilprovider.dart';
+import 'package:floodsystem/providers/riverprovider.dart';
 import 'package:floodsystem/screens/desktop.dart';
 import 'package:floodsystem/screens/mobile.dart';
+import 'package:floodsystem/screens/mobile/graphscreen.dart';
+import 'package:floodsystem/screens/mobile/mobilesettings.dart';
 import 'package:floodsystem/services/services.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,12 +18,27 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Service ser = Service();
+  
+  int _currentindex = 0;
   @override
   void initState() {
     
     super.initState();
- 
+    // Future.microtask(() => Provider.of<NambulProvider>(context,listen: false).getdata());
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) { 
+      Provider.of<NambulProvider>(context,listen: false).getdata();
+      Provider.of<ImphalRiverProvider>(context,listen: false).getdata();
+      Provider.of<IrilRiverProvider>(context,listen: false).getdata();
+    });
+
+  }
+
+  final List<Widget> _navigationscreenlist = const [MobileScreen(),GraphScreen(),MobileSettings()];
+  
+  void onSelectNavigation(int index){
+    setState(() {
+      _currentindex = index;
+    });
   }
 
   @override
@@ -29,17 +49,24 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.transparent,
         title: const Text(appname,style: TextStyle(fontSize: headersize),),
       ),
-      body:LayoutBuilder(builder:(context,constraint){
+      body:
+      Consumer<NambulProvider>(builder:(c,b,d)=>
+      
+      LayoutBuilder(builder:(context,constraint){
         if(constraint.maxWidth<500){
-          return MobileScreen();
+          return _navigationscreenlist[_currentindex];
         }
         else{
           return DesktopScreen();
         }
-      }),
+      })),
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: false,
         showUnselectedLabels: false,
+        currentIndex: _currentindex,
+        selectedItemColor: normalColor,
+        unselectedItemColor: Colors.grey,
+        onTap: onSelectNavigation,
         items:const [
         BottomNavigationBarItem(icon:Icon(Icons.home),label: 'home'),
         BottomNavigationBarItem(icon:Icon(Icons.bar_chart),label: 'graphs'),

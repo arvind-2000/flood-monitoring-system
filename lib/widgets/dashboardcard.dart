@@ -1,4 +1,7 @@
+import 'package:floodsystem/models/riverdetails.dart';
+import 'package:floodsystem/providers/riverprovider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../const.dart';
 import '../models/river.dart';
@@ -6,11 +9,13 @@ import '../models/river.dart';
 class DashboardCard extends StatelessWidget {
   const DashboardCard({
     super.key,
-    required this.riverlist
+    required this.riverlist,
   });
-  final List<River> riverlist;
+  final RiverDetails riverlist;
   @override
   Widget build(BuildContext context) {
+
+
     return Container(
       
       decoration: BoxDecoration(
@@ -19,15 +24,15 @@ class DashboardCard extends StatelessWidget {
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
+        children:  [
+           Expanded(
             flex: 2,
             child: Padding(
-              padding: const EdgeInsets.all(regularpadding),
+              padding: EdgeInsets.all(regularpadding),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(riverlist[0].name.replaceFirst(' ', '\n'),style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                  Text(riverlist.name.replaceFirst(' ', '\n'),style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
                   Icon(Icons.dangerous)
                 ],
               ),
@@ -47,7 +52,7 @@ class DashboardCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('Humidity',style: TextStyle(fontWeight: FontWeight.bold,fontSize: regularfontsize)),
-                  Text(riverlist.last.hv,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14)),
+                  Text(riverlist.river.isEmpty?'No data':riverlist.river.last.hv,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14)),
                   SizedBox(height: 10,),
                   Text('Normal',style: TextStyle(fontWeight: FontWeight.bold,fontSize: regularfontsize),),
                 ],

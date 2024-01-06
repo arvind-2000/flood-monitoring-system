@@ -9,7 +9,8 @@ const Color normalColor = Color.fromARGB(255, 125, 195, 228);
 
 const Color backgroundColor = Color.fromARGB(255, 231, 230, 230);
 const Color cardcolor = Colors.white;
-const double headersize = 24;
+const double headersize = 28;
 const double regularfontsize = 16;
 const double regularpadding = 16;
 const double radius = 16;
+const threshold  = 60;
