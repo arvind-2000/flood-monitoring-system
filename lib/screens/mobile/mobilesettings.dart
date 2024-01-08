@@ -17,7 +17,7 @@ class MobileSettings extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
+          const Row(
            
             children: [
               
@@ -26,8 +26,8 @@ class MobileSettings extends StatelessWidget {
               FaIcon(FontAwesomeIcons.gear)
             ],
           ),
-          SizedBox(height: 20,),
-          Row(
+         const SizedBox(height: 20,),
+         const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               
@@ -36,7 +36,7 @@ class MobileSettings extends StatelessWidget {
             ],
           ),
           TextFormField(
-          initialValue: '0.0',
+          initialValue: '$threshold',
           decoration: InputDecoration(
             
           ),

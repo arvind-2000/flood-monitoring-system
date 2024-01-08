@@ -6,11 +6,11 @@ import 'package:floodsystem/screens/desktop.dart';
 import 'package:floodsystem/screens/mobile.dart';
 import 'package:floodsystem/screens/mobile/graphscreen.dart';
 import 'package:floodsystem/screens/mobile/mobilesettings.dart';
-import 'package:floodsystem/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
+  static const String routename = 'homescreen';
   const HomePage({super.key});
 
   @override
@@ -18,7 +18,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  
+  PageController _controller = PageController(); 
   int _currentindex = 0;
   @override
   void initState() {
@@ -38,6 +38,7 @@ class _HomePageState extends State<HomePage> {
   void onSelectNavigation(int index){
     setState(() {
       _currentindex = index;
+      _controller.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.decelerate);
     });
   }
 
@@ -54,7 +55,14 @@ class _HomePageState extends State<HomePage> {
       
       LayoutBuilder(builder:(context,constraint){
         if(constraint.maxWidth<500){
-          return _navigationscreenlist[_currentindex];
+
+          return PageView(
+            scrollDirection: Axis.horizontal,
+            children: _navigationscreenlist,
+            controller: _controller,
+            onPageChanged: onSelectNavigation,
+
+          );
         }
         else{
           return DesktopScreen();

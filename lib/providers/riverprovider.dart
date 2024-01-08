@@ -1,26 +1,33 @@
-import 'dart:convert';
+
 import 'package:floodsystem/const.dart';
+import 'package:floodsystem/models/river.dart';
 import 'package:floodsystem/models/riverdetails.dart';
 import 'package:floodsystem/services/services.dart';
 import 'package:flutter/material.dart';
 
-import '../models/river.dart';
+
 
 class NambulProvider with ChangeNotifier {
+  List<RiverDetails> _riverlist = [];
   RiverDetails _riverDetails = RiverDetails(id: '', name: '', river: []);
-  RiverDetails get getnambulrivers => _riverDetails;
+  List<RiverDetails> get getnambulrivers => _riverlist;
   bool isLoading = true;
   int responsevalue = 0;
   get http => null;
-  bool floodindicator = false;
+  List<bool> floodindicator = [];
   
 
   Future<void> getdata() async{
-  
+    List<RiverDetails>  rivers = [];
+  RiverDetails riverDetails = RiverDetails(id: '', name: '', river: []);
   Service ser = Service();
-  RiverDetails datas = await ser.getdata(nambulriver);
-  _riverDetails = datas;
+  for(String i in apicalls){
+  riverDetails = await ser.getdata(i);
+  rivers.add(riverDetails);
   responsevalue = ser.responsecode;
+
+  }
+  _riverlist = rivers;
   print(responsevalue);
   isLoading = false;
   indicator();
@@ -28,17 +35,25 @@ class NambulProvider with ChangeNotifier {
   }
 
   void indicator(){
+    List<bool> floodIndicatorlist = [];
     Service ser  = Service();
-    double value = 0.0;
-    try{
-      value = double.parse(_riverDetails.river.last.hv);
-    }
-    catch(e){
-      print('no value for doubles');
-      value = 0.0;
-    }
-    floodindicator =  ser.floodIndicator(value);
-    notifyListeners();
+    for (RiverDetails d in _riverlist) {
+  double value = 0.0;
+  try{
+    value = double.parse(d.river.last.hv);
   }
+  catch(e){
+    print('no value for doubles');
+    value = 0.0;
+  }
+   floodIndicatorlist.add(ser.floodIndicator(value));
+}
+floodindicator = floodIndicatorlist;
+  notifyListeners();
+  }
+
+
+
+
 
 }

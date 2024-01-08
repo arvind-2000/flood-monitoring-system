@@ -57,4 +57,21 @@ class Service{
       }
       return false;
     }
+
+    List<double> datapoints(RiverDetails d){
+      List<double> _data = [];
+      
+          for(River x in d.river){
+              double val = 0.0;
+              try{
+                  val = double.parse(x.usv); 
+              }catch(e){
+                  val = 0.0;
+              }
+            _data.add(val);
+          }
+          return [..._data];
+     
+
+    }
 }

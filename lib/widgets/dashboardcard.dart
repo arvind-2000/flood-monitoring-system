@@ -1,11 +1,9 @@
 import 'package:floodsystem/models/riverdetails.dart';
-import 'package:floodsystem/providers/riverprovider.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:provider/provider.dart';
 
 import '../const.dart';
-import '../models/river.dart';
+
 
 class DashboardCard extends StatelessWidget {
   const DashboardCard({

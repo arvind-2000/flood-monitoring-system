@@ -17,4 +17,10 @@ const double regularpadding = 16;
 const double radius = 16;
 const threshold  = 60;
 const normalbanner = 'Normal';
+
 const alertbannertext = 'Danger';
+BoxDecoration carddecoration = BoxDecoration(
+  color: Colors.white,
+  borderRadius: BorderRadius.circular(radius)
+);
+const List<String> apicalls = [imphalriver,nambulriver,irilriver];

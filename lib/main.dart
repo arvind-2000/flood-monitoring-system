@@ -2,6 +2,7 @@ import 'package:floodsystem/providers/imphalriverprovider.dart';
 import 'package:floodsystem/providers/irilprovider.dart';
 import 'package:floodsystem/providers/riverprovider.dart';
 import 'package:floodsystem/screens/home.dart';
+import 'package:floodsystem/screens/mobile/details.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -32,6 +33,11 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const HomePage(),
+      routes: {
+        HomePage.routename:(c)=>HomePage(),
+        DetailsScreen.routename:(c)=>DetailsScreen(),
+      }
+  ,
     ),);
   }
 }

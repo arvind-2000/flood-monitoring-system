@@ -1,10 +1,8 @@
 import 'package:floodsystem/const.dart';
-
-import 'package:floodsystem/models/river.dart';
 import 'package:floodsystem/providers/imphalriverprovider.dart';
 import 'package:floodsystem/providers/irilprovider.dart';
 import 'package:floodsystem/providers/riverprovider.dart';
-import 'package:floodsystem/services/services.dart';
+import 'package:floodsystem/screens/mobile/details.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -22,16 +20,16 @@ class _MobileScreenState extends State<MobileScreen> {
       GlobalKey<RefreshIndicatorState>();
   @override
   Widget build(BuildContext context) {
-    final nambulprov = Provider.of<NambulProvider>(context);
-    final imphalprov = Provider.of<ImphalRiverProvider>(context);
-    final irilprov = Provider.of<IrilRiverProvider>(context);
+    final riverprovider = Provider.of<NambulProvider>(context);
+    // final imphalprov = Provider.of<ImphalRiverProvider>(context);
+    // final irilprov = Provider.of<IrilRiverProvider>(context);
     
     return RefreshIndicator(
       key: _refreshIndicatorKey,
       onRefresh: () {
-        imphalprov.getdata();
-        irilprov.getdata();
-        return nambulprov.getdata();
+        // imphalprov.getdata();
+        // irilprov.getdata();
+        return riverprovider.getdata();
       },
       child: Container(
         margin: const EdgeInsets.all(regularpadding),
@@ -47,26 +45,18 @@ class _MobileScreenState extends State<MobileScreen> {
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 
-                if (index == 0) {
-                  print(index);
-                  return DashboardCard(
-                    riverlist: nambulprov.getnambulrivers,
-                    floodindicator: nambulprov.floodindicator,
+                  return InkWell(
+                    onTap: (){
+                      Navigator.pushNamed(context,DetailsScreen.routename,arguments: riverprovider.getnambulrivers[index]);
+                    },
+                    child: DashboardCard(
+                      riverlist: riverprovider.getnambulrivers[index],
+                      floodindicator: riverprovider.floodindicator[index],
+                    ),
                   );
-                } else if (index == 1) {
-                  return DashboardCard(
-                    riverlist: imphalprov.getallimphalrivers,
-                    floodindicator: imphalprov.floodindicator,
-                  );
-                } else {
-                  return DashboardCard(
-                  riverlist: irilprov.getallirilrivers,
-                  floodindicator: irilprov.floodindicator,
-
-                  );
-                }
+             
               },
-              itemCount: 3,
+              itemCount: riverprovider.getnambulrivers.length,
             ),
           ],
         ),
