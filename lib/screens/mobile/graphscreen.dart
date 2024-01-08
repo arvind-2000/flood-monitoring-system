@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:floodsystem/providers/imphalriverprovider.dart';
 import 'package:floodsystem/services/services.dart';
+import 'package:floodsystem/widgets/graphreportscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -81,47 +82,12 @@ class GraphScreen extends StatelessWidget {
                   ],
                 ),
               )),
-          Expanded(
-            flex: 3,
-            child: Container(
-              margin: EdgeInsets.all(regularpadding),
-              padding: EdgeInsets.all(regularpadding),
-              width: double.infinity,
-              decoration: carddecoration,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Report',style: TextStyle(fontWeight: FontWeight.bold,fontSize: headersize2),),
-                  SizedBox(height: 20,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Nambul river'),
-                      Text('200')],
-                  ),
-                  Divider(),
-                  SizedBox(height: 10,),    
-                         Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Imphal river'),
-                      Text('200')],
-                  ),
-                  Divider(),
-                  SizedBox(height: 10,),  
-                         Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Iril river'),
-                      Text('200')],
-                  ),
-                ],
-              ),
-            ),
-          )
+          GraphScreenReport()
         ],
       ),
     );
   }
 }
+
+
 

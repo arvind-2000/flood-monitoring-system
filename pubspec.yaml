@@ -39,6 +39,7 @@ dependencies:
   provider: ^6.1.1
   font_awesome_flutter: ^10.6.0
   fl_chart: ^0.66.0
+  flutter_local_notifications: ^16.3.0
 
 dev_dependencies:
   flutter_test:

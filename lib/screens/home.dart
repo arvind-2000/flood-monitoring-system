@@ -69,6 +69,8 @@ class _HomePageState extends State<HomePage> {
         }
       })),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: backgroundColor,
+        elevation: 0,
         showSelectedLabels: false,
         showUnselectedLabels: false,
         currentIndex: _currentindex,

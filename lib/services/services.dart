@@ -64,12 +64,13 @@ class Service{
           for(River x in d.river){
               double val = 0.0;
               try{
-                  val = double.parse(x.usv); 
+                  val = double.parse(x.hv); 
               }catch(e){
                   val = 0.0;
               }
             _data.add(val);
           }
+          print("${d.name}:${_data.length}");
           return [..._data];
      
 

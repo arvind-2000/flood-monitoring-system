@@ -17,7 +17,7 @@ const double regularpadding = 16;
 const double radius = 16;
 const threshold  = 60;
 const normalbanner = 'Normal';
-
+List<Color?> rivercolors = [Colors.blue.withOpacity(0.5),Colors.brown.withOpacity(0.5),Colors.greenAccent.withOpacity(0.5)];
 const alertbannertext = 'Danger';
 BoxDecoration carddecoration = BoxDecoration(
   color: Colors.white,

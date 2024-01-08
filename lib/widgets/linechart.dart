@@ -1,4 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
+import 'package:floodsystem/const.dart';
+import 'package:floodsystem/models/riverdetails.dart';
+import 'package:floodsystem/providers/riverprovider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -13,7 +16,7 @@ class LineCharts extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
       Service ser = Service();
-    final prov = Provider.of<ImphalRiverProvider>(context);
+    final prov = Provider.of<NambulProvider>(context);
     return LineChart(
        
         LineChartData(
@@ -36,18 +39,21 @@ class LineCharts extends StatelessWidget {
                 sideTitles: SideTitles(showTitles: false)
               )
             ),
-            maxX: prov.getallimphalrivers.river.length.toDouble(),
+            maxX: 500,
             minX: 0,
-            maxY: 30,
+            maxY:10,
             minY: 0,
             
-            lineBarsData: [
-              LineChartBarData(
-                  curveSmoothness: 0.5,
-                  isCurved: true,
-                  barWidth: 2,
-                  isStrokeCapRound: true,
-                  spots:ser.datapoints(prov.getallimphalrivers).asMap().entries.map((e) => FlSpot(e.key.toDouble(),e.value*0.1)).toList())
-            ]));
+            lineBarsData:prov.getnambulrivers.asMap().entries.map((e) => LineChartBars(ser,e.key,e.value)).toList()));
+  }
+
+  LineChartBarData LineChartBars(Service ser,int index, RiverDetails rivers) {
+    return LineChartBarData(
+                curveSmoothness: 0.5,
+                isCurved: true,
+                barWidth: 2,
+                isStrokeCapRound: true,
+                color: rivercolors[index],
+                spots:ser.datapoints(rivers).asMap().entries.map((e) => FlSpot(e.key.toDouble(),e.value*0.1)).toList());
   }
 }
