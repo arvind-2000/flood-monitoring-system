@@ -102,6 +102,38 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_background_service:
+    dependency: "direct main"
+    description:
+      name: flutter_background_service
+      sha256: "94d9a143852729140e17254a53769383b03738cd92b6e588a8762003e6cd9dd9"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.5"
+  flutter_background_service_android:
+    dependency: "direct main"
+    description:
+      name: flutter_background_service_android
+      sha256: "30863ebafd8214b8e76d5e5c9f27887dc5cc303fcf3e89f71534f621fc486782"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.2.2"
+  flutter_background_service_ios:
+    dependency: transitive
+    description:
+      name: flutter_background_service_ios
+      sha256: ab73657535876e16abc89e40f924df3e92ad3dee83f64d187081417e824709ed
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.0"
+  flutter_background_service_platform_interface:
+    dependency: transitive
+    description:
+      name: flutter_background_service_platform_interface
+      sha256: cd5720ff5b051d551a4734fae16683aace779bd0425e8d3f15d84a0cdcc2d8d9
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.0"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -136,6 +168,11 @@ packages:
     version: "7.0.0+1"
   flutter_test:
     dependency: "direct dev"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
+  flutter_web_plugins:
+    dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.0"
@@ -211,6 +248,54 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.8.3"
+  permission_handler:
+    dependency: "direct main"
+    description:
+      name: permission_handler
+      sha256: "860c6b871c94c78e202dc69546d4d8fd84bd59faeb36f8fb9888668a53ff4f78"
+      url: "https://pub.dev"
+    source: hosted
+    version: "11.1.0"
+  permission_handler_android:
+    dependency: transitive
+    description:
+      name: permission_handler_android
+      sha256: "2f1bec180ee2f5665c22faada971a8f024761f632e93ddc23310487df52dcfa6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "12.0.1"
+  permission_handler_apple:
+    dependency: transitive
+    description:
+      name: permission_handler_apple
+      sha256: "1a816084338ada8d574b1cb48390e6e8b19305d5120fe3a37c98825bacc78306"
+      url: "https://pub.dev"
+    source: hosted
+    version: "9.2.0"
+  permission_handler_html:
+    dependency: transitive
+    description:
+      name: permission_handler_html
+      sha256: "11b762a8c123dced6461933a88ea1edbbe036078c3f9f41b08886e678e7864df"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0+2"
+  permission_handler_platform_interface:
+    dependency: transitive
+    description:
+      name: permission_handler_platform_interface
+      sha256: d87349312f7eaf6ce0adaf668daf700ac5b06af84338bd8b8574dfbd93ffe1a1
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.0.2"
+  permission_handler_windows:
+    dependency: transitive
+    description:
+      name: permission_handler_windows
+      sha256: "1e8640c1e39121128da6b816d236e714d2cf17fac5a105dd6acdd3403a628004"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.2.0"
   petitparser:
     dependency: transitive
     description:
@@ -219,6 +304,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.2"
+  platform:
+    dependency: transitive
+    description:
+      name: platform
+      sha256: "12220bb4b65720483f8fa9450b4332347737cf8213dd2840d8b2c823e47243ec"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.1.4"
   plugin_platform_interface:
     dependency: transitive
     description:

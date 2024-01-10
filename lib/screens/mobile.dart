@@ -3,7 +3,9 @@ import 'package:floodsystem/providers/imphalriverprovider.dart';
 import 'package:floodsystem/providers/irilprovider.dart';
 import 'package:floodsystem/providers/riverprovider.dart';
 import 'package:floodsystem/screens/mobile/details.dart';
+import 'package:floodsystem/services/notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 
 import '../widgets/dashboardcard.dart';
@@ -16,6 +18,7 @@ class MobileScreen extends StatefulWidget {
 }
 
 class _MobileScreenState extends State<MobileScreen> {
+  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
   @override
@@ -29,6 +32,7 @@ class _MobileScreenState extends State<MobileScreen> {
       onRefresh: () {
         // imphalprov.getdata();
         // irilprov.getdata();
+        showNotification(notificationsPlugin: _flutterLocalNotificationsPlugin, title: "Flood System", body: 'Water Level Raised:200');
         return riverprovider.getdata();
       },
       child: Container(

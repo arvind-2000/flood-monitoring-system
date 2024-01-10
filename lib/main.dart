@@ -3,12 +3,21 @@ import 'package:floodsystem/providers/irilprovider.dart';
 import 'package:floodsystem/providers/riverprovider.dart';
 import 'package:floodsystem/screens/home.dart';
 import 'package:floodsystem/screens/mobile/details.dart';
+import 'package:floodsystem/services/backgroundservice.dart';
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 import 'const.dart';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Permission.notification.isDenied.then((value){
+    if(value){
+      Permission.notification.request();
+    }
+  },);
+  await initializeService();
   runApp(const MyApp());
 }
 

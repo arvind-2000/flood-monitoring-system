@@ -1,5 +1,6 @@
 import 'package:floodsystem/const.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MobileSettings extends StatelessWidget {
@@ -41,9 +42,44 @@ class MobileSettings extends StatelessWidget {
             
           ),
           
-          )
+          ),
+
+          ElevatedButton(onPressed: (){
+            FlutterBackgroundService().invoke('AsForeGround');
+          }, child: Padding(
+            padding: const EdgeInsets.all(regularpadding),
+            child: Text('AsForeGround'),
+          ),),
+           ElevatedButton(onPressed: (){
+            FlutterBackgroundService().invoke('AsBackGround');
+          }, child: Padding(
+            padding: const EdgeInsets.all(regularpadding),
+            child: Text('Background'),
+          ),),
+           ElevatedButton(onPressed: () async{
+            final service = FlutterBackgroundService();
+            bool isRunning = await service.isRunning();
+            if(isRunning){
+                service.invoke('StopService');
+            }else{
+              service.startService();
+            }
+
+            if(!isRunning){
+              service.invoke('StopService');
+              print("service stop");
+            }
+            else{
+              print('start service');
+            }
+          }, child
+          : Padding(
+            padding: const EdgeInsets.all(regularpadding),
+            child: Text('Periodic'),
+          ),)
         ],
       )
+
     );
   }
 }
