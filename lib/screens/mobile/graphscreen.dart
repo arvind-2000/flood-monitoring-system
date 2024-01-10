@@ -30,55 +30,55 @@ class GraphScreen extends StatelessWidget {
                     Expanded(
                       flex: 3,
                       child: Container(
-                        padding: EdgeInsets.only(right: regularpadding,top: regularpadding,bottom: regularpadding),
+                        // padding: EdgeInsets.only(right: regularpadding,top: regularpadding,bottom: regularpadding),
                         child: LineCharts(),
                       ),
                     ),
-                    Expanded(
-                        child: Container(
-                          padding: EdgeInsets.symmetric(horizontal: regularpadding),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Container(
+                    // Expanded(
+                    //     child: Container(
+                    //       padding: EdgeInsets.symmetric(horizontal: regularpadding),
+                    //   child: Column(
+                    //     children: [
+                    //       Row(
+                    //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //         children: [
+                    //           Expanded(
+                    //             child: Container(
                                   
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Monthly',
-                                        style: TextStyle(fontWeight: FontWeight.bold),
+                    //               child: Column(
+                    //                 crossAxisAlignment: CrossAxisAlignment.start,
+                    //                 children: [
+                    //                   Text(
+                    //                     'Monthly',
+                    //                     style: TextStyle(fontWeight: FontWeight.bold),
                                         
-                                      ),
-                                       Text('Jan',style: TextStyle(color: Colors.grey,fontSize: regularfontsize-4),),
-                                      Text('200.0',style: TextStyle(fontWeight: FontWeight.bold,fontSize: headersize3),)
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        'Yearly',
-                                        style: TextStyle(fontWeight: FontWeight.bold),
-                                      ),
-                                      Text('2000',style: TextStyle(color: Colors.grey,fontSize: regularfontsize-4),),
-                                      Text('200.0',style: TextStyle(fontWeight: FontWeight.bold,fontSize: headersize3),)
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ))
+                    //                   ),
+                    //                    Text('Jan',style: TextStyle(color: Colors.grey,fontSize: regularfontsize-4),),
+                    //                   Text('200.0',style: TextStyle(fontWeight: FontWeight.bold,fontSize: headersize3),)
+                    //                 ],
+                    //               ),
+                    //             ),
+                    //           ),
+                    //           Expanded(
+                    //             child: Container(
+                    //               child: Column(
+                    //                 crossAxisAlignment: CrossAxisAlignment.start,
+                    //                 children: [
+                    //                   Text(
+                    //                     'Yearly',
+                    //                     style: TextStyle(fontWeight: FontWeight.bold),
+                    //                   ),
+                    //                   Text('2000',style: TextStyle(color: Colors.grey,fontSize: regularfontsize-4),),
+                    //                   Text('200.0',style: TextStyle(fontWeight: FontWeight.bold,fontSize: headersize3),)
+                    //                 ],
+                    //               ),
+                    //             ),
+                    //           ),
+                    //         ],
+                    //       )
+                    //     ],
+                    //   ),
+                    // ))
                   ],
                 ),
               )),
