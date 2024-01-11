@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:floodsystem/providers/imphalriverprovider.dart';
 import 'package:floodsystem/providers/irilprovider.dart';
 import 'package:floodsystem/providers/riverprovider.dart';
@@ -12,12 +15,22 @@ import 'const.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  await Permission.notification.isDenied.then((value){
-    if(value){
-      Permission.notification.request();
-    }
-  },);
-  await initializeService();
+
+
+//      try {
+//         await Permission.notification.isDenied.then((value){
+//     if(value){
+//       Permission.notification.request();
+//     }
+    
+//   },);
+//   await initializeService();
+// } on Exception catch (e) {
+//     log(e.toString());
+//   // TODO
+// }
+
+ 
   runApp(const MyApp());
 }
 

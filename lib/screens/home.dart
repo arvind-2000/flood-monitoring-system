@@ -18,7 +18,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  PageController _controller = PageController(); 
+  PageController _controller = PageController(initialPage: 0,keepPage: true); 
   int _currentindex = 0;
   @override
   void initState() {
@@ -38,7 +38,8 @@ class _HomePageState extends State<HomePage> {
   void onSelectNavigation(int index){
     setState(() {
       _currentindex = index;
-      _controller.animateToPage(index, duration: const Duration(milliseconds: 300), curve: Curves.decelerate);
+      
+      _controller.animateToPage(index, duration: Duration(milliseconds: 200), curve: Curves.linear);
     });
   }
 
@@ -60,6 +61,7 @@ class _HomePageState extends State<HomePage> {
             scrollDirection: Axis.horizontal,
             children: _navigationscreenlist,
             controller: _controller,
+            
             onPageChanged: onSelectNavigation,
 
           );

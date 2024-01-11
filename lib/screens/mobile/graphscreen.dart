@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:floodsystem/providers/imphalriverprovider.dart';
 import 'package:floodsystem/services/services.dart';
+import 'package:floodsystem/widgets/cards.dart';
 import 'package:floodsystem/widgets/graphreportscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -14,8 +15,10 @@ class GraphScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
   
-    return Container(
-      child: Column(
+    return CardsContainer(
+      // margins: EdgeInsets.all(regularpadding),
+      cardcolor: Colors.transparent,
+      childs: Column(
         children: [
           Expanded(
               flex: 5,
@@ -31,54 +34,17 @@ class GraphScreen extends StatelessWidget {
                       flex: 3,
                       child: Container(
                         // padding: EdgeInsets.only(right: regularpadding,top: regularpadding,bottom: regularpadding),
-                        child: LineCharts(),
+                        child: LineCharts(isPinching: false,showcolorindicator: true),
                       ),
                     ),
-                    // Expanded(
-                    //     child: Container(
-                    //       padding: EdgeInsets.symmetric(horizontal: regularpadding),
-                    //   child: Column(
-                    //     children: [
-                    //       Row(
-                    //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //         children: [
-                    //           Expanded(
-                    //             child: Container(
-                                  
-                    //               child: Column(
-                    //                 crossAxisAlignment: CrossAxisAlignment.start,
-                    //                 children: [
-                    //                   Text(
-                    //                     'Monthly',
-                    //                     style: TextStyle(fontWeight: FontWeight.bold),
-                                        
-                    //                   ),
-                    //                    Text('Jan',style: TextStyle(color: Colors.grey,fontSize: regularfontsize-4),),
-                    //                   Text('200.0',style: TextStyle(fontWeight: FontWeight.bold,fontSize: headersize3),)
-                    //                 ],
-                    //               ),
-                    //             ),
-                    //           ),
-                    //           Expanded(
-                    //             child: Container(
-                    //               child: Column(
-                    //                 crossAxisAlignment: CrossAxisAlignment.start,
-                    //                 children: [
-                    //                   Text(
-                    //                     'Yearly',
-                    //                     style: TextStyle(fontWeight: FontWeight.bold),
-                    //                   ),
-                    //                   Text('2000',style: TextStyle(color: Colors.grey,fontSize: regularfontsize-4),),
-                    //                   Text('200.0',style: TextStyle(fontWeight: FontWeight.bold,fontSize: headersize3),)
-                    //                 ],
-                    //               ),
-                    //             ),
-                    //           ),
-                    //         ],
-                    //       )
-                    //     ],
-                    //   ),
-                    // ))
+                   Expanded(child: Row(
+                     children: [
+                       CardsContainer(childs: Text('new',style: TextStyle(fontWeight: FontWeight.bold),), cardcolor: normalColor.withOpacity(0.6),paddings: EdgeInsets.all(8),margins: EdgeInsets.all(8),),
+                       CardsContainer(childs: Text('1D',style: TextStyle(fontWeight: FontWeight.bold),), cardcolor: normalColor.withOpacity(0.6),paddings: EdgeInsets.all(8),margins: EdgeInsets.all(8),),
+                       CardsContainer(childs: Text('1M',style: TextStyle(fontWeight: FontWeight.bold),), cardcolor: normalColor.withOpacity(0.6),paddings: EdgeInsets.all(8),margins: EdgeInsets.all(8),),
+                       CardsContainer(childs: Text('1Y',style: TextStyle(fontWeight: FontWeight.bold),), cardcolor: normalColor.withOpacity(0.6),paddings: EdgeInsets.all(8),margins: EdgeInsets.all(8),),
+                     ],
+                   ))
                   ],
                 ),
               )),
