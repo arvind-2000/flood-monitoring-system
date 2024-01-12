@@ -6,6 +6,7 @@ import 'package:floodsystem/providers/irilprovider.dart';
 import 'package:floodsystem/providers/riverprovider.dart';
 import 'package:floodsystem/screens/home.dart';
 import 'package:floodsystem/screens/mobile/details.dart';
+import 'package:floodsystem/screens/mobile/mobilesettings.dart';
 import 'package:floodsystem/services/backgroundservice.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -58,6 +59,7 @@ class MyApp extends StatelessWidget {
       routes: {
         HomePage.routename:(c)=>HomePage(),
         DetailsScreen.routename:(c)=>DetailsScreen(),
+        MobileSettings.routename:(c)=>MobileSettings(),
       }
   ,
     ),);

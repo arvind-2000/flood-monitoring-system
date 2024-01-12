@@ -38,7 +38,7 @@ class Service{
     try{
   for(var d in data){
       print(' $channelid  $name');
-        River value = River(id: d["id"].toString(), channelid:channelid, name: name, usv: d["field2"], hv: d["field4"], tv: d["field3"], date: d["created"]);
+        River value = River(id: d["id"].toString(), channelid:channelid, name: name, usv: d["field2"], hv: d["field4"], tv: d["field3"], date: DateTime.parse(d["created"]));
         tempdata.add(value);
      }
 

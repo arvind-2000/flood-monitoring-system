@@ -7,6 +7,7 @@ import 'package:floodsystem/screens/mobile.dart';
 import 'package:floodsystem/screens/mobile/graphscreen.dart';
 import 'package:floodsystem/screens/mobile/mobilesettings.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -33,7 +34,7 @@ class _HomePageState extends State<HomePage> {
 
   }
 
-  final List<Widget> _navigationscreenlist = const [MobileScreen(),GraphScreen(),MobileSettings()];
+  final List<Widget> _navigationscreenlist = const [MobileScreen(),GraphScreen()];
   
   void onSelectNavigation(int index){
     setState(() {
@@ -50,6 +51,9 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: const Text(appname,style: TextStyle(fontSize: headersize),),
+        actions: [IconButton(onPressed: (){
+          Navigator.pushNamed(context, MobileSettings.routename);
+        }, icon: FaIcon(FontAwesomeIcons.gear))],
       ),
       body:
       Consumer<NambulProvider>(builder:(c,b,d)=>
@@ -82,7 +86,7 @@ class _HomePageState extends State<HomePage> {
         items:const [
         BottomNavigationBarItem(icon:Icon(Icons.home),label: 'home'),
         BottomNavigationBarItem(icon:Icon(Icons.bar_chart),label: 'graphs'),
-        BottomNavigationBarItem(icon:Icon(Icons.settings),label: 'settings',),
+        // BottomNavigationBarItem(icon:Icon(Icons.settings),label: 'settings',),
       ]),
     );
   }

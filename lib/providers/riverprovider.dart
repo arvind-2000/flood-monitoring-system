@@ -1,6 +1,8 @@
 
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:floodsystem/const.dart';
-import 'package:floodsystem/models/river.dart';
 import 'package:floodsystem/models/riverdetails.dart';
 import 'package:floodsystem/services/services.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +11,7 @@ import 'package:flutter/material.dart';
 
 class NambulProvider with ChangeNotifier {
   List<RiverDetails> _riverlist = [];
-  RiverDetails _riverDetails = RiverDetails(id: '', name: '', river: []);
+  // RiverDetails _riverDetails = RiverDetails(id: '', name: '', river: []);
   List<RiverDetails> get getnambulrivers => _riverlist;
   bool isLoading = true;
   int responsevalue = 0;
@@ -18,7 +20,8 @@ class NambulProvider with ChangeNotifier {
   
 
   Future<void> getdata() async{
-    List<RiverDetails>  rivers = [];
+
+  List<RiverDetails>  rivers = [];
   RiverDetails riverDetails = RiverDetails(id: '', name: '', river: []);
   Service ser = Service();
   for(String i in apicalls){
@@ -26,13 +29,17 @@ class NambulProvider with ChangeNotifier {
   rivers.add(riverDetails);
   responsevalue = ser.responsecode;
 
-  }
   _riverlist = rivers;
   print(responsevalue);
   isLoading = false;
   indicator();
   notifyListeners();   
+
   }
+
+  }
+
+
 
   void indicator(){
     List<bool> floodIndicatorlist = [];

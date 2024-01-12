@@ -15,9 +15,9 @@ class Logics{
     //logic here
     for(River i in riverinfo.river){
        try{
-        DateTime d = DateTime.parse(i.date);
+        // DateTime d = DateTime.parse(i.date);
       //  if()
-
+        
 
        } on Exception catch(e){
         log('unable to parse the date value');

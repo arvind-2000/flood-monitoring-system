@@ -3,7 +3,7 @@ class River{
   String channelid;
   String name;
   String usv,hv,tv;
-  String date;
+  DateTime date;
 
   River({
     required this.id,
