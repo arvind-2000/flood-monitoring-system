@@ -34,26 +34,34 @@ class _HomePageState extends State<HomePage> {
 
   }
 
-  final List<Widget> _navigationscreenlist = const [MobileScreen(),GraphScreen()];
+  // final List<Widget> _navigationscreenlist =  [MobileScreen(onchanged: onSelectNavigation,),GraphScreen()];
   
   void onSelectNavigation(int index){
     setState(() {
       _currentindex = index;
       
-      _controller.animateToPage(index, duration: Duration(milliseconds: 200), curve: Curves.linear);
+      _controller.animateToPage(_currentindex, duration: Duration(milliseconds: 200), curve: Curves.linear);
     });
+
+  
+
   }
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor:Theme.of(context).colorScheme.background,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: const Text(appname,style: TextStyle(fontSize: headersize),),
-        actions: [IconButton(onPressed: (){
-          Navigator.pushNamed(context, MobileSettings.routename);
-        }, icon: FaIcon(FontAwesomeIcons.gear))],
+        actions: [Padding(
+          padding: const EdgeInsets.only(right: 8),
+          child: IconButton(onPressed: (){
+            Navigator.pushNamed(context, MobileSettings.routename);
+          }, icon: FaIcon(FontAwesomeIcons.gear,color: Theme.of(context).colorScheme.surface,)),
+        )],
       ),
       body:
       Consumer<NambulProvider>(builder:(c,b,d)=>
@@ -63,7 +71,11 @@ class _HomePageState extends State<HomePage> {
 
           return PageView(
             scrollDirection: Axis.horizontal,
-            children: _navigationscreenlist,
+         
+            children: [
+             MobileScreen(onchanged: onSelectNavigation,),
+             GraphScreen()
+            ],
             controller: _controller,
             
             onPageChanged: onSelectNavigation,
@@ -74,20 +86,20 @@ class _HomePageState extends State<HomePage> {
           return DesktopScreen();
         }
       })),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: backgroundColor,
-        elevation: 0,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        currentIndex: _currentindex,
-        selectedItemColor: normalColor,
-        unselectedItemColor: Colors.grey,
-        onTap: onSelectNavigation,
-        items:const [
-        BottomNavigationBarItem(icon:Icon(Icons.home),label: 'home'),
-        BottomNavigationBarItem(icon:Icon(Icons.bar_chart),label: 'graphs'),
-        // BottomNavigationBarItem(icon:Icon(Icons.settings),label: 'settings',),
-      ]),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   backgroundColor: backgroundColor,
+      //   elevation: 0,
+      //   showSelectedLabels: false,
+      //   showUnselectedLabels: false,
+      //   currentIndex: _currentindex,
+      //   selectedItemColor: normalColor,
+      //   unselectedItemColor: Colors.grey,
+      //   onTap: onSelectNavigation,
+      //   items:const [
+      //   BottomNavigationBarItem(icon:Icon(Icons.home),label: 'home'),
+      //   BottomNavigationBarItem(icon:Icon(Icons.bar_chart),label: 'graphs'),
+      //   // BottomNavigationBarItem(icon:Icon(Icons.settings),label: 'settings',),
+      // ]),
     );
   }
 }

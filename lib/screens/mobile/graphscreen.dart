@@ -1,6 +1,3 @@
-import 'package:fl_chart/fl_chart.dart';
-import 'package:floodsystem/providers/imphalriverprovider.dart';
-import 'package:floodsystem/services/services.dart';
 import 'package:floodsystem/widgets/cards.dart';
 import 'package:floodsystem/widgets/graphreportscreen.dart';
 import 'package:flutter/material.dart';
@@ -35,13 +32,17 @@ class _GraphScreenState extends State<GraphScreen> {
                 width: double.infinity,
                 padding: EdgeInsets.all(regularpadding),
                 margin: EdgeInsets.all(regularpadding),
-                decoration: carddecoration,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primary,
+                    borderRadius: BorderRadius.circular(radius)
+                ),
                 child: Column(
                   children: [
 
                     Expanded(
                       flex: 3,
                       child: Container(
+                        
                         // padding: EdgeInsets.only(right: regularpadding,top: regularpadding,bottom: regularpadding),
                         child: LineCharts(isPinching: false,showcolorindicator: true,chooseSensor: isSensor,),
                       ),
@@ -54,7 +55,7 @@ class _GraphScreenState extends State<GraphScreen> {
                           isSensor = e.key;
                         });
                       },
-                      child: CardsContainer(childs: Text(e.value,style: TextStyle(fontWeight: FontWeight.bold),), cardcolor: normalColor.withOpacity(0.3),paddings: EdgeInsets.all(8),margins: EdgeInsets.all(8),isBorder:e.key==isSensor,)),).toList(),
+                      child: CardsContainer(childs: Text(e.value,style: TextStyle(fontWeight: FontWeight.bold),), cardcolor: Theme.of(context).colorScheme.onSecondary.withOpacity(0.3),paddings: EdgeInsets.all(8),margins: EdgeInsets.all(8),isBorder:e.key==isSensor,)),).toList(),
                    ))
                   ],
                 ),

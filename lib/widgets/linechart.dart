@@ -72,10 +72,11 @@ LineCharts({
           borderColor: Colors.transparent,
           borderWidth: 0,
             plotAreaBorderWidth: 0,
-            
-          primaryXAxis: DateTimeAxis(
+           
+           primaryXAxis:DateTimeAxis(
             minimum: prov.getnambulrivers.first.river.first.date,
               maximum: prov.getnambulrivers.first.river.last.date,
+        
               intervalType: DateTimeIntervalType.milliseconds,
           ),
           primaryYAxis: NumericAxis(
@@ -96,17 +97,19 @@ LineCharts({
          child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
            children: [
-             CardsContainer(childs:prov.getnambulrivers.isEmpty?SizedBox():Column(
+             CardsContainer(
+              paddings: EdgeInsets.all(8),
+              childs:prov.getnambulrivers.isEmpty?SizedBox():Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: prov.getnambulrivers.asMap().entries.map((e) => Row(
               children: [
                 FaIcon(FontAwesomeIcons.circleDot,color: rivercolors[e.key],size: 10,),
                 SizedBox(width: 10,),
-                Text(e.value.name.split(' ')[0])],
+                Text(e.value.name.split(' ')[0],style: TextStyle(color: Theme.of(context).colorScheme.surface),)],
              ),
-             ).toList(),), cardcolor: cardcolor.withOpacity(0.4)),
+             ).toList(),), cardcolor: Theme.of(context).colorScheme.onSecondary.withOpacity(0.3)),
               SizedBox(width: 10,),
-             FaIcon(FontAwesomeIcons.upRightAndDownLeftFromCenter,size: 20,color: Colors.black.withOpacity(0.6),)
+             FaIcon(FontAwesomeIcons.upRightAndDownLeftFromCenter,size: 20,color: Theme.of(context).colorScheme.secondary,)
            ],
          ),
        ):SizedBox(),

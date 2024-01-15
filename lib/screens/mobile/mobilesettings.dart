@@ -18,13 +18,14 @@ class _MobileSettingsState extends State<MobileSettings> {
   void checkthreshold() {
     setState(() {
       _checkThresholdfield = !_checkThresholdfield;
+      
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: Text('Settings'),
@@ -45,7 +46,7 @@ class _MobileSettingsState extends State<MobileSettings> {
           CardsContainer(
             margins: EdgeInsets.all(16),
             paddings: EdgeInsets.all(8),
-            cardcolor: Colors.white.withOpacity(0.4),
+            cardcolor: Theme.of(context).colorScheme.primary,
             childs: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -64,10 +65,12 @@ class _MobileSettingsState extends State<MobileSettings> {
                             checkthreshold();
                           },
                           icon: FaIcon(
+                            
                             _checkThresholdfield
-                                ? FontAwesomeIcons.check
+                                ? FontAwesomeIcons.checkDouble
                                 : FontAwesomeIcons.penToSquare,
                             size: 20,
+                            color: Theme.of(context).colorScheme.secondary,
                           ))
                     ],
                   ),
@@ -79,15 +82,15 @@ class _MobileSettingsState extends State<MobileSettings> {
                         ? CardsContainer(
                           margins: EdgeInsets.only(bottom: 16),
                           paddings: EdgeInsets.all(8),
-                            cardcolor: errorColor.withOpacity(0.3),
+                            cardcolor:Theme.of(context).colorScheme.error.withOpacity(0.3),
                             childs: Column(
                               children: [
-                                FaIcon(FontAwesomeIcons. triangleExclamation,color: Colors.black.withOpacity(0.7),),
+                                FaIcon(FontAwesomeIcons. triangleExclamation,color:Theme.of(context).colorScheme.error,),
                                 Text(
                                   
                                   'This will change the threshold value.\nChanging will vary in the monitoring system of the app.\nProceed with caution',
                                   style: TextStyle(
-                                      color: Colors.black.withOpacity(0.6)),
+                                     ),
                                       textAlign: TextAlign.center,
                                 ),
                                
@@ -101,10 +104,15 @@ class _MobileSettingsState extends State<MobileSettings> {
                     controller: _thresholdfield,
                     keyboardType: TextInputType.number,
                     decoration: InputDecoration(
-                      hintStyle: TextStyle(fontWeight: FontWeight.bold,color:Colors.black.withOpacity(_checkThresholdfield?0.3:1.0)),
+                      hintStyle: TextStyle(fontWeight: FontWeight.bold),
                       hintText: '$threshold',
-                    
-                      border:_checkThresholdfield?OutlineInputBorder():InputBorder.none
+                      
+                      border:_checkThresholdfield?OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Theme.of(context).colorScheme.background
+                          )
+                      
+                      ):InputBorder.none
                     ),
                   ),
                 ],

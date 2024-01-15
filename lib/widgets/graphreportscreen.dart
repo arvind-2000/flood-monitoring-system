@@ -15,7 +15,10 @@ class GraphScreenReport extends StatelessWidget {
         margin: EdgeInsets.all(regularpadding),
         padding: EdgeInsets.all(regularpadding),
         width: double.infinity,
-        decoration: carddecoration,
+        decoration:BoxDecoration(
+          color: Theme.of(context).colorScheme.primary,
+          borderRadius: BorderRadius.circular(8)
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

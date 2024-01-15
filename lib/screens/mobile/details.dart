@@ -1,13 +1,15 @@
 import 'package:floodsystem/const.dart';
-import 'package:floodsystem/models/river.dart';
-import 'package:floodsystem/models/riverdetails.dart';
+
+import 'package:floodsystem/providers/riverprovider.dart';
 import 'package:floodsystem/widgets/cards.dart';
 import 'package:floodsystem/widgets/watercard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
-import '../../services/notifications.dart';
+
 
 class DetailsScreen extends StatefulWidget {
   static const String routename = 'DetailsScreen';
@@ -20,31 +22,36 @@ class DetailsScreen extends StatefulWidget {
 }
 
 class _DetailsScreenState extends State<DetailsScreen> {
-
+    final ScrollController _listcontroller = ScrollController();
    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments as RiverDetails;
+    final prov = Provider.of<NambulProvider>(context).getnambulrivers;
+    final args = ModalRoute.of(context)!.settings.arguments as int;
     var textStyle = TextStyle(fontWeight: FontWeight.bold);
     var textStyle2 = TextStyle(fontWeight: FontWeight.bold,fontSize: 20);
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: (){},child: FaIcon(FontAwesomeIcons.arrowUpFromWaterPump)),
-      backgroundColor: backgroundColor,
+      floatingActionButton: FloatingActionButton(onPressed: (){
+
+        
+      },child: FaIcon(FontAwesomeIcons.arrowUpFromWaterPump)),
+      // backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         title: Text("Info",style: TextStyle(fontSize: headersize),),
-        backgroundColor: Colors.transparent,
-      ),
+        backgroundColor: Theme.of(context).colorScheme.background,
+       ),
       body: SingleChildScrollView(
         
         child: Container(
+          color: Theme.of(context).colorScheme.background,
           padding: EdgeInsets.all(regularpadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(args.name.replaceFirst(' ', '\n'),style: TextStyle(fontWeight: FontWeight.bold,fontSize: headersize),),
+            Text(prov[args].name.replaceFirst(' ', '\n'),style: TextStyle(fontWeight: FontWeight.bold,fontSize: headersize),),
             SizedBox(height: 20,),
-            args.river.isEmpty?Text('No information',style: textStyle,):
+            prov[args].river.isEmpty?Text('No information',style: textStyle,):
             Container(
               child:Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,13 +59,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 children: [
                   Expanded(
                     child: WaterCard(
-                      colors:normalColor.withOpacity(0.2),
+                      colors:Theme.of(context).colorScheme.secondary.withOpacity(0.3),
                       child: Column(
                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text('USV',style: textStyle,),
                           SizedBox(height: 20,),
-                          Text(args.river.last.usv,style: textStyle2,),
+                          Text(prov[args].river.last.usv,style: textStyle2,),
                         ],
                       ),
                     ),
@@ -66,13 +73,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   SizedBox(width: 20,),
                   Expanded(
                     child: WaterCard(
-                      colors: normalColor.withOpacity(0.2),
+                      colors:Theme.of(context).colorScheme.onSecondary,
                       child: Column(
                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text('HV',style: textStyle,),
                           SizedBox(height: 20,),
-                          Text(args.river.last.hv,style: textStyle2,),
+                          Text(prov[args].river.last.hv,style: textStyle2,),
                         ],
                       ),
                     ),
@@ -80,13 +87,13 @@ class _DetailsScreenState extends State<DetailsScreen> {
                    SizedBox(width: 20,),
                   Expanded(
                     child: WaterCard(
-                      colors:normalColor.withOpacity(0.2),
+                     colors:Theme.of(context).colorScheme.secondary.withOpacity(0.3),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text('TV',style: textStyle,),
                           SizedBox(height: 20,),
-                          Text(args.river.last.tv,style: textStyle2,),
+                          Text(prov[args].river.last.tv,style: textStyle2,),
                         ],
                       ),
                     ),
@@ -97,17 +104,18 @@ class _DetailsScreenState extends State<DetailsScreen> {
             ),
 
               ListView(
+                controller:_listcontroller,
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                children: args.river.map((e) => CardsContainer(
+                children: prov[args].river.map((e) => CardsContainer(
                   margins: EdgeInsets.symmetric(vertical: 16,),
                   paddings: EdgeInsets.all(8),
                   childs: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                  Text('${e.date.day}/${e.date.month}/${e.date.year}',style: TextStyle(fontSize:16,fontWeight: FontWeight.bold),),
+                  Text('${DateFormat('dd/mm/yyyy').format(e.date)}',style: TextStyle(fontSize:16,fontWeight: FontWeight.bold),),
                   SizedBox(height: 10,),
-                  Text('${e.date.hour}:${e.date.minute}:${e.date.second}',style: TextStyle(fontSize:16,fontWeight: FontWeight.bold),),
+                  Text('${DateFormat('h:mm a').format(e.date)}',style: TextStyle(fontSize:16,fontWeight: FontWeight.bold),),
                   SizedBox(height: 20,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -128,7 +136,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       childs: Text('${e.tv}')),
                       SizedBox(width: 20,),
                   ])
-                ],), cardcolor: Colors.white.withOpacity(0.6)),).toList()
+                ],), cardcolor: Theme.of(context).colorScheme.primary),).toList().sublist(0, prov[args].river.length>10?10:prov[args].river.length)
               ),
 
 

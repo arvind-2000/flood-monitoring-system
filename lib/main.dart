@@ -8,6 +8,8 @@ import 'package:floodsystem/screens/home.dart';
 import 'package:floodsystem/screens/mobile/details.dart';
 import 'package:floodsystem/screens/mobile/mobilesettings.dart';
 import 'package:floodsystem/services/backgroundservice.dart';
+import 'package:floodsystem/themes/darkthemes.dart';
+import 'package:floodsystem/themes/lighttheme.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
@@ -51,15 +53,18 @@ class MyApp extends StatelessWidget {
     MaterialApp(
       title: appname,
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: normalColor),
-        useMaterial3: true,
-      ),
+      // theme: ThemeData(
+      //   colorScheme: ColorScheme.fromSeed(seedColor: normalColor),
+      //   useMaterial3: true,
+      // ),
+      darkTheme: darktheme,
+      theme: lighttheme,
+      themeMode: ThemeMode.system,
       home: const HomePage(),
       routes: {
-        HomePage.routename:(c)=>HomePage(),
-        DetailsScreen.routename:(c)=>DetailsScreen(),
-        MobileSettings.routename:(c)=>MobileSettings(),
+        HomePage.routename:(c)=>const HomePage(),
+        DetailsScreen.routename:(c)=>const DetailsScreen(),
+        MobileSettings.routename:(c)=>const MobileSettings(),
       }
   ,
     ),);
