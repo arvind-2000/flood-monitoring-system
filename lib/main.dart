@@ -20,18 +20,18 @@ void main() async{
   WidgetsFlutterBinding.ensureInitialized();
 
 
-//      try {
-//         await Permission.notification.isDenied.then((value){
-//     if(value){
-//       Permission.notification.request();
-//     }
+     try {
+        await Permission.notification.isDenied.then((value){
+    if(value){
+      Permission.notification.request();
+    }
     
-//   },);
-//   await initializeService();
-// } on Exception catch (e) {
-//     log(e.toString());
-//   // TODO
-// }
+  },);
+  await initializeService();
+} on Exception catch (e) {
+    log(e.toString());
+  // TODO
+}
 
  
   runApp(const MyApp());
@@ -46,8 +46,8 @@ class MyApp extends StatelessWidget {
     return 
     MultiProvider(providers: [
       ChangeNotifierProvider(create: (context) => NambulProvider() ),
-      ChangeNotifierProvider(create: (context) => ImphalRiverProvider() ),
-      ChangeNotifierProvider(create: (context) => IrilRiverProvider() ),
+      // ChangeNotifierProvider(create: (context) => ImphalRiverProvider() ),
+      // ChangeNotifierProvider(create: (context) => IrilRiverProvider() ),
     ],
     builder: (context,c)=>
     MaterialApp(

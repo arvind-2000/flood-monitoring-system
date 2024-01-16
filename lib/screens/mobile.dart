@@ -128,55 +128,58 @@ class _MobileScreenState extends State<MobileScreen> {
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) {
                   
-                    return CardsContainer(
-                      cardcolor: Theme.of(context).colorScheme.primary,
-                      paddings: EdgeInsets.all(16),
-                      margins: EdgeInsets.symmetric(vertical: 8),
-                      childs: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    return Hero(
+                      tag: 'card',
+                      child: CardsContainer(
+                        cardcolor: Theme.of(context).colorScheme.primary,
+                        paddings: EdgeInsets.all(16),
+                        margins: EdgeInsets.symmetric(vertical: 8),
+                        childs: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(riverprovider.getnambulrivers[index].name.replaceFirst(' ', '\n'),style: TextStyle(height: 1,fontWeight: FontWeight.bold,fontSize: 20),),
-                            GestureDetector(
-                              onTap: (){
-                                 Navigator.pushNamed(context,DetailsScreen.routename,arguments:index);
-                              },
-                              child: CardsContainer(
-                                paddings: EdgeInsets.all(16),
-                                childs: FaIcon(FontAwesomeIcons.arrowRight,size: 16,color: Colors.white,),cardcolor: Theme.of(context).colorScheme.secondary,),
-                            )
-                          ],
-                        ),
-                          SizedBox(height: 30,),
-                         Text(riverprovider.getnambulrivers[index].river.isEmpty?'No data':'${DateFormat('dd/mm/yyyy').format(riverprovider.getnambulrivers[index].river.last.date)}\n${DateFormat('h:mm a').format(riverprovider.getnambulrivers[index].river.last.date)}',style: TextStyle(height: 1,fontSize: 12),),
-                        SizedBox(height: 10,),
-                        riverprovider.getnambulrivers[index].river.isEmpty?SizedBox():Row(
-                          
-                          
-                          children:[
-                            CardsContainer(
-                              paddings: EdgeInsets.all(8),
-                              childs: Column(children: [Text('Lev',style: TextStyle(color: Theme.of(context).colorScheme.secondary.withOpacity(0.4))),Text(riverprovider.getnambulrivers[index].river.last.usv,style: TextStyle(fontWeight: FontWeight.bold,color: Theme.of(context).colorScheme.secondary)),],), cardcolor: Theme.of(context).colorScheme.secondary.withOpacity(0.2)),
-                             SizedBox(width: 20,),
-                               CardsContainer(
-                              paddings: EdgeInsets.all(8),
-                              childs: Column(children: [Text('Humidity',style: TextStyle(color: Theme.of(context).colorScheme.secondary.withOpacity(0.4)),),Text(riverprovider.getnambulrivers[index].river.last.hv,style: TextStyle(fontWeight: FontWeight.bold,color: Theme.of(context).colorScheme.secondary)),],), cardcolor: Theme.of(context).colorScheme.secondary.withOpacity(0.2)),
-                             SizedBox(width: 20,),
-                                   
-                                     CardsContainer(
-                              paddings: EdgeInsets.all(8),
-                              childs: Column(children: [Text('Temp',style: TextStyle(color: Theme.of(context).colorScheme.secondary.withOpacity(0.4))),Text(riverprovider.getnambulrivers[index].river.last.tv,style: TextStyle(fontWeight: FontWeight.bold,color: Theme.of(context).colorScheme.secondary)),],), cardcolor: Theme.of(context).colorScheme.secondary.withOpacity(0.2)),
-                             SizedBox(width: 20,),
-                                   
-                                   
-                          ],
-                        )
-                      ],
-                    )
-                    
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(riverprovider.getnambulrivers[index].name.replaceFirst(' ', '\n'),style: TextStyle(height: 1,fontWeight: FontWeight.bold,fontSize: 20),),
+                              GestureDetector(
+                                onTap: (){
+                                   Navigator.pushNamed(context,DetailsScreen.routename,arguments:index);
+                                },
+                                child: CardsContainer(
+                                  paddings: EdgeInsets.all(16),
+                                  childs: FaIcon(FontAwesomeIcons.arrowRight,size: 16,color: Colors.white,),cardcolor: Theme.of(context).colorScheme.secondary,),
+                              )
+                            ],
+                          ),
+                            SizedBox(height: 30,),
+                           Text(riverprovider.getnambulrivers[index].river.isEmpty?'No data':'${DateFormat('dd/mm/yyyy').format(riverprovider.getnambulrivers[index].river.last.date)}\n${DateFormat('h:mm a').format(riverprovider.getnambulrivers[index].river.last.date)}',style: TextStyle(height: 1,fontSize: 12),),
+                          SizedBox(height: 10,),
+                          riverprovider.getnambulrivers[index].river.isEmpty?SizedBox():Row(
+                            
+                            
+                            children:[
+                              CardsContainer(
+                                paddings: EdgeInsets.all(8),
+                                childs: Column(children: [Text('Lev',style: TextStyle(color: Theme.of(context).colorScheme.secondary.withOpacity(0.4))),Text(riverprovider.getnambulrivers[index].river.last.usv,style: TextStyle(fontWeight: FontWeight.bold,color: Theme.of(context).colorScheme.secondary)),],), cardcolor: Theme.of(context).colorScheme.secondary.withOpacity(0.2)),
+                               SizedBox(width: 20,),
+                                 CardsContainer(
+                                paddings: EdgeInsets.all(8),
+                                childs: Column(children: [Text('Humidity',style: TextStyle(color: Theme.of(context).colorScheme.secondary.withOpacity(0.4)),),Text(riverprovider.getnambulrivers[index].river.last.hv,style: TextStyle(fontWeight: FontWeight.bold,color: Theme.of(context).colorScheme.secondary)),],), cardcolor: Theme.of(context).colorScheme.secondary.withOpacity(0.2)),
+                               SizedBox(width: 20,),
+                                     
+                                       CardsContainer(
+                                paddings: EdgeInsets.all(8),
+                                childs: Column(children: [Text('Temp',style: TextStyle(color: Theme.of(context).colorScheme.secondary.withOpacity(0.4))),Text(riverprovider.getnambulrivers[index].river.last.tv,style: TextStyle(fontWeight: FontWeight.bold,color: Theme.of(context).colorScheme.secondary)),],), cardcolor: Theme.of(context).colorScheme.secondary.withOpacity(0.2)),
+                               SizedBox(width: 20,),
+                                     
+                                     
+                            ],
+                          )
+                        ],
+                      )
+                      
+                      ),
                     );
                
                 },

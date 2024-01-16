@@ -14,17 +14,17 @@ class IrilRiverProvider with ChangeNotifier {
   get http => null;
   bool floodindicator = false;
 
-  Future<void> getdata() async{
+  // Future<void> getdata() async{
   
-  Service ser = Service();
-  RiverDetails datas = await ser.getdata(irilriver);
-  _irilriverlist = datas;
-  responsevalue = ser.responsecode;
-  print(responsevalue);
-  isLoading = false;
-  indicator();
-  notifyListeners();   
-  }
+  // Service ser = Service();
+  // // RiverDetails datas = await ser.getdata(irilriver);
+  // _irilriverlist = datas;
+  // responsevalue = ser.responsecode;
+  // print(responsevalue);
+  // isLoading = false;
+  // indicator();
+  // notifyListeners();   
+  // }
 
     void indicator(){
     Service ser  = Service();

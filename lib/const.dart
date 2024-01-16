@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 const String notificationtitle = '';
-const String imphalriver = 'http://10.10.1.139:88/api/channel-data/337099/feeds?api_key=73B670EB2B784FEE';
-const String irilriver = 'http://10.10.1.139:88/api/channel-data/839204/feeds?api_key=11232D7AB82F48A3';
-const String nambulriver = 'http://10.10.1.139:88/api/channel-data/154208/feeds?api_key=F287343B4F124E0F';
+const String imphalriver = 'http://10.10.1.139:88/api/channel-data/337099/feeds?api_key=E5CB7E7E6F4B451D&dtfrom=2023-12-01&dtupto=2023-12-30';
+const String irilriver = 'http://10.10.1.139:88/api/channel-data/839204/feeds?api_key=11232D7AB82F48A3&dtfrom=2023-12-01&dtupto=2023-12-30';
+const String nambulriver = 'http://10.10.1.139:88/api/channel-data/154208/feeds?api_key=F287343B4F124E0F&dtfrom=2023-12-01&dtupto=2023-12-30';
 const String appname = 'Flood Monitor';
 const Color errorColor = Color.fromARGB(255, 214, 80, 68);
 const Color normalColor = Color.fromARGB(255, 125, 195, 228);

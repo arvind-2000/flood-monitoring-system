@@ -10,25 +10,33 @@ class Service{
 
   int responsecode = 0;
 
-  Future<RiverDetails> getdata(String api) async{
-    RiverDetails datas = RiverDetails(id: '', name: '', river: []);
-    try{
-    var response = await http.get(Uri.parse(api));
-    if(response.statusCode == 200){
-      var data = jsonDecode(response.body) as Map<String,dynamic>;
-      print(data['feeds'].length);
-      datas = convertValues(data['feeds'],data['channel']['name'],data['channel']['id']);
-      responsecode = 1;
+  Future<List<RiverDetails>> getdata(List<String> api) async{
+    List<RiverDetails> datas = [];
+    RiverDetails riverdata = RiverDetails(id: '', name: '', river: []);
+    for (String i in api) {
+  var response = await http.get(Uri.parse(i)).then((value) {
+    print('in service response');
+      if(value.statusCode == 200){
+        print('okay in service');
+    var data = jsonDecode(value.body) as Map<String,dynamic>;
+    print(data['feeds'].length);
+    riverdata = convertValues(data['feeds'],data['channel']['name'],data['channel']['id']);
+    responsecode = 1;
+  }else{
+    if(value.statusCode==500){
+      print('server error');
+        responsecode = 2;
     }else{
-      print('Error connecting to the server');
-      responsecode = 2;
-    }
-
-    }
-    catch(e){
+      print('client error');
       responsecode = 3;
-      print('Error while Connecting');
     }
+  }
+      if(!riverdata.river.isEmpty){
+          datas.add(riverdata);
+      }
+  });
+
+  }
     return  datas;
   }
 

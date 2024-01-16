@@ -43,107 +43,110 @@ class _DetailsScreenState extends State<DetailsScreen> {
        ),
       body: SingleChildScrollView(
         
-        child: Container(
-          color: Theme.of(context).colorScheme.background,
-          padding: EdgeInsets.all(regularpadding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(prov[args].name.replaceFirst(' ', '\n'),style: TextStyle(fontWeight: FontWeight.bold,fontSize: headersize),),
-            SizedBox(height: 20,),
-            prov[args].river.isEmpty?Text('No information',style: textStyle,):
-            Container(
-              child:Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: WaterCard(
-                      colors:Theme.of(context).colorScheme.secondary.withOpacity(0.3),
-                      child: Column(
-                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('USV',style: textStyle,),
-                          SizedBox(height: 20,),
-                          Text(prov[args].river.last.usv,style: textStyle2,),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 20,),
-                  Expanded(
-                    child: WaterCard(
-                      colors:Theme.of(context).colorScheme.onSecondary,
-                      child: Column(
-                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('HV',style: textStyle,),
-                          SizedBox(height: 20,),
-                          Text(prov[args].river.last.hv,style: textStyle2,),
-                        ],
-                      ),
-                    ),
-                  ),
-                   SizedBox(width: 20,),
-                  Expanded(
-                    child: WaterCard(
-                     colors:Theme.of(context).colorScheme.secondary.withOpacity(0.3),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('TV',style: textStyle,),
-                          SizedBox(height: 20,),
-                          Text(prov[args].river.last.tv,style: textStyle2,),
-                        ],
-                      ),
-                    ),
-                  ),
-                  // ElevatedButton(onPressed:()=>showNotification( notificationsPlugin: flutterLocalNotificationsPlugin,title: appname, body: 'Water Level Raised'), child: Text('notifications'))
-                ],
-              ),
-            ),
-
-              ListView(
-                controller:_listcontroller,
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                children: prov[args].river.map((e) => CardsContainer(
-                  margins: EdgeInsets.symmetric(vertical: 16,),
-                  paddings: EdgeInsets.all(8),
-                  childs: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+        child: Hero(
+          tag: 'card',
+          child: Container(
+            color: Theme.of(context).colorScheme.background,
+            padding: EdgeInsets.all(regularpadding),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(prov[args].name.replaceFirst(' ', '\n'),style: TextStyle(fontWeight: FontWeight.bold,fontSize: headersize),),
+              SizedBox(height: 20,),
+              prov[args].river.isEmpty?Text('No information',style: textStyle,):
+              Container(
+                child:Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                  Text('${DateFormat('dd/mm/yyyy').format(e.date)}',style: TextStyle(fontSize:16,fontWeight: FontWeight.bold),),
-                  SizedBox(height: 10,),
-                  Text('${DateFormat('h:mm a').format(e.date)}',style: TextStyle(fontSize:16,fontWeight: FontWeight.bold),),
-                  SizedBox(height: 20,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children:[
-                    CardsContainer(
-                      paddings: EdgeInsets.all(4),
-                      cardcolor:normalColor.withOpacity(0.4),
-                      childs: Text('${e.usv}')),
-                      SizedBox(width: 20,),
-                  CardsContainer(
-                      paddings: EdgeInsets.all(4),
-                      cardcolor:normalColor.withOpacity(0.4),
-                      childs: Text('${e.hv}')),
-                      SizedBox(width: 20,),
-                      CardsContainer(
-                      paddings: EdgeInsets.all(4),
-                      cardcolor:normalColor.withOpacity(0.4),
-                      childs: Text('${e.tv}')),
-                      SizedBox(width: 20,),
-                  ])
-                ],), cardcolor: Theme.of(context).colorScheme.primary),).toList().sublist(0, prov[args].river.length>10?10:prov[args].river.length)
+                    Expanded(
+                      child: WaterCard(
+                        colors:Theme.of(context).colorScheme.secondary.withOpacity(0.3),
+                        child: Column(
+                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('USV',style: textStyle,),
+                            SizedBox(height: 20,),
+                            Text(prov[args].river.last.usv,style: textStyle2,),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 20,),
+                    Expanded(
+                      child: WaterCard(
+                        colors:Theme.of(context).colorScheme.onSecondary,
+                        child: Column(
+                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('HV',style: textStyle,),
+                            SizedBox(height: 20,),
+                            Text(prov[args].river.last.hv,style: textStyle2,),
+                          ],
+                        ),
+                      ),
+                    ),
+                     SizedBox(width: 20,),
+                    Expanded(
+                      child: WaterCard(
+                       colors:Theme.of(context).colorScheme.secondary.withOpacity(0.3),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('TV',style: textStyle,),
+                            SizedBox(height: 20,),
+                            Text(prov[args].river.last.tv,style: textStyle2,),
+                          ],
+                        ),
+                      ),
+                    ),
+                    // ElevatedButton(onPressed:()=>showNotification( notificationsPlugin: flutterLocalNotificationsPlugin,title: appname, body: 'Water Level Raised'), child: Text('notifications'))
+                  ],
+                ),
               ),
-
-
-
-          ],
-          ),
           
+                ListView(
+                  controller:_listcontroller,
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  children: prov[args].river.map((e) => CardsContainer(
+                    margins: EdgeInsets.symmetric(vertical: 16,),
+                    paddings: EdgeInsets.all(8),
+                    childs: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                    Text('${DateFormat('dd/mm/yyyy').format(e.date)}',style: TextStyle(fontSize:16,fontWeight: FontWeight.bold),),
+                    SizedBox(height: 10,),
+                    Text('${DateFormat('h:mm a').format(e.date)}',style: TextStyle(fontSize:16,fontWeight: FontWeight.bold),),
+                    SizedBox(height: 20,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children:[
+                      CardsContainer(
+                        paddings: EdgeInsets.all(4),
+                        cardcolor:normalColor.withOpacity(0.4),
+                        childs: Text('${e.usv}')),
+                        SizedBox(width: 20,),
+                    CardsContainer(
+                        paddings: EdgeInsets.all(4),
+                        cardcolor:normalColor.withOpacity(0.4),
+                        childs: Text('${e.hv}')),
+                        SizedBox(width: 20,),
+                        CardsContainer(
+                        paddings: EdgeInsets.all(4),
+                        cardcolor:normalColor.withOpacity(0.4),
+                        childs: Text('${e.tv}')),
+                        SizedBox(width: 20,),
+                    ])
+                  ],), cardcolor: Theme.of(context).colorScheme.primary),).toList().sublist(0, prov[args].river.length>10?10:prov[args].river.length)
+                ),
+          
+          
+          
+            ],
+            ),
+            
+          ),
         ),
       ),
     );

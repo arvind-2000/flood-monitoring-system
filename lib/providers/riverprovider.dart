@@ -20,26 +20,38 @@ class NambulProvider with ChangeNotifier {
   
 
   Future<void> getdata() async{
-
   List<RiverDetails>  rivers = [];
-  RiverDetails riverDetails = RiverDetails(id: '', name: '', river: []);
+  // RiverDetails riverDetails = RiverDetails(id: '', name: '', river: []);
   Service ser = Service();
-  for(String i in apicalls){
-  riverDetails = await ser.getdata(i);
-  rivers.add(riverDetails);
+
+
+  await ser.getdata(apicalls).then((value){
+    rivers = value;
+  
   responsevalue = ser.responsecode;
 
   _riverlist = rivers;
   print(responsevalue);
   isLoading = false;
   indicator();
+
+  notifyListeners();
+  });
+
+
+
+ 
   notifyListeners();   
 
-  }
+  
 
   }
 
-
+  void reconnect(){
+    isLoading = true;
+    getdata();
+    notifyListeners();
+  }
 
   void indicator(){
     List<bool> floodIndicatorlist = [];

@@ -4,6 +4,7 @@ import 'package:floodsystem/providers/irilprovider.dart';
 import 'package:floodsystem/providers/riverprovider.dart';
 import 'package:floodsystem/screens/desktop.dart';
 import 'package:floodsystem/screens/mobile.dart';
+import 'package:floodsystem/screens/mobile/errorscreen.dart';
 import 'package:floodsystem/screens/mobile/graphscreen.dart';
 import 'package:floodsystem/screens/mobile/mobilesettings.dart';
 import 'package:flutter/material.dart';
@@ -28,8 +29,7 @@ class _HomePageState extends State<HomePage> {
     // Future.microtask(() => Provider.of<NambulProvider>(context,listen: false).getdata());
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) { 
       Provider.of<NambulProvider>(context,listen: false).getdata();
-      Provider.of<ImphalRiverProvider>(context,listen: false).getdata();
-      Provider.of<IrilRiverProvider>(context,listen: false).getdata();
+    
     });
 
   }
@@ -51,7 +51,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+     final prov = Provider.of<NambulProvider>(context);
+    return !prov.isLoading && prov.responsevalue==1?Scaffold(
       backgroundColor:Theme.of(context).colorScheme.background,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -63,10 +64,9 @@ class _HomePageState extends State<HomePage> {
           }, icon: FaIcon(FontAwesomeIcons.gear,color: Theme.of(context).colorScheme.surface,)),
         )],
       ),
-      body:
-      Consumer<NambulProvider>(builder:(c,b,d)=>
+      body:Consumer<NambulProvider>(builder:(c,b,d){
       
-      LayoutBuilder(builder:(context,constraint){
+      return LayoutBuilder(builder:(context,constraint){
         if(constraint.maxWidth<500){
 
           return PageView(
@@ -85,7 +85,9 @@ class _HomePageState extends State<HomePage> {
         else{
           return DesktopScreen();
         }
-      })),
+      });
+      
+      }),
       // bottomNavigationBar: BottomNavigationBar(
       //   backgroundColor: backgroundColor,
       //   elevation: 0,
@@ -100,6 +102,6 @@ class _HomePageState extends State<HomePage> {
       //   BottomNavigationBarItem(icon:Icon(Icons.bar_chart),label: 'graphs'),
       //   // BottomNavigationBarItem(icon:Icon(Icons.settings),label: 'settings',),
       // ]),
-    );
+    ):ErrorScreen();
   }
 }
