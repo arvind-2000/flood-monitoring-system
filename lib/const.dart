@@ -3,6 +3,10 @@ const String notificationtitle = '';
 const String imphalriver = 'http://10.10.1.139:88/api/channel-data/337099/feeds?api_key=E5CB7E7E6F4B451D&dtfrom=2023-12-01&dtupto=2023-12-30';
 const String irilriver = 'http://10.10.1.139:88/api/channel-data/839204/feeds?api_key=11232D7AB82F48A3&dtfrom=2023-12-01&dtupto=2023-12-30';
 const String nambulriver = 'http://10.10.1.139:88/api/channel-data/154208/feeds?api_key=F287343B4F124E0F&dtfrom=2023-12-01&dtupto=2023-12-30';
+
+const String imphalriverlatest = 'http://10.10.1.139:88/api/channel-data/337099/latest-feeds?api_key=E5CB7E7E6F4B451D&dtfrom=2023-12-01&dtupto=2023-12-30';
+const String irilriverlatest = 'http://10.10.1.139:88/api/channel-data/839204/latest-feeds?api_key=11232D7AB82F48A3&dtfrom=2023-12-01&dtupto=2023-12-30';
+const String nambulriverlatest = 'http://10.10.1.139:88/api/channel-data/154208/latest-feeds?api_key=F287343B4F124E0F&dtfrom=2023-12-01&dtupto=2023-12-30';
 const String appname = 'Flood Monitor';
 const Color errorColor = Color.fromARGB(255, 214, 80, 68);
 const Color normalColor = Color.fromARGB(255, 125, 195, 228);
@@ -26,6 +30,7 @@ BoxDecoration carddecoration = BoxDecoration(
   borderRadius: BorderRadius.circular(radius)
 );
 const List<String> apicalls = [imphalriver,nambulriver,irilriver];
+const List<String> apicallslatest = [imphalriverlatest,nambulriverlatest,irilriverlatest];
 
 double toDouble(String d){
   double _value = 0;
@@ -37,4 +42,12 @@ double toDouble(String d){
     _value = 0;
   }
   return _value;
+}
+
+
+String getDate(DateTime date){
+  return '${date.day}/${date.month}/${date.year}';
+}
+String gethour(DateTime date){
+  return '${date.hour}:${date.minute}:${date.second}';
 }

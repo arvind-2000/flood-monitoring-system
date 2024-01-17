@@ -20,18 +20,27 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
   PageController _controller = PageController(initialPage: 0,keepPage: true); 
   int _currentindex = 0;
+
   @override
   void initState() {
-    
-    super.initState();
-    // Future.microtask(() => Provider.of<NambulProvider>(context,listen: false).getdata());
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) { 
-      Provider.of<NambulProvider>(context,listen: false).getdata();
-    
-    });
+    // TODO: implement initState
+  WidgetsBinding.instance.addPostFrameCallback((timeStamp) { 
 
+    Provider.of<NambulProvider>(context,listen: false).timer();
+    Provider.of<NambulProvider>(context,listen: false).getprefs();
+  });
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    Provider.of<NambulProvider>(context,listen: false).destroy();
+    super.dispose();
   }
 
   // final List<Widget> _navigationscreenlist =  [MobileScreen(onchanged: onSelectNavigation,),GraphScreen()];
@@ -55,6 +64,7 @@ class _HomePageState extends State<HomePage> {
     return !prov.isLoading && prov.responsevalue==1?Scaffold(
       backgroundColor:Theme.of(context).colorScheme.background,
       appBar: AppBar(
+ 
         backgroundColor: Colors.transparent,
         title: const Text(appname,style: TextStyle(fontSize: headersize),),
         actions: [Padding(
@@ -65,9 +75,9 @@ class _HomePageState extends State<HomePage> {
         )],
       ),
       body:Consumer<NambulProvider>(builder:(c,b,d){
-      
+        
       return LayoutBuilder(builder:(context,constraint){
-        if(constraint.maxWidth<500){
+        // if(constraint.maxWidth<500){
 
           return PageView(
             scrollDirection: Axis.horizontal,
@@ -81,13 +91,15 @@ class _HomePageState extends State<HomePage> {
             onPageChanged: onSelectNavigation,
 
           );
-        }
-        else{
-          return DesktopScreen();
-        }
+        // }
+        // else{
+        //   return DesktopScreen();
+        // }
       });
       
       }),
+
+      
       // bottomNavigationBar: BottomNavigationBar(
       //   backgroundColor: backgroundColor,
       //   elevation: 0,

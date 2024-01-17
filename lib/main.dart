@@ -19,21 +19,19 @@ import 'const.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
 
-
-     try {
-        await Permission.notification.isDenied.then((value){
-    if(value){
-      Permission.notification.request();
-    }
+//      try {
+//         await Permission.notification.isDenied.then((value){
+//     if(value){
+//       Permission.notification.request();
+//     }
     
-  },);
-  await initializeService();
-} on Exception catch (e) {
-    log(e.toString());
-  // TODO
-}
+//   },);
+//   await initializeService();
+// } on Exception catch (e) {
+//     log(e.toString());
+//   // TODO
+// }
 
- 
   runApp(const MyApp());
 }
 

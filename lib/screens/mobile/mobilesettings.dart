@@ -1,8 +1,16 @@
+import 'dart:developer';
+
 import 'package:floodsystem/const.dart';
+import 'package:floodsystem/providers/riverprovider.dart';
 import 'package:floodsystem/widgets/cards.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../services/backgroundservice.dart';
 
 class MobileSettings extends StatefulWidget {
   const MobileSettings({super.key});
@@ -13,17 +21,35 @@ class MobileSettings extends StatefulWidget {
 }
 
 class _MobileSettingsState extends State<MobileSettings> {
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   bool _checkThresholdfield = false;
+  bool isSaved = false;
   final TextEditingController _thresholdfield = TextEditingController();
   void checkthreshold() {
     setState(() {
       _checkThresholdfield = !_checkThresholdfield;
-      
+      // if(_checkThresholdfield){
+      //   _checkThresholdfield = false;
+      //   setprefs(double.parse(_thresholdfield.text));
+      // }
     });
   }
-
+  @override
+  void initState() {
+    // TODO: implement initState
+    Provider.of<NambulProvider>(context,listen: false).getprefs();
+    super.initState();
+  }
+  void setprefs(double? d) async{
+    final prefs = await _prefs;
+    prefs.setDouble('threshold', d??0).then((value){
+      isSaved = true;
+      print('saved');
+    });
+  }
   @override
   Widget build(BuildContext context) {
+    final prov = Provider.of<NambulProvider>(context);
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
@@ -103,9 +129,16 @@ class _MobileSettingsState extends State<MobileSettings> {
                     enabled: _checkThresholdfield,
                     controller: _thresholdfield,
                     keyboardType: TextInputType.number,
+                    onSubmitted: (v){
+                    
+                     setprefs(double.parse(v));
+                     _checkThresholdfield = false;
+                     prov.getprefs();
+                  
+                    },
                     decoration: InputDecoration(
                       hintStyle: TextStyle(fontWeight: FontWeight.bold),
-                      hintText: '$threshold',
+                      hintText: '${prov.getThreshold}',
                       
                       border:_checkThresholdfield?OutlineInputBorder(
                           borderSide: BorderSide(
@@ -119,6 +152,41 @@ class _MobileSettingsState extends State<MobileSettings> {
               ),
             ),
           ),
+
+          CardsContainer(
+            
+            childs: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(width: double.infinity,),
+              Text("Background Service",style: TextStyle(fontSize: 20),),
+              GestureDetector(
+                onTap: () async{
+              final service = FlutterBackgroundService();
+              bool isRunning = await service.isRunning();
+              if (isRunning) {
+                service.invoke('StopService');
+              } else {
+                service.startService();
+              }
+
+              if (!isRunning) {
+                service.invoke('StopService');
+                print("service stop");
+              } else {
+                print('start service');
+              }
+                },
+                child: CardsContainer(
+                margins: EdgeInsets.symmetric(vertical: 8),
+                paddings: EdgeInsets.all(16),
+                childs: Text('Start Service'), cardcolor: Theme.of(context).colorScheme.secondary))
+
+            ],
+          ),  margins: EdgeInsets.all(16),
+            paddings: EdgeInsets.all(8),
+            cardcolor: Theme.of(context).colorScheme.primary,)
+
           // ElevatedButton(
           //   onPressed: () {
           //     FlutterBackgroundService().invoke('AsForeGround');
