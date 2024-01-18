@@ -17,7 +17,7 @@ class Service{
   var response = await http.get(Uri.parse(i)).then((value) {
     print('in service response');
       if(value.statusCode == 200){
-        print('okay in service');
+        // print('okay in service');
     var data = jsonDecode(value.body) as Map<String,dynamic>;
     print(data['feeds'].length);
     riverdata = convertValues(data['feeds'],data['channel']['name'],data['channel']['id']);
@@ -45,7 +45,7 @@ class Service{
     
     try{
   for(var d in data){
-      print(' $channelid  $name');
+      // print(' $channelid  $name');
         River value = River(id: d["id"].toString(), channelid:channelid, name: name, usv: d["field2"], hv: d["field4"], tv: d["field3"], date: DateTime.parse(d["created"]));
         tempdata.add(value);
      }
@@ -59,8 +59,8 @@ class Service{
   }
 
 
-    bool floodIndicator(double value){
-      if(value>threshold){
+    bool floodIndicator(double value,thresh){
+      if(value>=thresh){
         return true;
       }
       return false;

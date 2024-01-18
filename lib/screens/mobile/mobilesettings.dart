@@ -167,6 +167,7 @@ class _MobileSettingsState extends State<MobileSettings> {
               if (isRunning) {
                 service.invoke('StopService');
               } else {
+                 service.invoke('AsBackGround');
                 service.startService();
               }
 
@@ -185,7 +186,7 @@ class _MobileSettingsState extends State<MobileSettings> {
             ],
           ),  margins: EdgeInsets.all(16),
             paddings: EdgeInsets.all(8),
-            cardcolor: Theme.of(context).colorScheme.primary,)
+            cardcolor: Theme.of(context).colorScheme.primary,),
 
           // ElevatedButton(
           //   onPressed: () {

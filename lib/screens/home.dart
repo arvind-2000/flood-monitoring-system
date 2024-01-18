@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
      final prov = Provider.of<NambulProvider>(context);
-    return !prov.isLoading && prov.responsevalue==1?Scaffold(
+    return (!prov.isLoading && prov.responsevalue==1)||prov.isSaved?Scaffold(
       backgroundColor:Theme.of(context).colorScheme.background,
       appBar: AppBar(
  

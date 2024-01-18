@@ -25,17 +25,31 @@ class _DetailsScreenState extends State<DetailsScreen> {
     final ScrollController _listcontroller = ScrollController();
    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
+
+      @override
+  void initState() {
+    // TODO: implement initState
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) { 
+      Provider.of<NambulProvider>(context,listen: false).getdata();
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     final prov = Provider.of<NambulProvider>(context).getnambulrivers;
+    final prov2 = Provider.of<NambulProvider>(context);
+    
+    if(!prov2.isLoadingall){
+      prov2.getdata();
+    }
     final args = ModalRoute.of(context)!.settings.arguments as int;
     var textStyle = TextStyle(fontWeight: FontWeight.bold);
     var textStyle2 = TextStyle(fontWeight: FontWeight.bold,fontSize: 20);
     return Scaffold(
-      floatingActionButton: FloatingActionButton(onPressed: (){
+      // floatingActionButton: FloatingActionButton(onPressed: (){
 
         
-      },child: FaIcon(FontAwesomeIcons.arrowUpFromWaterPump)),
+      // },child: FaIcon(FontAwesomeIcons.arrowUpFromWaterPump)),
       // backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         title: Text("Info",style: TextStyle(fontSize: headersize),),
@@ -73,7 +87,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   SizedBox(width: 20,),
                   Expanded(
                     child: WaterCard(
-                      colors:Theme.of(context).colorScheme.onSecondary,
+                      colors:Theme.of(context).colorScheme.secondary.withOpacity(0.3),
                       child: Column(
                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -102,42 +116,78 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 ],
               ),
             ),
-        
-              ListView(
-                controller:_listcontroller,
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                children: prov[args].river.map((e) => CardsContainer(
-                  margins: EdgeInsets.symmetric(vertical: 16,),
-                  paddings: EdgeInsets.all(8),
-                  childs: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                  Text('${getDate(e.date)}',style: TextStyle(fontSize:16,fontWeight: FontWeight.bold),),
-                  SizedBox(height: 10,),
-                  Text('${gethour(e.date)}',style: TextStyle(fontSize:16,fontWeight: FontWeight.bold),),
-                  SizedBox(height: 20,),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children:[
-                    CardsContainer(
-                      paddings: EdgeInsets.all(4),
-                      cardcolor:normalColor.withOpacity(0.4),
-                      childs: Text('${e.usv}')),
-                      SizedBox(width: 20,),
-                  CardsContainer(
-                      paddings: EdgeInsets.all(4),
-                      cardcolor:normalColor.withOpacity(0.4),
-                      childs: Text('${e.hv}')),
-                      SizedBox(width: 20,),
-                      CardsContainer(
-                      paddings: EdgeInsets.all(4),
-                      cardcolor:normalColor.withOpacity(0.4),
-                      childs: Text('${e.tv}')),
-                      SizedBox(width: 20,),
-                  ])
-                ],), cardcolor: Theme.of(context).colorScheme.primary),).toList().sublist(0, prov[args].river.length>10?10:prov[args].river.length)
+            SizedBox(height: 40,),
+
+            CardsContainer(
+              cardcolor: Theme.of(context).colorScheme.primary.withOpacity(0.5),
+              
+              childs: Column(
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(child: Text("Date/time",textAlign: TextAlign.center,)),
+                        Expanded(child: Text("Water\nLevel",textAlign: TextAlign.center,)),
+                        Expanded(child: Text("humidity",textAlign: TextAlign.center,)),
+                        Expanded(child: Text("Temp",textAlign: TextAlign.center,)),
+                      ],
+                    ),
+                  ),
+                    prov2.isLoadingall? Center(child: CircularProgressIndicator(color: Theme.of(context).colorScheme.secondary,)):args>=prov2.rivergraph.length?SizedBox():ListView(
+                      controller:_listcontroller,
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      children: prov2.allrivers[args].river.asMap().entries.map((e) => Container(
+                    
+                        padding: EdgeInsets.all(8),
+                        child:Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center ,
+                            
+                            children: [
+                              Text('${getDate(e.value.date)}',style: TextStyle(fontSize:12,fontWeight: FontWeight.bold),),
+                            
+                              Text('${gethour(e.value.date)}',style: TextStyle(fontSize:12,),),
+                           
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            
+                            padding: EdgeInsets.all(4),
+                           
+                            child: Text('${e.value.usv}',textAlign: TextAlign.center,)),
+                        ),
+                        
+                             Expanded(
+                               child: Container(
+                                                   
+                                                   padding: EdgeInsets.all(4),
+                                                  
+                                                   child: Text('${e.value.hv}',textAlign: TextAlign.center,)),
+                             ),
+                          
+                     Expanded(
+                       child: Container(
+                            
+                            padding: EdgeInsets.all(4),
+                           
+                            child: Text('${e.value.tv}',textAlign: TextAlign.center,)),
+                     ),
+                         
+                      ],), color:toDouble(e.value.usv)>prov2.getThreshold?Theme.of(context).colorScheme.error.withOpacity(0.2) :e.key%2==0?Theme.of(context).colorScheme.secondary.withOpacity(0.1):Theme.of(context).colorScheme.secondary.withOpacity(0.2)),).toList().sublist(0, prov2.allrivers[args].river.length>10?10:prov2.allrivers[args].river.length)
+                    ),
+                ],
               ),
+            ),
         
         
         

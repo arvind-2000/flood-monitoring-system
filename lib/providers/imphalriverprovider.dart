@@ -37,7 +37,7 @@ class ImphalRiverProvider with ChangeNotifier {
       print('no value for doubles');
       value = 0.0;
     }
-    floodindicator =  ser.floodIndicator(value);
+    floodindicator =  ser.floodIndicator(value,threshold);
     notifyListeners();
   }
   

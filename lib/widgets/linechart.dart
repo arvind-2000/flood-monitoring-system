@@ -22,8 +22,10 @@ LineCharts({
     super.key,
     required this.isPinching,
     required this.showcolorindicator,
-    required this.chooseSensor
+    required this.chooseSensor,
+    this.index = 0,
   });
+  final int index;
   final bool isPinching;
   final bool showcolorindicator;
   final int chooseSensor;
@@ -63,6 +65,7 @@ LineCharts({
     return Stack(
       children: [
         SfCartesianChart(
+          
           margin: EdgeInsets.all(0),
           zoomPanBehavior:ZoomPanBehavior(enablePinching: isPinching,
           zoomMode: ZoomMode.x
@@ -74,8 +77,8 @@ LineCharts({
             plotAreaBorderWidth: 0,
            
            primaryXAxis:DateTimeAxis(
-            minimum: prov.getnambulrivers.first.river.first.date,
-              maximum: prov.getnambulrivers.first.river.last.date,
+            minimum: prov.rivergraph[index].river.first.date,
+              maximum: prov.rivergraph[index].river.last.date,
         
               intervalType: DateTimeIntervalType.milliseconds,
           ),
@@ -88,7 +91,7 @@ LineCharts({
                borderColor: Colors.transparent,
           ),
         
-          series:prov.getnambulrivers.asMap().entries.map((e) => linecharts(e.value,e.key)).toList(),
+          series:prov.rivergraph.asMap().entries.map((e) => linecharts(e.value,e.key)).toList(),
             
         ),
 
@@ -99,9 +102,9 @@ LineCharts({
            children: [
              CardsContainer(
               paddings: EdgeInsets.all(8),
-              childs:prov.getnambulrivers.isEmpty?SizedBox():Column(
+              childs:prov.rivergraph.isEmpty?SizedBox():Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: prov.getnambulrivers.asMap().entries.map((e) => Row(
+              children: prov.rivergraph.asMap().entries.map((e) => Row(
               children: [
                 FaIcon(FontAwesomeIcons.circleDot,color: rivercolors[e.key],size: 10,),
                 SizedBox(width: 10,),
@@ -119,7 +122,9 @@ LineCharts({
 
   SplineAreaSeries<River, DateTime> linecharts(RiverDetails riversdata,int index) {
     return SplineAreaSeries(
-      animationDelay: 0.2,
+      animationDelay:1,
+      animationDuration: 0.3,
+    
       enableTooltip: true,
         borderColor: rivercolors[index]!,
         borderWidth: 0.5,

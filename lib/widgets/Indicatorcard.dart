@@ -36,7 +36,8 @@ class IndicatorCard extends StatelessWidget {
             ), 
            
             height:value>=200?200:value),
-             Text(textAlign: TextAlign.center,text.replaceFirst(' ', '\n'),style: TextStyle(
+            
+             Text(textAlign: TextAlign.center,"${text.split(' ')[0]}\n$value",style: TextStyle(
               fontWeight: FontWeight.bold,
               wordSpacing: 0.2,color: Theme.of(context).colorScheme.onSurface),),
         ],
