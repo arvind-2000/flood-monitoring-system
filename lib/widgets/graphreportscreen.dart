@@ -1,5 +1,7 @@
 import 'package:floodsystem/providers/riverprovider.dart';
+import 'package:floodsystem/screens/mobile/tablescreen.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../const.dart';
@@ -26,8 +28,20 @@ class GraphScreenReport extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
             Padding(
-              padding: const EdgeInsets.all(16),
-              child: Text('Report',style: TextStyle(fontWeight: FontWeight.bold,fontSize: headersize2),),
+              padding: const EdgeInsets.all(16), 
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Report',style: TextStyle(fontWeight: FontWeight.bold,fontSize: headersize2),),
+                     
+                            //   Text('Table',style: TextStyle(fontSize: 16,color: Colors.white),),
+                            // SizedBox(width: 10,),
+                            IconButton(onPressed: (){
+                              Navigator.pushNamed(context, TableScreen.routename);
+                            },icon: FaIcon(FontAwesomeIcons.arrowRight,size: 16,color: Theme.of(context).colorScheme.secondary,))],
+                          
+                
+              ),
             ),
               SizedBox(height: 10,),
           ListView(

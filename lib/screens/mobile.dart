@@ -1,5 +1,6 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:floodsystem/const.dart';
+import 'package:floodsystem/models/riverdetails.dart';
 import 'package:floodsystem/providers/imphalriverprovider.dart';
 import 'package:floodsystem/providers/irilprovider.dart';
 import 'package:floodsystem/providers/riverprovider.dart';
@@ -11,7 +12,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
+import '../models/river.dart';
 import '../widgets/Indicatorcard.dart';
 import '../widgets/dashboardcard.dart';
 
@@ -51,7 +54,7 @@ class _MobileScreenState extends State<MobileScreen> {
             children: [
               SizedBox(height: 10,),
             Container(
-              height:350,
+              height:380,
               width: double.infinity,
               // margin: EdgeInsets.all(8),
               padding: EdgeInsets.all(16),
@@ -59,6 +62,27 @@ class _MobileScreenState extends State<MobileScreen> {
                 color: Theme.of(context).colorScheme.primary,
                 borderRadius: BorderRadius.circular(8)
               ),
+
+              // child: SfCartesianChart(
+              //     // zoomPanBehavior: ZoomPanBehavior(enablePinching: true,enablePanning: true),
+              //     plotAreaBorderWidth: 0,
+              //     borderWidth:0,
+              //     enableAxisAnimation: true,
+              //     primaryXAxis: const CategoryAxis(
+              //       borderWidth: 0,
+                  
+              //       majorGridLines: MajorGridLines(width: 0),
+              //     ),
+              //     primaryYAxis: NumericAxis(
+              //       isVisible:true,
+                    
+              //       majorGridLines: MajorGridLines(width: 0),
+              //       borderWidth: 0,
+              //     ),
+              //   series:_getColumnSeries(riverprovider.getnambulrivers,riverprovider),
+              // ),
+
+
 
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,20 +131,41 @@ class _MobileScreenState extends State<MobileScreen> {
                             ),
 
                             
-                             Positioned(
-                              bottom: riverprovider.getThreshold>200?200:riverprovider.getThreshold<0?10:riverprovider.getThreshold,
+                            //  Positioned(
+                            //   bottom: riverprovider.getThreshold>200?200:riverprovider.getThreshold<0?10:riverprovider.getThreshold,
                               
-                              child: Container(height: 2,width: MediaQuery.of(context).size.width, 
-                              decoration: BoxDecoration(
-                                      color: Theme.of(context).colorScheme.error,
+                            //   child: Container(height: 2,width: MediaQuery.of(context).size.width, 
+                            //   decoration: BoxDecoration(
+                            //           color: Theme.of(context).colorScheme.error,
                                 
-                              ),
-                              )),
+                            //   ),
+                            //   )),
                           ],
                         ),
                       ),
-                    
-            
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            children: [
+                              FaIcon(FontAwesomeIcons.circle,color: Theme.of(context).colorScheme.secondary,size: 13 ,),
+                              SizedBox(width: 10,),
+                              Text("Normal")
+                            ],
+                          ),  
+                          SizedBox(width: 20,),
+                                         Row(
+                            children: [
+                              FaIcon(FontAwesomeIcons.circle,color: Theme.of(context).colorScheme.error,size: 13 ,),
+                              SizedBox(width: 10,),
+                              Text("Danger")
+                            ],
+                          ),
+                        ],
+                      ),
+                    )
                 ],
               ),
             ),
@@ -200,6 +245,18 @@ class _MobileScreenState extends State<MobileScreen> {
         ),
       ),
     );
+  }
+
+  List<ColumnSeries<River,String>> _getColumnSeries(List<RiverDetails> r,NambulProvider prov){
+    return r.map((e) => ColumnSeries<River,String>(
+      
+      width: 1,
+      spacing: 0,
+      dataSource: e.river,
+  
+
+      color: toDouble(e.river.last.usv)>=prov.getThreshold?Theme.of(context).colorScheme.error.withOpacity(0.5):Theme.of(context).colorScheme.secondary.withOpacity(0.4),
+      xValueMapper: (d,x)=>e.name, yValueMapper:(r,v)=> double.parse(r.usv) )).toList();
   }
 }
 

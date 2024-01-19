@@ -1,5 +1,3 @@
-
-
 import 'dart:developer';
 
 import 'package:fl_chart/fl_chart.dart';
@@ -18,7 +16,7 @@ import '../providers/imphalriverprovider.dart';
 import '../services/services.dart';
 
 class LineCharts extends StatelessWidget {
-LineCharts({
+  LineCharts({
     super.key,
     required this.isPinching,
     required this.showcolorindicator,
@@ -60,83 +58,196 @@ LineCharts({
 //   ]);
   @override
   Widget build(BuildContext context) {
-    
     final prov = Provider.of<NambulProvider>(context);
     return Stack(
       children: [
-        SfCartesianChart(
-          
-          margin: EdgeInsets.all(0),
-          zoomPanBehavior:ZoomPanBehavior(enablePinching: isPinching,
-          zoomMode: ZoomMode.x
-          ),
-          enableAxisAnimation: true,
-          plotAreaBorderColor: Colors.transparent,
-          borderColor: Colors.transparent,
-          borderWidth: 0,
-            plotAreaBorderWidth: 0,
-           
-           primaryXAxis:DateTimeAxis(
-            minimum: prov.rivergraph[index].river.first.date,
-              maximum: prov.rivergraph[index].river.last.date,
-        
-              intervalType: DateTimeIntervalType.milliseconds,
-          ),
-          primaryYAxis: NumericAxis(
-            minimum: 0,
-            maximum:600,
-              isVisible: true,
-              desiredIntervals: 5,
-              borderWidth: 0,
-               borderColor: Colors.transparent,
-          ),
-        
-          series:prov.rivergraph.asMap().entries.map((e) => linecharts(e.value,e.key)).toList(),
-            
-        ),
+        // SfCartesianChart(
 
-       showcolorindicator?Positioned(
-        right: 0,
-         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-           children: [
-             CardsContainer(
-              paddings: EdgeInsets.all(8),
-              childs:prov.rivergraph.isEmpty?SizedBox():Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: prov.rivergraph.asMap().entries.map((e) => Row(
-              children: [
-                FaIcon(FontAwesomeIcons.circleDot,color: rivercolors[e.key],size: 10,),
-                SizedBox(width: 10,),
-                Text(e.value.name.split(' ')[0],style: TextStyle(color: Theme.of(context).colorScheme.surface),)],
-             ),
-             ).toList(),), cardcolor: Theme.of(context).colorScheme.onSecondary.withOpacity(0.3)),
-              SizedBox(width: 10,),
-             FaIcon(FontAwesomeIcons.upRightAndDownLeftFromCenter,size: 20,color: Theme.of(context).colorScheme.secondary,)
-           ],
-         ),
-       ):SizedBox(),
+        //   margin: EdgeInsets.all(0),
+        //   zoomPanBehavior:ZoomPanBehavior(enablePinching: isPinching,
+        //   zoomMode: ZoomMode.x
+        //   ),
+        //   enableAxisAnimation: true,
+        //   plotAreaBorderColor: Colors.transparent,
+        //   borderColor: Colors.transparent,
+        //   borderWidth: 0,
+        //     plotAreaBorderWidth: 0,
+
+        //    primaryXAxis:DateTimeAxis(
+        //     minimum: prov.rivergraph[index].river.first.date,
+        //       maximum: prov.rivergraph[index].river.last.date,
+
+        //       intervalType: DateTimeIntervalType.milliseconds,
+        //   ),
+        //   primaryYAxis: NumericAxis(
+        //     minimum: 0,
+        //     maximum:600,
+        //       isVisible: true,
+        //       desiredIntervals: 5,
+        //       borderWidth: 0,
+        //        borderColor: Colors.transparent,
+        //   ),
+
+        //   series:prov.rivergraph.asMap().entries.map((e) => linecharts(e.value,e.key)).toList(),
+
+        // ),
+        Container(
+          padding: EdgeInsets.symmetric(vertical: 16),
+          child: BarChart(
+              swapAnimationDuration: Duration(seconds: 1),
+              BarChartData(
+                  maxY: 400,
+                  minY: 0,
+                
+                  extraLinesData: ExtraLinesData(horizontalLines: [
+                    HorizontalLine(
+                        y: prov.getThreshold,
+                        color: Theme.of(context).colorScheme.error,
+                        strokeWidth: 1)
+                  ]),
+                  groupsSpace: 16,
+                  alignment: BarChartAlignment.spaceEvenly,
+                  gridData: FlGridData(show: false),
+                  borderData: FlBorderData(show: false),
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  barTouchData: BarTouchData(
+                    enabled: true,
+                  ),
+                  titlesData: FlTitlesData(
+                    show: true,
+                    rightTitles:
+                        AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                    topTitles:
+                        AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                    bottomTitles: AxisTitles(
+                      
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        getTitlesWidget: (value, meta) => Text(prov.allrivers[value.toInt()].name.replaceFirst(' ', '\n')),
+                      )
+                    )
+                    // leftTitles: AxisTitles(
+                    //     sideTitles: SideTitles(interval: 50, showTitles: true)),
+                  ),
+                  barGroups: prov.allrivers
+                      .asMap()
+                      .entries
+                      .map((e) => BarChartgroupdata(e))
+                      .toList())),
+        ),
+        showcolorindicator
+            ? Positioned(
+                right: 0,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CardsContainer(
+                        paddings: EdgeInsets.all(8),
+                        childs: prov.rivergraph.isEmpty
+                            ? SizedBox()
+                            : Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: prov.rivergraph
+                                    .asMap()
+                                    .entries
+                                    .map(
+                                      (e) => Row(
+                                        children: [
+                                          FaIcon(
+                                            FontAwesomeIcons.circleDot,
+                                            color: rivercolors[e.key],
+                                            size: 10,
+                                          ),
+                                          SizedBox(
+                                            width: 10,
+                                          ),
+                                          Text(
+                                            e.value.name.split(' ')[0],
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .colorScheme
+                                                    .surface),
+                                          )
+                                        ],
+                                      ),
+                                    )
+                                    .toList(),
+                              ),
+                        cardcolor: Theme.of(context)
+                            .colorScheme
+                            .onSecondary
+                            .withOpacity(0.3)),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    FaIcon(
+                      FontAwesomeIcons.upRightAndDownLeftFromCenter,
+                      size: 20,
+                      color: Theme.of(context).colorScheme.secondary,
+                    )
+                  ],
+                ),
+              )
+            : SizedBox(),
       ],
     );
   }
 
-  SplineAreaSeries<River, DateTime> linecharts(RiverDetails riversdata,int index) {
+  BarChartGroupData BarChartgroupdata(MapEntry<int, RiverDetails> r) =>
+      BarChartGroupData(
+        x: r.key,
+        
+        barRods: [
+          BarChartRodData(
+              width: 20,
+              borderRadius: BorderRadius.zero,
+              gradient: LinearGradient(
+                  colors: [Colors.orange.shade300, Colors.transparent],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter),
+              toY: toDouble(r.value.river.last.usv)),
+          BarChartRodData(
+             width: 20,
+              borderRadius: BorderRadius.zero,
+              gradient: LinearGradient(
+                  colors: [Colors.blue.shade300, Colors.transparent],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter),
+            toY: toDouble(r.value.river.last.hv)),
+          BarChartRodData(
+             width: 20,
+              borderRadius: BorderRadius.zero,
+              gradient: LinearGradient(
+                  colors: [Colors.purple.shade300, Colors.transparent],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter),
+            toY: toDouble(r.value.river.last.tv)),
+        ],
+      );
+
+  SplineAreaSeries<River, DateTime> linecharts(
+    RiverDetails riversdata,
+    int index,
+  ) {
     return SplineAreaSeries(
-      animationDelay:1,
-      animationDuration: 0.3,
-    
-      enableTooltip: true,
+        animationDelay: 1,
+        animationDuration: 0.3,
+        enableTooltip: true,
         borderColor: rivercolors[index]!,
-        borderWidth: 0.5,
+        borderWidth: 2,
         splineType: SplineType.natural,
-        gradient: LinearGradient(colors: [rivercolors[index]!,Colors.white],
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter
-        ),
+        gradient: LinearGradient(
+            colors: [rivercolors[index]!, Colors.transparent],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter),
         dataSource: riversdata.river,
-        xValueMapper: (datum, index){
-            return datum.date;
-        }, yValueMapper: (d,i)=>toDouble(chooseSensor==0?d.usv:chooseSensor==1?d.hv:d.tv));
+        xValueMapper: (datum, index) {
+          return datum.date;
+        },
+        yValueMapper: (d, i) => toDouble(chooseSensor == 0
+            ? d.usv
+            : chooseSensor == 1
+                ? d.hv
+                : d.tv));
   }
 }
-

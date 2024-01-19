@@ -5,6 +5,7 @@ import 'package:floodsystem/providers/riverprovider.dart';
 import 'package:floodsystem/screens/home.dart';
 import 'package:floodsystem/screens/mobile/details.dart';
 import 'package:floodsystem/screens/mobile/mobilesettings.dart';
+import 'package:floodsystem/screens/mobile/tablescreen.dart';
 import 'package:floodsystem/services/backgroundservice.dart';
 import 'package:floodsystem/themes/darkthemes.dart';
 import 'package:floodsystem/themes/lighttheme.dart';
@@ -61,6 +62,7 @@ class MyApp extends StatelessWidget {
         HomePage.routename:(c)=>const HomePage(),
         DetailsScreen.routename:(c)=>const DetailsScreen(),
         MobileSettings.routename:(c)=>const MobileSettings(),
+        TableScreen.routename:(c)=>const TableScreen(),
       }
   ,
     ),);

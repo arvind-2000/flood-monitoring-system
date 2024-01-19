@@ -17,11 +17,14 @@ class CardsContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
+    
       duration: Duration(milliseconds: 200),
       margin: margins,
       padding: paddings,
+      
+      clipBehavior: Clip.antiAlias,
       curve: Curves.easeInOut,
-      decoration: BoxDecoration(
+      decoration: BoxDecoration( 
         border: Border.all(color: isBorder?Theme.of(context).colorScheme.secondary:Theme.of(context).colorScheme.primary,),
         color:cardcolor,
         borderRadius: BorderRadius.circular(8)

@@ -21,7 +21,7 @@ class IndicatorCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final prov = Provider.of<NambulProvider>(context);
     return Animate(
-      effects: [SlideEffect(duration: Duration(seconds:1),begin: Offset(0,1))],
+      effects: [SlideEffect(duration: Duration(seconds:1),begin: Offset(0,0.5)),FadeEffect(duration: Duration(seconds: 1))],
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
