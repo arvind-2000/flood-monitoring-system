@@ -7,6 +7,7 @@ import 'package:floodsystem/providers/riverprovider.dart';
 import 'package:floodsystem/widgets/tables.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/retry.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datagrid/datagrid.dart';
@@ -163,6 +164,10 @@ class _TableScreenState extends State<TableScreen> {
 
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) { 
+
+      Provider.of<NambulProvider>(context,listen: false).filterData(0, DateTime.now());
+    });
     super.initState();
     isWebOrDesktop = false;
   }
@@ -173,32 +178,74 @@ class _TableScreenState extends State<TableScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Table Data"),
+        actions: [
+          IconButton(onPressed: (){prov.sort();}, icon: Icon(FontAwesomeIcons.sort))
+        ],
       ),
-
+      body:Row(
+        children: [
+              // Container(
+              //   width: 80,
+              //   color: Colors.grey,
+              // ),
+          Expanded(
+            child: ListView(
+              scrollDirection: Axis.horizontal,
+              children:prov.riverfilters.map((e) => TableList(filterRiver: e)).toList()
+            ),
+          ),
+        ],
+      )
       
     );
   }
 }
 
-class Click extends StatelessWidget {
-  const Click({
+class TableList extends StatelessWidget {
+  const TableList({
     super.key,
-    required this.text,
-    required this.ontap
+    required this.filterRiver
   });
-  final String text;
- final Function ontap;
+  final RiverDetails filterRiver;
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: (){
-        ontap();
-      },
-      child: CardsContainer(
-        paddings: EdgeInsets.all(16),
-        margins: EdgeInsets.symmetric(horizontal: 8),
-        cardcolor: Theme.of(context).colorScheme.background,
-        childs: Text(text)));
+    return Expanded(
+      child: Container(
+        width: (MediaQuery.of(context).size.width-0)/3,
+        color: Theme.of(context).colorScheme.primary,
+        child: Column(
+          children: [
+           Text(filterRiver.name),
+           Padding(
+             padding: const EdgeInsets.symmetric(horizontal:16.0),
+             child: Row(
+               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                      Text('usv'),
+                      Text('hv'),
+                      Text('tv')
+             ], 
+             ),
+           ),
+            Expanded(
+              child: ListView(
+                children:
+                  filterRiver.river.map((e) => Container(
+                  padding: EdgeInsets.all(16),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                    Text(e.usv),
+                    Text(e.hv),
+                    Text(e.tv)
+                  ]), color: Theme.of(context).colorScheme.primary)).toList(),
+              ),
+
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 

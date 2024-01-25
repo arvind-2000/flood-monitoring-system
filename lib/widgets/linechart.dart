@@ -4,6 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:floodsystem/const.dart';
 import 'package:floodsystem/models/river.dart';
 import 'package:floodsystem/models/riverdetails.dart';
+import 'package:floodsystem/providers/logics.dart';
 import 'package:floodsystem/providers/riverprovider.dart';
 import 'package:floodsystem/widgets/cards.dart';
 import 'package:flutter/material.dart';
@@ -20,77 +21,68 @@ class LineCharts extends StatelessWidget {
     super.key,
     required this.isPinching,
     required this.showcolorindicator,
-    required this.chooseSensor,
     this.index = 0,
   });
   final int index;
   final bool isPinching;
   final bool showcolorindicator;
-  final int chooseSensor;
-//  final List<River> data = [
-//     River(id: '337', channelid:'vhsj', name: 'imphal River', usv: '200', hv: '0', tv: '34', date: DateTime(2024,1,12)),
-//     River(id: '335', channelid:'vhsj', name: 'imphal River', usv: '202', hv: '1', tv: '34', date: DateTime(2024,2,12)),
-//     River(id: '337', channelid:'vhsj', name: 'imphal River', usv: '210', hv: '2', tv: '34', date: DateTime(2024,3,12)),
-//     River(id: '337', channelid:'vhsj', name: 'imphal River', usv: '215', hv: '3', tv: '34', date: DateTime(2024,4,12)),
-//      River(id: '337', channelid:'vhsj', name: 'imphal River', usv: '200', hv: '4', tv: '34', date: DateTime(2024,5,12)),
-//     River(id: '335', channelid:'vhsj', name: 'imphal River', usv: '215', hv: '5', tv: '34', date: DateTime(2024,6,12)),
-//     River(id: '337', channelid:'vhsj', name: 'imphal River', usv: '220', hv: '6', tv: '34', date: DateTime(2024,7,12)),
-//     River(id: '337', channelid:'vhsj', name: 'imphal River', usv: '225', hv: '7', tv: '34', date:DateTime(2024,8,12)),
-//      River(id: '337', channelid:'vhsj', name: 'imphal River', usv: '230', hv: '8', tv: '34', date:DateTime(2024,9,12)),
-//     River(id: '335', channelid:'vhsj', name: 'imphal River', usv: '220', hv: '9', tv: '34', date:DateTime(2024,10,12)),
-//     River(id: '337', channelid:'vhsj', name: 'imphal River', usv: '215', hv: '10', tv: '34', date: DateTime(2024,11,12)),
-//     River(id: '337', channelid:'vhsj', name: 'imphal River', usv: '220', hv: '11', tv: '34', date: DateTime(2024,12,12)),
-//   ];
 
-//   final RiverDetails riverss = RiverDetails(id: '34637', name: 'Imphal River', river: [
-//     River(id: '337', channelid:'vhsj', name: 'imphal River', usv: '200', hv: '0', tv: '34', date: DateTime(2024,1,12)),
-//     River(id: '335', channelid:'vhsj', name: 'imphal River', usv: '202', hv: '1', tv: '34', date: DateTime(2024,2,12)),
-//     River(id: '337', channelid:'vhsj', name: 'imphal River', usv: '210', hv: '2', tv: '34', date: DateTime(2024,3,12)),
-//     River(id: '337', channelid:'vhsj', name: 'imphal River', usv: '215', hv: '3', tv: '34', date: DateTime(2024,4,12)),
-//      River(id: '337', channelid:'vhsj', name: 'imphal River', usv: '200', hv: '4', tv: '34', date: DateTime(2024,5,12)),
-//     River(id: '335', channelid:'vhsj', name: 'imphal River', usv: '215', hv: '5', tv: '34', date: DateTime(2024,6,12)),
-//     River(id: '337', channelid:'vhsj', name: 'imphal River', usv: '220', hv: '6', tv: '34', date: DateTime(2024,7,12)),
-//     River(id: '337', channelid:'vhsj', name: 'imphal River', usv: '225', hv: '7', tv: '34', date:DateTime(2024,8,12)),
-//      River(id: '337', channelid:'vhsj', name: 'imphal River', usv: '230', hv: '8', tv: '34', date:DateTime(2024,9,12)),
-//     River(id: '335', channelid:'vhsj', name: 'imphal River', usv: '220', hv: '9', tv: '34', date:DateTime(2024,10,12)),
-//     River(id: '337', channelid:'vhsj', name: 'imphal River', usv: '215', hv: '10', tv: '34', date: DateTime(2024,11,12)),
-//     River(id: '337', channelid:'vhsj', name: 'imphal River', usv: '220', hv: '11', tv: '34', date: DateTime(2024,12,12)),
-//   ]);
   @override
   Widget build(BuildContext context) {
     final prov = Provider.of<NambulProvider>(context);
     return Stack(
       children: [
-        // SfCartesianChart(
+       prov.setgraph?prov.rivergraph[0].river.isEmpty?SizedBox(
+        child: Center(child: Text('No Data'),),
+       ):LineChart(
+          LineChartData(
+                maxY: 300,
+                minY: 0,
+                  extraLinesData: ExtraLinesData(horizontalLines: [
+                    HorizontalLine(
+                        y: prov.getThreshold,
+                        color: Theme.of(context).colorScheme.error,
+                        strokeWidth:prov.isSensor==0?1:0 )
+                  ]),
 
-        //   margin: EdgeInsets.all(0),
-        //   zoomPanBehavior:ZoomPanBehavior(enablePinching: isPinching,
-        //   zoomMode: ZoomMode.x
-        //   ),
-        //   enableAxisAnimation: true,
-        //   plotAreaBorderColor: Colors.transparent,
-        //   borderColor: Colors.transparent,
-        //   borderWidth: 0,
-        //     plotAreaBorderWidth: 0,
+                             gridData: FlGridData(show: false),
+                  borderData: FlBorderData(show: false),
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                     
+                        titlesData: FlTitlesData(
+                    show: true,
+              
+                    rightTitles:
+                        AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                    topTitles:
+                        AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                    bottomTitles: AxisTitles(
+                                      
+                      sideTitles: SideTitles(
+                          interval:prov.rivergraph[0].river.isEmpty?400:prov.rivergraph[0].river.length/4,   
+                        showTitles: true,
+                        getTitlesWidget: (value, meta) => Text(getDate( prov.rivergraph[0].river[value.toInt()].date).replaceAll('/', '\n')),
+                      )
+                    )
+                    // leftTitles: AxisTitles(
+                    //     sideTitles: SideTitles(interval: 50, showTitles: true)),
+                  ),
+            lineBarsData: prov.rivergraph.asMap().entries.map((e) => LineChartBarData(
+              curveSmoothness: 0.4,
+              barWidth: 1,
+              isCurved: true,
+              color: rivercolors[e.key],
+              
+              spots: e.value.river.asMap().entries.map((e) => FlSpot(
+              
+                e.key.toDouble(),toDouble(prov.isSensor==0?e.value.usv:prov.isSensor==1?e.value.hv:e.value.tv) )
+                
+                
+                ).toList()
+            )).toList()
+          )
 
-        //    primaryXAxis:DateTimeAxis(
-        //     minimum: prov.rivergraph[index].river.first.date,
-        //       maximum: prov.rivergraph[index].river.last.date,
-
-        //       intervalType: DateTimeIntervalType.milliseconds,
-        //   ),
-        //   primaryYAxis: NumericAxis(
-        //     minimum: 0,
-        //     maximum:600,
-        //       isVisible: true,
-        //       desiredIntervals: 5,
-        //       borderWidth: 0,
-        //        borderColor: Colors.transparent,
-        //   ),
-
-        //   series:prov.rivergraph.asMap().entries.map((e) => linecharts(e.value,e.key)).toList(),
-
-        // ),
+        ):
         Container(
           padding: EdgeInsets.symmetric(vertical: 16),
           child: BarChart(
@@ -105,8 +97,8 @@ class LineCharts extends StatelessWidget {
                         color: Theme.of(context).colorScheme.error,
                         strokeWidth: 1)
                   ]),
-                  groupsSpace: 16,
-                  alignment: BarChartAlignment.spaceEvenly,
+                  // groupsSpace: 20,
+                  // alignment: BarChartAlignment.spaceEvenly,
                   gridData: FlGridData(show: false),
                   borderData: FlBorderData(show: false),
                   backgroundColor: Theme.of(context).colorScheme.primary,
@@ -141,7 +133,7 @@ class LineCharts extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CardsContainer(
+                   prov.setgraph?CardsContainer(
                         paddings: EdgeInsets.all(8),
                         childs: prov.rivergraph.isEmpty
                             ? SizedBox()
@@ -176,14 +168,17 @@ class LineCharts extends StatelessWidget {
                         cardcolor: Theme.of(context)
                             .colorScheme
                             .onSecondary
-                            .withOpacity(0.3)),
+                            .withOpacity(0.3)):SizedBox(),
                     SizedBox(
                       width: 10,
                     ),
-                    FaIcon(
-                      FontAwesomeIcons.upRightAndDownLeftFromCenter,
-                      size: 20,
-                      color: Theme.of(context).colorScheme.secondary,
+                    IconButton(
+                      onPressed: prov.setgraphd,
+                      icon: FaIcon(
+                        FontAwesomeIcons.upRightAndDownLeftFromCenter,
+                        size: 20,
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
                     )
                   ],
                 ),
@@ -196,7 +191,7 @@ class LineCharts extends StatelessWidget {
   BarChartGroupData BarChartgroupdata(MapEntry<int, RiverDetails> r) =>
       BarChartGroupData(
         x: r.key,
-        
+        // barsSpace: 20,
         barRods: [
           BarChartRodData(
               width: 20,
@@ -225,29 +220,29 @@ class LineCharts extends StatelessWidget {
         ],
       );
 
-  SplineAreaSeries<River, DateTime> linecharts(
-    RiverDetails riversdata,
-    int index,
-  ) {
-    return SplineAreaSeries(
-        animationDelay: 1,
-        animationDuration: 0.3,
-        enableTooltip: true,
-        borderColor: rivercolors[index]!,
-        borderWidth: 2,
-        splineType: SplineType.natural,
-        gradient: LinearGradient(
-            colors: [rivercolors[index]!, Colors.transparent],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter),
-        dataSource: riversdata.river,
-        xValueMapper: (datum, index) {
-          return datum.date;
-        },
-        yValueMapper: (d, i) => toDouble(chooseSensor == 0
-            ? d.usv
-            : chooseSensor == 1
-                ? d.hv
-                : d.tv));
-  }
+  // SplineAreaSeries<River, DateTime> linecharts(
+  //   RiverDetails riversdata,
+  //   int index,
+  // ) {
+  //   return SplineAreaSeries(
+  //       animationDelay: 1,
+  //       animationDuration: 0.3,
+  //       enableTooltip: true,
+  //       borderColor: rivercolors[index]!,
+  //       borderWidth: 2,
+  //       splineType: SplineType.natural,
+  //       gradient: LinearGradient(
+  //           colors: [rivercolors[index]!, Colors.transparent],
+  //           begin: Alignment.topCenter,
+  //           end: Alignment.bottomCenter),
+  //       dataSource: riversdata.river,
+  //       xValueMapper: (datum, index) {
+  //         return datum.date;
+  //       },
+  //       yValueMapper: (d, i) => toDouble(prov.chooseSensor == 0
+  //           ? d.usv
+  //           : prov.isSe == 1
+  //               ? d.hv
+  //               : d.tv));
+  // }
 }

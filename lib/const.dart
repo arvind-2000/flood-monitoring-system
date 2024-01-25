@@ -24,6 +24,8 @@ const normalbanner = 'Normal';
 const Map<int,String> graphIntervals = {0:'latest',1:'1D',2:'1M',3:'1Y'};
 List<String> sensorslist = ['Levels','Humidity','Temp'];
 List<Color?> rivercolors = [Colors.blue.withOpacity(0.5),Colors.brown.withOpacity(0.5),Colors.greenAccent.withOpacity(0.5)];
+
+List<String>  months = ['Jan','Feb','Mar','Apl','May','June','July','Aug','Sep','Oct','Nov','Dec'];
 const alertbannertext = 'Danger';
 BoxDecoration carddecoration = BoxDecoration(
   color: Colors.white,

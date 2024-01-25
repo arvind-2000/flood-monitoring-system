@@ -1,4 +1,7 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../const.dart';
 import '../providers/riverprovider.dart';
@@ -18,6 +21,7 @@ class Tables extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return CardsContainer(
       cardcolor: Theme.of(context).colorScheme.primary.withOpacity(0.5),
       
@@ -39,7 +43,7 @@ class Tables extends StatelessWidget {
               controller:_listcontroller,
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              children: prov2.allrivers[args].river.asMap().entries.map((e) => Container(
+              children: prov2.allrivers[args].river.asMap().entries.where((element) => element.value.date.year==DateTime.now().year).map((e) => Container(
             
                 padding: EdgeInsets.all(8),
                 child:Row(
@@ -83,7 +87,7 @@ class Tables extends StatelessWidget {
                     child: Text('${e.value.tv}',textAlign: TextAlign.center,)),
              ),
                  
-              ],), color:toDouble(e.value.usv)>prov2.getThreshold?Theme.of(context).colorScheme.error.withOpacity(0.2) :e.key%2==0?Theme.of(context).colorScheme.secondary.withOpacity(0.1):Theme.of(context).colorScheme.secondary.withOpacity(0.2)),).toList().sublist(0, prov2.allrivers[args].river.length>10?10:prov2.allrivers[args].river.length)
+              ],), color:toDouble(e.value.usv)>prov2.getThreshold?Theme.of(context).colorScheme.error.withOpacity(0.2) :e.key%2==0?Theme.of(context).colorScheme.secondary.withOpacity(0.1):Theme.of(context).colorScheme.secondary.withOpacity(0.2)),).toList()
             ),
         ],
       ),

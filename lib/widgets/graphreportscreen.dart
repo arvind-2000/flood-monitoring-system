@@ -50,7 +50,7 @@ class GraphScreenReport extends StatelessWidget {
             children: prov.getnambulrivers.asMap().entries.map((e) => GestureDetector(
               onTap: (){
                
-                  prov.rivergraphs(e.key);
+                  prov.rivergraphs(e.key,DateTime.now());
                    onpress();
               },
               child: Container(

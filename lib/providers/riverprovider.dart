@@ -6,14 +6,18 @@ import 'package:floodsystem/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../models/river.dart';
+
 class NambulProvider with ChangeNotifier {
   List<RiverDetails> _riverlist = [];
   List<RiverDetails> _allriverlist = [];
    List<RiverDetails> _rivergraph = [];
+   List<RiverDetails> _riverfilters = [];
   // RiverDetails _riverDetails = RiverDetails(id: '', name: '', river: []);
   List<RiverDetails> get getnambulrivers => _riverlist;
   List<RiverDetails> get allrivers => _allriverlist;
    List<RiverDetails> get rivergraph => _rivergraph;
+   List<RiverDetails> get riverfilters => _riverfilters;
   bool isLoading = true;
   bool isLoadingall = true;
   int responsevalue = 0;
@@ -24,12 +28,14 @@ class NambulProvider with ChangeNotifier {
   dynamic _scheduler;
   double _threshold = 60;
   int indexval = 3;
-
+  bool isFilterLoading = true;
   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
-
+  bool setgraph = false;
   double get getThreshold => _threshold;
+  int graphindex = 0;
+  int isSensor = 0; 
 
-  
+  DateTime graphChooseDate = DateTime.now();
   
   
   //get data
@@ -47,7 +53,7 @@ class NambulProvider with ChangeNotifier {
       responsevalue2 = ser.responsecode;
       _allriverlist = rivers;
 
-      _rivergraph = _allriverlist;
+      rivergraphs(0, DateTime.now());
       // print(responsevalue);
       isLoadingall = false;
       indicator();
@@ -57,13 +63,29 @@ class NambulProvider with ChangeNotifier {
     notifyListeners();
   }
   
+  void graphChooseDates(DateTime d){
+    graphChooseDate = d;
+        notifyListeners();
+    monthyear(d);
 
-  void rivergraphs(int index){
+  }
+  void rivergraphs(int index,DateTime d){
+    graphindex = index;
     _rivergraph = [_allriverlist[index]];
-    notifyListeners();
+       
+    // _rivergraph = _rivergraph.map((e) => RiverDetails(id: e.id, name: e.name, river: e.river.where((element) => element.date.year==d.year && element.date.month==d.month).toList()..sort((a,b)=>a.date.compareTo(b.date)))).toList();
+    graphChooseDates(d);
+
   }
 
-
+void monthyear(DateTime d){
+  _rivergraph = [RiverDetails(id: allrivers[graphindex].id, name: allrivers[graphindex].name, river: allrivers[graphindex].river.where((element) => element.date.year==d.year && element.date.month==d.month).toList())];  
+  notifyListeners();
+}
+  void changesensor(int val){
+    isSensor = val;
+    notifyListeners();
+  }
   Future<void> reconnect() async {
     // isLoading = true;
     // notifyListeners();
@@ -127,6 +149,43 @@ class NambulProvider with ChangeNotifier {
     floodindicator = floodIndicatorlist;
     notifyListeners();
   }
+
+
+void filterData(int choose,DateTime date){
+
+if(choose == 0){
+ _riverfilters = allrivers.map((e)=>RiverDetails(id: e.id, name: e.name, river: e.river.where((element) => element.date.year == date.year).toList())).toList();
+isFilterLoading = false;
+notifyListeners();
+}
+
+
+
+}
+
+
+
+void setgraphd(){
+  setgraph = !setgraph;
+  notifyListeners();
+}
+
+int getindex(){
+  int i = 0;
+  _riverfilters.map((e){
+
+    if(e.river.length>i){
+      i = e.river.length;
+    }
+  });
+  return i;
+}
+
+void sort(){
+  _riverfilters=_riverfilters.map((e) =>RiverDetails(id: e.id, name: e.name, river:  e.river.toList()..sort((a, b) =>toDouble(a.usv).compareTo(toDouble(b.usv))),)).toList();
+  notifyListeners();
+}
+
 
   void getprefs() async {
     SharedPreferences s = await prefs;

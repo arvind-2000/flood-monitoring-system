@@ -92,10 +92,7 @@ onSelectNavigation(0);
         appBar: AppBar(
        
           backgroundColor: Colors.transparent,
-          title: Container(
-            width: 100,
-            height: 50,
-            child: Image.asset('assets/images/logo.png',fit:BoxFit.cover,)),
+          title: const Text(appname,style: TextStyle(fontSize: headersize),),
           actions: [Padding(
             padding: const EdgeInsets.only(right: 8),
             child: IconButton(onPressed: (){
