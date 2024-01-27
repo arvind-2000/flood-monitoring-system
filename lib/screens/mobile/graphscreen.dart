@@ -79,33 +79,47 @@ class _GraphScreenState extends State<GraphScreen> {
                     child: CardsContainer(childs: Text(e.value,style: TextStyle(fontWeight: FontWeight.bold),), cardcolor: Theme.of(context).colorScheme.onSecondary.withOpacity(0.3),paddings: EdgeInsets.all(8),margins: EdgeInsets.all(8),isBorder:e.key==prov.isSensor,)),).toList(),
                  )),
 
-                 Row(
-                  children: [
-                        DropdownMenu(
-                          
-                          enableFilter: true,
-                          
-                          onSelected: (value) {
-                            prov.graphChooseDates(DateTime(prov.graphChooseDate.year,value!+1));
-                          },
-                          dropdownMenuEntries:months.asMap().entries.map((e) => DropdownMenuEntry(
-                            
-                            value: e.key, label: e.value)).toList()),
+                 Container(
+                 
+                   child: Row(
+                    children: [
+                          DropdownMenu(
+                                 menuStyle: MenuStyle(
+                            backgroundColor: MaterialStatePropertyAll(Theme.of(context).colorScheme.primary)
+                          ),
+                          menuHeight: 200,
+                            initialSelection: 0,
+                            enableFilter: true,
+                            textStyle: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+                            onSelected: (value) {
+                              prov.graphChooseDates(DateTime(prov.graphChooseDate.year,value!+1));
+                            },
+                            dropdownMenuEntries:months.asMap().entries.map((e) => DropdownMenuEntry(
+                              
+                              value: e.key, label: e.value)).toList()),
+                   
+                              DropdownMenu(
+                          menuStyle: MenuStyle(
+                            backgroundColor: MaterialStatePropertyAll(Theme.of(context).colorScheme.primary)
+                          ),
+                            enableFilter: true,
+                            initialSelection:0,
 
-                            DropdownMenu(
-                          
-                          enableFilter: true,
-                          
-                          onSelected: (value) {
-                            prov.graphChooseDates(DateTime(value!,prov.graphChooseDate.month));
-                          },
-                          dropdownMenuEntries:List.generate(DateTime.now().year-2022, (index) => DropdownMenuEntry(
-                              labelWidget: Text('${2023+index}'),
-                            value: 2023+index, label: '${2023+index}')).toList())
-                            // SelectDay(text: 'Month'),
-                            // SelectDay(text: 'Year'),
-         
-                  ],
+                             textStyle: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+                            onSelected: (value) {
+                              prov.graphChooseDates(DateTime(value!,prov.graphChooseDate.month));
+                            },
+                            dropdownMenuEntries:List.generate(DateTime.now().year-2022, (index) => DropdownMenuEntry(
+                              style: ButtonStyle(
+                              
+                              ),
+                              // labelWidget: Text('${prov.graphChooseDate.year}'),
+                              value:2023+index, label: '${2023+index}')).toList())
+                              // SelectDay(text: 'Month'),
+                              // SelectDay(text: 'Year'),
+                            
+                    ],
+                   ),
                  )
                 ],
               ),

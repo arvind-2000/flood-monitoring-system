@@ -32,7 +32,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   void initState() {
     // TODO: implement initState
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) { 
-      Provider.of<NambulProvider>(context,listen: false).getdata();
+ 
     });
     super.initState();
   }
@@ -81,7 +81,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         children: [
                           Text('USV',style: textStyle,),
                           SizedBox(height: 20,),
-                          Text(prov[args].river.last.usv,style: textStyle2,),
+                          Text(toDouble(prov[args].river.last.usv).toStringAsFixed(2),style: textStyle2,),
                         ],
                       ),
                     ),
@@ -95,7 +95,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         children: [
                           Text('HV',style: textStyle,),
                           SizedBox(height: 20,),
-                          Text(prov[args].river.last.hv,style: textStyle2,),
+                          Text(toDouble(prov[args].river.last.hv).toStringAsFixed(2),style: textStyle2,),
                         ],
                       ),
                     ),
@@ -109,7 +109,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                         children: [
                           Text('TV',style: textStyle,),
                           SizedBox(height: 20,),
-                          Text(prov[args].river.last.tv,style: textStyle2,),
+                          Text(toDouble(prov[args].river.last.tv).toStringAsFixed(2),style: textStyle2,),
                         ],
                       ),
                     ),
@@ -120,7 +120,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
             ),
             SizedBox(height: 40,),
 
-            Tables(prov2: prov2, args: args, listcontroller: _listcontroller),
+            Tables( args: args, listcontroller: _listcontroller),
         
         
         

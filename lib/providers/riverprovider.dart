@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:floodsystem/const.dart';
 import 'package:floodsystem/models/riverdetails.dart';
+import 'package:floodsystem/providers/logics.dart';
 import 'package:floodsystem/services/services.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,13 +12,13 @@ import '../models/river.dart';
 class NambulProvider with ChangeNotifier {
   List<RiverDetails> _riverlist = [];
   List<RiverDetails> _allriverlist = [];
-   List<RiverDetails> _rivergraph = [];
-   List<RiverDetails> _riverfilters = [];
+  List<RiverDetails> _rivergraph = [];
+  List<RiverDetails> _riverfilters = [];
   // RiverDetails _riverDetails = RiverDetails(id: '', name: '', river: []);
   List<RiverDetails> get getnambulrivers => _riverlist;
   List<RiverDetails> get allrivers => _allriverlist;
-   List<RiverDetails> get rivergraph => _rivergraph;
-   List<RiverDetails> get riverfilters => _riverfilters;
+  List<RiverDetails> get rivergraph => _rivergraph;
+  List<RiverDetails> get riverfilters => _riverfilters;
   bool isLoading = true;
   bool isLoadingall = true;
   int responsevalue = 0;
@@ -33,11 +34,12 @@ class NambulProvider with ChangeNotifier {
   bool setgraph = false;
   double get getThreshold => _threshold;
   int graphindex = 0;
-  int isSensor = 0; 
+  int isSensor = 0;
 
   DateTime graphChooseDate = DateTime.now();
-  
-  
+
+  List<River> _predictions = [];
+  List<River> get getPredictions => _predictions;
   //get data
   Future<void> getdata() async {
     List<RiverDetails> rivers = [];
@@ -52,8 +54,9 @@ class NambulProvider with ChangeNotifier {
       rivers = value;
       responsevalue2 = ser.responsecode;
       _allriverlist = rivers;
-
-      rivergraphs(0, DateTime.now());
+      _predictions = Logics().predictions(_allriverlist);
+      print("log: $_predictions");
+      rivergraphs();
       // print(responsevalue);
       isLoadingall = false;
       indicator();
@@ -62,30 +65,51 @@ class NambulProvider with ChangeNotifier {
 
     notifyListeners();
   }
-  
-  void graphChooseDates(DateTime d){
+
+  void graphChooseDates(DateTime d) {
     graphChooseDate = d;
-        notifyListeners();
+    notifyListeners();
     monthyear(d);
-
   }
-  void rivergraphs(int index,DateTime d){
+
+  void setgraphindex(int index) {
     graphindex = index;
-    _rivergraph = [_allriverlist[index]];
-       
-    // _rivergraph = _rivergraph.map((e) => RiverDetails(id: e.id, name: e.name, river: e.river.where((element) => element.date.year==d.year && element.date.month==d.month).toList()..sort((a,b)=>a.date.compareTo(b.date)))).toList();
-    graphChooseDates(d);
-
+    
+    notifyListeners();
+    rivergraphs();
   }
 
-void monthyear(DateTime d){
-  _rivergraph = [RiverDetails(id: allrivers[graphindex].id, name: allrivers[graphindex].name, river: allrivers[graphindex].river.where((element) => element.date.year==d.year && element.date.month==d.month).toList())];  
-  notifyListeners();
-}
-  void changesensor(int val){
+  void rivergraphs() {
+   
+    // _rivergraph = _rivergraph.map((e) => RiverDetails(id: e.id, name: e.name, river: e.river.where((element) => element.date.year==d.year && element.date.month==d.month).toList()..sort((a,b)=>a.date.compareTo(b.date)))).toList();
+    graphChooseDates(graphChooseDate);
+     print("index: $graphindex");
+    RiverDetails d =  RiverDetails(id: _allriverlist[graphindex].id, name: _allriverlist[graphindex].name, river: _allriverlist[graphindex].river.reversed.take(_allriverlist[graphindex].river.length>20?20:_allriverlist[graphindex].river.length).toList().reversed.toList());
+    _rivergraph = [d];
+    print("river graph: ${_rivergraph[0].river.length}");
+    notifyListeners();
+  }
+
+  void monthyear(DateTime d) {
+    _rivergraph = [
+      RiverDetails(
+          id: allrivers[graphindex].id,
+          name: allrivers[graphindex].name,
+          river: allrivers[graphindex]
+              .river
+              .where((element) =>
+                  element.date.year == d.year && element.date.month == d.month)
+              .toList())
+    ];
+
+      notifyListeners();
+  }
+
+  void changesensor(int val) {
     isSensor = val;
     notifyListeners();
   }
+
   Future<void> reconnect() async {
     // isLoading = true;
     // notifyListeners();
@@ -97,6 +121,7 @@ void monthyear(DateTime d){
     _scheduler = Timer.periodic(Duration(seconds: 5), (timer) {
       print('In timer');
       getlatest();
+      getdata();
     });
   }
 
@@ -131,8 +156,6 @@ void monthyear(DateTime d){
     );
   }
 
-
-
   void indicator() {
     List<bool> floodIndicatorlist = [];
     Service ser = Service();
@@ -150,42 +173,47 @@ void monthyear(DateTime d){
     notifyListeners();
   }
 
-
-void filterData(int choose,DateTime date){
-
-if(choose == 0){
- _riverfilters = allrivers.map((e)=>RiverDetails(id: e.id, name: e.name, river: e.river.where((element) => element.date.year == date.year).toList())).toList();
-isFilterLoading = false;
-notifyListeners();
-}
-
-
-
-}
-
-
-
-void setgraphd(){
-  setgraph = !setgraph;
-  notifyListeners();
-}
-
-int getindex(){
-  int i = 0;
-  _riverfilters.map((e){
-
-    if(e.river.length>i){
-      i = e.river.length;
+  void filterData(int choose, DateTime date) {
+    if (choose == 0) {
+      _riverfilters = allrivers
+          .map((e) => RiverDetails(
+              id: e.id,
+              name: e.name,
+              river: e.river
+                  .where((element) => element.date.year == date.year)
+                  .toList()))
+          .toList();
+      isFilterLoading = false;
+      notifyListeners();
     }
-  });
-  return i;
-}
+  }
 
-void sort(){
-  _riverfilters=_riverfilters.map((e) =>RiverDetails(id: e.id, name: e.name, river:  e.river.toList()..sort((a, b) =>toDouble(a.usv).compareTo(toDouble(b.usv))),)).toList();
-  notifyListeners();
-}
+  void setgraphd() {
+    setgraph = !setgraph;
+    notifyListeners();
+  }
 
+  int getindex() {
+    int i = 0;
+    _riverfilters.map((e) {
+      if (e.river.length > i) {
+        i = e.river.length;
+      }
+    });
+    return i;
+  }
+
+  void sort() {
+    _riverfilters = _riverfilters
+        .map((e) => RiverDetails(
+              id: e.id,
+              name: e.name,
+              river: e.river.toList()
+                ..sort((a, b) => toDouble(a.usv).compareTo(toDouble(b.usv))),
+            ))
+        .toList();
+    notifyListeners();
+  }
 
   void getprefs() async {
     SharedPreferences s = await prefs;

@@ -32,12 +32,12 @@ class IndicatorCard extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(topLeft: Radius.circular(16),topRight: Radius.circular(16)),
               color: color,
-              gradient: LinearGradient(colors: [value>=prov.getThreshold?Theme.of(context).colorScheme.error:Theme.of(context).colorScheme.secondary,Theme.of(context).colorScheme.primary],begin: Alignment.topCenter,end: Alignment.bottomCenter)
+              gradient: LinearGradient(colors: [value>=prov.getThreshold?Theme.of(context).colorScheme.error:Theme.of(context).colorScheme.secondary,Theme.of(context).colorScheme.primary.withOpacity(0.1)],begin: Alignment.topCenter,end: Alignment.bottomCenter)
             ), 
            
             height:value>=200?200:value),
             
-             Text(textAlign: TextAlign.center,"${text.split(' ')[0]}\n$value",style: TextStyle(
+             Text(textAlign: TextAlign.center,"${text.split(' ')[0]}\n${value.toStringAsFixed(2)}",style: TextStyle(
               fontWeight: FontWeight.bold,
               wordSpacing: 0.2,color: Theme.of(context).colorScheme.onSurface),),
         ],

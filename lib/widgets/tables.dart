@@ -10,18 +10,18 @@ import 'cards.dart';
 class Tables extends StatelessWidget {
   const Tables({
     super.key,
-    required this.prov2,
     required this.args,
     required ScrollController listcontroller,
   }) : _listcontroller = listcontroller;
 
-  final NambulProvider prov2;
+
   final int args;
   final ScrollController _listcontroller;
 
   @override
   Widget build(BuildContext context) {
-
+    final prov2 = Provider.of<NambulProvider>(context);
+    print("in tables${prov2.allrivers[args].river.length}");
     return CardsContainer(
       cardcolor: Theme.of(context).colorScheme.primary.withOpacity(0.5),
       
@@ -39,7 +39,7 @@ class Tables extends StatelessWidget {
               ],
             ),
           ),
-            prov2.isLoadingall? Center(child: CircularProgressIndicator(color: Theme.of(context).colorScheme.secondary,)):args>=prov2.rivergraph.length?SizedBox():ListView(
+            prov2.isLoadingall? Center(child: CircularProgressIndicator(color: Theme.of(context).colorScheme.secondary,)):args>=prov2.allrivers.length?SizedBox():ListView(
               controller:_listcontroller,
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
@@ -68,7 +68,7 @@ class Tables extends StatelessWidget {
                     
                     padding: EdgeInsets.all(4),
                    
-                    child: Text('${e.value.usv}',textAlign: TextAlign.center,)),
+                    child: Text('${toDouble(e.value.usv).toStringAsFixed(2)}',textAlign: TextAlign.center,)),
                 ),
                 
                      Expanded(
@@ -76,7 +76,7 @@ class Tables extends StatelessWidget {
                                            
                                            padding: EdgeInsets.all(4),
                                           
-                                           child: Text('${e.value.hv}',textAlign: TextAlign.center,)),
+                                           child: Text('${toDouble(e.value.hv).toStringAsFixed(2)}',textAlign: TextAlign.center,)),
                      ),
                   
              Expanded(
@@ -84,10 +84,10 @@ class Tables extends StatelessWidget {
                     
                     padding: EdgeInsets.all(4),
                    
-                    child: Text('${e.value.tv}',textAlign: TextAlign.center,)),
+                    child: Text('${toDouble(e.value.tv).toStringAsFixed(2)}',textAlign: TextAlign.center,)),
              ),
                  
-              ],), color:toDouble(e.value.usv)>prov2.getThreshold?Theme.of(context).colorScheme.error.withOpacity(0.2) :e.key%2==0?Theme.of(context).colorScheme.secondary.withOpacity(0.1):Theme.of(context).colorScheme.secondary.withOpacity(0.2)),).toList()
+              ],), color:toDouble(e.value.usv)>prov2.getThreshold?Theme.of(context).colorScheme.error.withOpacity(0.2) :e.key%2==0?Theme.of(context).colorScheme.secondary.withOpacity(0.1):Theme.of(context).colorScheme.secondary.withOpacity(0.2)),).toList().reversed.take(prov2.allrivers[args].river.length>10?10:prov2.allrivers[args].river.length).toList()
             ),
         ],
       ),

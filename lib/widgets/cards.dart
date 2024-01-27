@@ -22,7 +22,7 @@ class CardsContainer extends StatelessWidget {
       margin: margins,
       padding: paddings,
       
-      clipBehavior: Clip.antiAlias,
+      clipBehavior: Clip.hardEdge,
       curve: Curves.easeInOut,
       decoration: BoxDecoration( 
         border: Border.all(color: isBorder?Theme.of(context).colorScheme.secondary:Theme.of(context).colorScheme.primary,),

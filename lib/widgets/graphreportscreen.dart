@@ -50,7 +50,7 @@ class GraphScreenReport extends StatelessWidget {
             children: prov.getnambulrivers.asMap().entries.map((e) => GestureDetector(
               onTap: (){
                
-                  prov.rivergraphs(e.key,DateTime.now());
+                  prov.setgraphindex(e.key);
                    onpress();
               },
               child: Container(
@@ -67,9 +67,9 @@ class GraphScreenReport extends StatelessWidget {
                        child: Row(
                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                          children: [
-                           Text('${e.value.river.last.usv}'),
-                           Text('${e.value.river.last.hv}'),
-                           Text('${e.value.river.last.tv}'),
+                           Text('${toDouble(e.value.river.last.usv).toStringAsFixed(2)}'),
+                           Text('${toDouble(e.value.river.last.hv).toStringAsFixed(2)}'),    
+                           Text('${toDouble(e.value.river.last.tv).toStringAsFixed(2)}'),
                          ],
                        ),
                      )

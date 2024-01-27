@@ -2,6 +2,7 @@
 
 import 'dart:developer';
 
+import 'package:floodsystem/const.dart';
 import 'package:floodsystem/models/riverdetails.dart';
 import 'package:floodsystem/providers/irilprovider.dart';
 
@@ -45,5 +46,27 @@ class Logics{
     return d;
   }
 
+
+ List<River> predictions(List<RiverDetails> r){
+  List<River> prediction = [];
+
+    for(RiverDetails rs in r)
+  {
+    double temp = 0;
+    double res = 0;
+    int len = r.length>10?10:r.length;
+    for (River r in rs.river.reversed.take(len).toList().reversed){
+        temp = toDouble(r.usv) - temp;
+        res = temp+res;
+    
+    }
+  
+    double mean = res/len + res;
+    River riverpred = River(id: '', channelid: '', name: rs.name, usv: mean.toStringAsFixed(2), hv: '', tv: '', date: DateTime.now());
+    prediction.add(riverpred);
+  }
+  return prediction;
+
+ }
 
 }
