@@ -182,20 +182,7 @@ class _TableScreenState extends State<TableScreen> {
           IconButton(onPressed: (){prov.sort();}, icon: Icon(FontAwesomeIcons.sort))
         ],
       ),
-      body:Row(
-        children: [
-              // Container(
-              //   width: 80,
-              //   color: Colors.grey,
-              // ),
-          Expanded(
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              children:prov.riverfilters.map((e) => TableList(filterRiver: e)).toList()
-            ),
-          ),
-        ],
-      )
+      body:DataTable(columns: [DataColumn(label: Text("Year")),...prov.allrivers.map((e) => DataColumn(label: Text(e.name))).toList()], rows: [])
       
     );
   }
@@ -216,8 +203,8 @@ class TableList extends StatelessWidget {
         child: Column(
           children: [
            Text(filterRiver.name),
-           Padding(
-             padding: const EdgeInsets.symmetric(horizontal:16.0),
+           const Padding(
+             padding: EdgeInsets.symmetric(horizontal:16.0),
              child: Row(
                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -235,10 +222,16 @@ class TableList extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                    Text(e.usv),
-                    Text(e.hv),
-                    Text(e.tv)
-                  ]), color: Theme.of(context).colorScheme.primary)).toList(),
+                    Wrap(
+        
+                      
+                      children: [
+                        Text(toDouble( e.usv).toStringAsFixed(2)),
+                        Text(toDouble( e.hv).toStringAsFixed(2)),
+                        Text(toDouble( e.tv).toStringAsFixed(2))
+                      ],
+                    ),
+                                      ]), color: Theme.of(context).colorScheme.primary)).toList(),
               ),
 
             ),

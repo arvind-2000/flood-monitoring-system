@@ -36,7 +36,7 @@ class NambulProvider with ChangeNotifier {
   int graphindex = 0;
   int isSensor = 0;
 
-  DateTime graphChooseDate = DateTime.now();
+  // DateTime graphChooseDate = DateTime.now();
 
   List<River> _predictions = [];
   List<River> get getPredictions => _predictions;
@@ -66,11 +66,11 @@ class NambulProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void graphChooseDates(DateTime d) {
-    graphChooseDate = d;
-    notifyListeners();
-    monthyear(d);
-  }
+  // void graphChooseDates(DateTime d) {
+  //   graphChooseDate = d;
+  //   notifyListeners();
+  //   monthyear(d);
+  // }
 
   void setgraphindex(int index) {
     graphindex = index;
@@ -81,10 +81,11 @@ class NambulProvider with ChangeNotifier {
 
   void rivergraphs() {
    
-    // _rivergraph = _rivergraph.map((e) => RiverDetails(id: e.id, name: e.name, river: e.river.where((element) => element.date.year==d.year && element.date.month==d.month).toList()..sort((a,b)=>a.date.compareTo(b.date)))).toList();
-    graphChooseDates(graphChooseDate);
+    // _rivergraph = _rivergraph.map((e) => R\iverDetails(id: e.id, name: e.name, river: e.river.where((element) => element.date.year==d.year && element.date.month==d.month).toList()..sort((a,b)=>a.date.compareTo(b.date)))).toList();
+    // graphChooseDates(graphChooseDate);
      print("index: $graphindex");
-    RiverDetails d =  RiverDetails(id: _allriverlist[graphindex].id, name: _allriverlist[graphindex].name, river: _allriverlist[graphindex].river.reversed.take(_allriverlist[graphindex].river.length>20?20:_allriverlist[graphindex].river.length).toList().reversed.toList());
+    // RiverDetails d =  RiverDetails(id: _allriverlist[graphindex].id, name: _allriverlist[graphindex].name, river: _allriverlist[graphindex].river.reversed.take(_allriverlist[graphindex].river.length>20?20:_allriverlist[graphindex].river.length).toList().reversed.toList());
+    RiverDetails d =  RiverDetails(id: _allriverlist[graphindex].id, name: _allriverlist[graphindex].name, river: _allriverlist[graphindex].river);
     _rivergraph = [d];
     print("river graph: ${_rivergraph[0].river.length}");
     notifyListeners();
@@ -215,13 +216,18 @@ class NambulProvider with ChangeNotifier {
     notifyListeners();
   }
 
+
   void getprefs() async {
+    //getting sharedpreferences threshold values
     SharedPreferences s = await prefs;
     _threshold = s.getDouble('threshold') ?? 60;
     notifyListeners();
   }
 
+
+
   void setPrefs(double d) async {
+    //setting threshold in local database
     print("in set prefs");
     isSaved = true;
     notifyListeners();

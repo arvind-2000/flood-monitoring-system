@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:floodsystem/providers/riverprovider.dart';
 import 'package:floodsystem/screens/home.dart';
 import 'package:floodsystem/screens/mobile/details.dart';
+import 'package:floodsystem/screens/mobile/graphscreen.dart';
 import 'package:floodsystem/screens/mobile/mobilesettings.dart';
 import 'package:floodsystem/screens/mobile/tablescreen.dart';
 import 'package:floodsystem/services/backgroundservice.dart';
@@ -18,18 +19,18 @@ import 'const.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
 
-     try {
-        await Permission.notification.isDenied.then((value){
-    if(value){
-      Permission.notification.request();
-    }
+//      try {
+//         await Permission.notification.isDenied.then((value){
+//     if(value){
+//       Permission.notification.request();
+//     }
     
-  },);
-  await initializeService();
-} on Exception catch (e) {
-    log(e.toString());
-  // TODO
-}
+//   },);
+//   await initializeService();
+// } on Exception catch (e) {
+//     log(e.toString());
+//   // TODO
+// }
 
   runApp(const MyApp());
 }
@@ -63,6 +64,7 @@ class MyApp extends StatelessWidget {
         DetailsScreen.routename:(c)=>const DetailsScreen(),
         MobileSettings.routename:(c)=>const MobileSettings(),
         TableScreen.routename:(c)=>const TableScreen(),
+        GraphScreen.routename:(c)=>const GraphScreen(),
       }
   ,
     ),);

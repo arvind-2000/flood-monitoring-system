@@ -1,4 +1,4 @@
-import 'dart:ffi';
+
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,8 +28,8 @@ class Tables extends StatelessWidget {
       childs: Column(
         children: [
           Container(
-            padding: EdgeInsets.all(8),
-            child: Row(
+            padding:const EdgeInsets.all(8),
+            child:const  Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(child: Text("Date/time",textAlign: TextAlign.center,)),
@@ -41,15 +41,15 @@ class Tables extends StatelessWidget {
           ),
             prov2.isLoadingall? Center(child: CircularProgressIndicator(color: Theme.of(context).colorScheme.secondary,)):args>=prov2.allrivers.length?SizedBox():ListView(
               controller:_listcontroller,
-              physics: NeverScrollableScrollPhysics(),
+              physics:const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               children: prov2.allrivers[args].river.asMap().entries.where((element) => element.value.date.year==DateTime.now().year).map((e) => Container(
             
-                padding: EdgeInsets.all(8),
+                padding: const EdgeInsets.all(8),
                 child:Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                children:[
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

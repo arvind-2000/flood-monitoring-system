@@ -105,18 +105,20 @@ onSelectNavigation(0);
         return LayoutBuilder(builder:(context,constraint){
           // if(constraint.maxWidth<500){
       
-            return PageView(
-              scrollDirection: Axis.horizontal,
+            // return PageView(
+            //   scrollDirection: Axis.horizontal,
            
-              children: [
-               MobileScreen(onchanged: onSelectNavigation,),
-               GraphScreen()
-              ],
-              controller: _controller,
+            //   children: [
+            //    MobileScreen(onchanged: onSelectNavigation,),
+            //    GraphScreen()
+            //   ],
+            //   controller: _controller,
               
-              onPageChanged: onSelectNavigation,
+            //   onPageChanged: onSelectNavigation,
       
-            );
+            // );
+
+            return MobileScreen();
           // }
           // else{
           //   return DesktopScreen();

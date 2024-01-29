@@ -5,15 +5,12 @@ import 'dart:developer';
 import 'dart:ui';
 import 'package:floodsystem/models/riverdetails.dart';
 import 'package:floodsystem/providers/riverprovider.dart';
-
-import 'package:floodsystem/services/notifications.dart';
 import 'package:floodsystem/services/services.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_background_service_android/flutter_background_service_android.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 import '../const.dart';
-import '../models/river.dart';
 
 Future<void> initializeService() async{
   final service = FlutterBackgroundService();
@@ -70,7 +67,7 @@ void onStart(ServiceInstance service) async{
           for(RiverDetails d in _prov.getnambulrivers){
               if(toDouble(d.river.last.usv)>=_prov.getThreshold){
                 log("f:$s : ${d.river.last.usv}");
-                s += "${d.name}  ${d.river.last.usv}\n";
+                s += "${d.name}  ${toDouble( d.river.last.usv).toStringAsFixed(2) }\n";
               }
           }
             if(s.isNotEmpty){

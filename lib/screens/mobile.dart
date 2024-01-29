@@ -5,6 +5,7 @@ import 'package:floodsystem/providers/imphalriverprovider.dart';
 import 'package:floodsystem/providers/irilprovider.dart';
 import 'package:floodsystem/providers/riverprovider.dart';
 import 'package:floodsystem/screens/mobile/details.dart';
+import 'package:floodsystem/screens/mobile/graphscreen.dart';
 import 'package:floodsystem/services/notifications.dart';
 import 'package:floodsystem/widgets/cards.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +21,9 @@ import '../widgets/dashboardcard.dart';
 
 class MobileScreen extends StatefulWidget {
   const MobileScreen({super.key,
-required this.onchanged});
-  final onchanged;
+// required this.onchanged
+});
+  // final onchanged;
   @override
   State<MobileScreen> createState() => _MobileScreenState();
 
@@ -92,7 +94,7 @@ class _MobileScreenState extends State<MobileScreen> {
                 // margin: EdgeInsets.all(8),
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                 
+                  
                   borderRadius: BorderRadius.circular(8)
                 ),
               
@@ -126,8 +128,8 @@ class _MobileScreenState extends State<MobileScreen> {
                         Text("Indicator",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),),
                         GestureDetector(
                           onTap: (){
-                            
-                            widget.onchanged(1);
+                            Navigator.pushNamed(context, GraphScreen.routename);
+                            // widget.onchanged(1);
                           },
                           child: Container(
                             padding: EdgeInsets.all(12),
@@ -218,7 +220,7 @@ class _MobileScreenState extends State<MobileScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(16.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -235,9 +237,9 @@ class _MobileScreenState extends State<MobileScreen> {
                             ],
                           ),
                         ),
-                          SizedBox(height: 30,),
+                          SizedBox(height: 10,),
                          CardsContainer(
-                          paddings: EdgeInsets.all(8),
+                          paddings: EdgeInsets.symmetric(vertical: 8,horizontal: 16),
                           cardcolor: Theme.of(context).colorScheme.secondary.withOpacity(0.2),
                            childs: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -245,19 +247,25 @@ class _MobileScreenState extends State<MobileScreen> {
                                Text(riverprovider.getnambulrivers[index].river.isEmpty?'No data':'${getDate(riverprovider.getnambulrivers[index].river.last.date)}\n${gethour(riverprovider.getnambulrivers[index].river.last.date)}',style: TextStyle(height: 1,fontSize: 12),),
                                                        SizedBox(height: 10,),
                                                        riverprovider.getnambulrivers[index].river.isEmpty?SizedBox():Row(
-                                
-                                
+                                           
                                 children:[
-                          
-                                   Column(children: [Text('Lev'),Text(toDouble(riverprovider.getnambulrivers[index].river.last.usv).toStringAsFixed(3),style: TextStyle(fontWeight: FontWeight.bold,color: Theme.of(context).colorScheme.secondary)),],),
+                                 
+                                   Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: 
+                                   [Text('Lev'),Text(toDouble(riverprovider.getnambulrivers[index].river.last.usv).toStringAsFixed(3),style: TextStyle(fontWeight: FontWeight.bold,color: Theme.of(context).colorScheme.secondary)),],),
                                    SizedBox(width: 20,),
                                    
-                                  Column(children: [Text('Humidity',),Text(toDouble(riverprovider.getnambulrivers[index].river.last.hv).toStringAsFixed(3),style: TextStyle(fontWeight: FontWeight.bold,color: Theme.of(context).colorScheme.secondary)),],),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [Text('Humidity',),Text(toDouble(riverprovider.getnambulrivers[index].river.last.hv).toStringAsFixed(3),style: TextStyle(fontWeight: FontWeight.bold,color: Theme.of(context).colorScheme.secondary)),],),
                                    SizedBox(width: 20,),
                                          
                                         
                                     
-                                 Column(children: [Text('Temp'),Text(toDouble(riverprovider.getnambulrivers[index].river.last.tv).toStringAsFixed(3),style: TextStyle(fontWeight: FontWeight.bold,color: Theme.of(context).colorScheme.secondary)),],),
+                                 Column(
+                                 crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [Text('Temp'),Text(toDouble(riverprovider.getnambulrivers[index].river.last.tv).toStringAsFixed(3),style: TextStyle(fontWeight: FontWeight.bold,color: Theme.of(context).colorScheme.secondary)),],),
                                    SizedBox(width: 20,),
                                          
                                          
