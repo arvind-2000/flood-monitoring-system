@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/river.dart';
 
-class NambulProvider with ChangeNotifier {
+class NambulProvider extends Logics with ChangeNotifier {
   List<RiverDetails> _riverlist = [];
   List<RiverDetails> _allriverlist = [];
   List<RiverDetails> _rivergraph = [];
@@ -35,8 +35,11 @@ class NambulProvider with ChangeNotifier {
   double get getThreshold => _threshold;
   int graphindex = 0;
   int isSensor = 0;
+  int tableFilters = 1;
 
-  // DateTime graphChooseDate = DateTime.now();
+  List<RiverDetails> _tablegraph = [];
+  List<RiverDetails> get tablegraph=>_tablegraph;
+
 
   List<River> _predictions = [];
   List<River> get getPredictions => _predictions;
@@ -119,7 +122,7 @@ class NambulProvider with ChangeNotifier {
   }
 
   Future<void> timer() async {
-    _scheduler = Timer.periodic(Duration(seconds: 5), (timer) {
+    _scheduler = Timer.periodic(Duration(seconds: 20), (timer) {
       print('In timer');
       getlatest();
       getdata();
@@ -141,7 +144,7 @@ class NambulProvider with ChangeNotifier {
       responsevalue = ser.responsecode;
 
       _riverlist = rivers;
-      print(responsevalue);
+      // print(responsevalue);
       isLoading = false;
       isSaved = true;
       indicator();
@@ -203,6 +206,42 @@ class NambulProvider with ChangeNotifier {
     });
     return i;
   }
+  
+    int getindexs(List<RiverDetails> des) {
+    int ind = 0;
+    int great= 0;
+     for(int i = 0;i<des.length;i++){
+          
+
+          if(des[i].river.length>great){
+            great = des[i].river.length;
+            ind = i;
+        }
+     }  
+    print("index of:${des[ind].name}");
+    return ind;
+  }
+
+  void settableFilter(int f,DateTime d){
+    tableFilters = f;
+    notifyListeners();  
+    tableFiltersFunc(d);
+  }
+
+
+  void tableFiltersFunc(DateTime d){
+      if(tableFilters==0){
+          _tablegraph =  getYear(allrivers);
+      }
+      else if(tableFilters == 1){
+        _tablegraph =  getMonths(allrivers,d);
+      }else if(tableFilters == 2){
+
+          _tablegraph = getDays(allrivers,d);
+      }
+
+    notifyListeners();
+  }
 
   void sort() {
     _riverfilters = _riverfilters
@@ -238,4 +277,19 @@ class NambulProvider with ChangeNotifier {
     });
     getprefs();
   }
+
+  String day(){
+    if(tableFilters == 0){
+      return "Year";
+    }
+    else if(tableFilters==1){
+      return "Months";
+    }
+    else{
+      return "Days";
+    }
+
+  }
+
+
 }

@@ -1,7 +1,4 @@
-
-
 import 'dart:developer';
-
 import 'package:floodsystem/const.dart';
 import 'package:floodsystem/models/riverdetails.dart';
 import 'package:floodsystem/providers/irilprovider.dart';
@@ -66,6 +63,97 @@ class Logics{
     prediction.add(riverpred);
   }
   return prediction;
+
+ }
+
+ List<RiverDetails> getYear(List<RiverDetails> riverdetails){
+  List<RiverDetails> riv = [];
+  
+
+  for(RiverDetails i in riverdetails){
+     int temp = 0;
+    List<River> tempo = [];
+    i.river.sort((a,b)=>b.date.compareTo(a.date));
+    tempo.add(i.river.first);
+    temp = i.river.first.date.year;
+    for(River k in i.river){
+      if(k.date.year != temp){
+        tempo.add(k);
+        temp = k.date.year;
+      }
+    }
+
+      riv.add(RiverDetails(id: i.id, name: i.name, river: tempo));
+  }
+
+    print(riverdetails.length);
+    return riv;
+
+
+ }
+
+
+ List<RiverDetails> getMonths(List<RiverDetails> riverdetails,DateTime dates){
+  List<RiverDetails> riv = [];
+  
+
+  for(RiverDetails i in riverdetails){
+     int temp = 0;
+    
+    List<River> tempo = [];
+    i.river.sort((a,b)=>b.date.compareTo(a.date));
+
+    for(River k in i.river){
+
+      if(k.date.year == dates.year){
+       
+        if(k.date.month!=temp){
+        temp = k.date.month;
+        tempo.add(k);
+        print('found');
+        }
+      
+        }
+    }
+
+      riv.add(RiverDetails(id: i.id, name: i.name, river: tempo));
+  }
+
+    print(riverdetails.length);
+    return riv;
+
+
+ }
+
+ List<RiverDetails> getDays(List<RiverDetails> riverdetails,DateTime dates){
+  List<RiverDetails> riv = [];
+  
+
+  for(RiverDetails i in riverdetails){
+     int temp = 0;
+    
+    List<River> tempo = [];
+    i.river.sort((a,b)=>b.date.compareTo(a.date));
+
+    for(River k in i.river){
+
+      if(k.date.year == dates.year && k.date.month==dates.month){
+       
+        if(k.date.day!=temp){
+        temp = k.date.day;
+        tempo.add(k);
+        print('found');
+        }
+      
+        }
+    }
+
+      riv.add(RiverDetails(id: i.id, name: i.name, river: tempo));
+  }
+
+    print(riverdetails.length);
+    return riv;
+
 
  }
 
