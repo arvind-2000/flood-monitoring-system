@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:developer';
+import 'dart:isolate';
 
 import 'package:floodsystem/const.dart';
 import 'package:floodsystem/models/riverdetails.dart';
@@ -14,6 +16,7 @@ class NambulProvider extends Logics with ChangeNotifier {
   List<RiverDetails> _allriverlist = [];
   List<RiverDetails> _rivergraph = [];
   List<RiverDetails> _riverfilters = [];
+  List<RiverDetails> _riverisolates = [];
   // RiverDetails _riverDetails = RiverDetails(id: '', name: '', river: []);
   List<RiverDetails> get getnambulrivers => _riverlist;
   List<RiverDetails> get allrivers => _allriverlist;
@@ -35,7 +38,7 @@ class NambulProvider extends Logics with ChangeNotifier {
   double get getThreshold => _threshold;
   int graphindex = 0;
   int isSensor = 0;
-  int tableFilters = 1;
+  int tableFilters = 0;
 
   List<RiverDetails> _tablegraph = [];
   List<RiverDetails> get tablegraph=>_tablegraph;
@@ -45,15 +48,12 @@ class NambulProvider extends Logics with ChangeNotifier {
   List<River> get getPredictions => _predictions;
   //get data
   Future<void> getdata() async {
+
+
     List<RiverDetails> rivers = [];
     List<RiverDetails> riversgrap = [];
-    // RiverDetails riverDetails = RiverDetails(id: '', name: '', river: []);
     Service ser = Service();
-    // List<String>  apis = [];
-    // for(String x in apicalls){
-    //   apis.add('$x${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}-');
-    // }
-    await ser.getdata(apicalls).then((value) {
+    await Isolate.run(() => ser.getdata(apicalls)).then((value) {
       rivers = value;
       responsevalue2 = ser.responsecode;
       _allriverlist = rivers;
@@ -65,15 +65,113 @@ class NambulProvider extends Logics with ChangeNotifier {
       indicator();
       notifyListeners();
     });
-
+    
     notifyListeners();
   }
 
-  // void graphChooseDates(DateTime d) {
-  //   graphChooseDate = d;
+
+  void setfromIsolates(List<RiverDetails> r,int res){
+    log('$res');
+    if(res==1){
+        responsevalue2 = res;
+        log('${r.length}');
+      _riverisolates = r;
+
+      // _predictions = Logics().predictions(_allriverlist);
+      // print("log: $_predictions");
+      rivergraphs();
+      // print(responsevalue);
+      isLoadingall = false;
+      indicator();
+      notifyListeners();
+
+    }
+    
+
+
+  }
+
+
+
+  void setAllfromIsolates(List<RiverDetails> r,int res){
+    log('$res');
+    if(res==1){
+        responsevalue2 = res;
+  
+     
+      filterData(0, DateTime.now());
+      settableFilter(0, DateTime.now());
+      isLoadingall = false;
+
+      notifyListeners();
+    }
+  }    
+  
+
+  void setAllRiverData(List<RiverDetails> r,int res){
+    log('$res');
+    if(res==1){
+        responsevalue2 = res;
+        log('${r.length}');
+      _allriverlist = r;
+      
+      _predictions = Logics().predictions(_allriverlist);
+      // print("log: $_predictions");
+      indicator();
+      // print(responsevalue);
+      rivergraphs();
+      filterData(0, DateTime.now());
+      settableFilter(0, DateTime.now());
+
+      isLoadingall = false;
+      notifyListeners();
+    }
+  }    
+  // Future<void> isolatesRun() async{
+  //     Service ser = Service();
+  //     ReceivePort receivePort = ReceivePort();
+
+  //     List<RiverDetails> rivers = [];
+
+
+  //     try {
+  // Isolate.spawn(_getDataIsolates,receivePort,
+  // errorsAreFatal: true,
+  // onError: receivePort.sendPort,
+  // onExit: receivePort.sendPort
+  // ); 
+
+
+
+  //   } on Exception catch (e) {
+      
+  // // TODO
+  //   }
+
+  //   final response = await receivePort.first;
+  //   try{
+  //     log('IN isolate try');
+  //   List<RiverDetails> river = response[0];
+  //   int responsecode = response[1];
+
+  //     rivers = river;
+  //     responsevalue2 = ser.responsecode;
+  //     _allriverlist = rivers;
+  //     _predictions = Logics().predictions(_allriverlist);
+  //     print("log: $_predictions");
+  //     rivergraphs();
+  //     // print(responsevalue);
+  //     isLoadingall = false;
+  //     indicator();
+  //     notifyListeners();
+
+  //   }catch(e){
+  //       log('Error in isolates');
+  //   }
+  
   //   notifyListeners();
-  //   monthyear(d);
   // }
+
 
   void setgraphindex(int index) {
     graphindex = index;
@@ -88,7 +186,7 @@ class NambulProvider extends Logics with ChangeNotifier {
     // graphChooseDates(graphChooseDate);
      print("index: $graphindex");
     // RiverDetails d =  RiverDetails(id: _allriverlist[graphindex].id, name: _allriverlist[graphindex].name, river: _allriverlist[graphindex].river.reversed.take(_allriverlist[graphindex].river.length>20?20:_allriverlist[graphindex].river.length).toList().reversed.toList());
-    RiverDetails d =  RiverDetails(id: _allriverlist[graphindex].id, name: _allriverlist[graphindex].name, river: _allriverlist[graphindex].river);
+    RiverDetails d =  RiverDetails(id: _riverisolates[graphindex].id, name: _riverisolates[graphindex].name, river: _riverisolates[graphindex].river);
     _rivergraph = [d];
     print("river graph: ${_rivergraph[0].river.length}");
     notifyListeners();
@@ -125,7 +223,7 @@ class NambulProvider extends Logics with ChangeNotifier {
     _scheduler = Timer.periodic(Duration(seconds: 20), (timer) {
       print('In timer');
       getlatest();
-      getdata();
+    //  isolatesRun();
     });
   }
 
@@ -293,3 +391,4 @@ class NambulProvider extends Logics with ChangeNotifier {
 
 
 }
+

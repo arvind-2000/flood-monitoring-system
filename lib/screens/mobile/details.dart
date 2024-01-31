@@ -40,10 +40,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
   Widget build(BuildContext context) {
     final prov = Provider.of<NambulProvider>(context).getnambulrivers;
     final prov2 = Provider.of<NambulProvider>(context);
-    
-    if(!prov2.isLoadingall){
-      prov2.getdata();
-    }
     final args = ModalRoute.of(context)!.settings.arguments as int;
     var textStyle = TextStyle(fontWeight: FontWeight.bold);
     var textStyle2 = TextStyle(fontWeight: FontWeight.bold,fontSize: 20);
@@ -57,7 +53,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
         title: Text("Info",style: TextStyle(fontSize: headersize),),
         backgroundColor: Theme.of(context).colorScheme.background,
        ),
-      body: SingleChildScrollView(
+      body: prov2.isLoadingall?Center(child: CircularProgressIndicator(),) :SingleChildScrollView(
         
         child: Container(
           color: Theme.of(context).colorScheme.background,

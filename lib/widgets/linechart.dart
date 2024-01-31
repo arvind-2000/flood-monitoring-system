@@ -32,10 +32,13 @@ class LineCharts extends StatelessWidget {
         child: Center(child: Text('No Data'),),
        ):SfCartesianChart(
           zoomPanBehavior: ZoomPanBehavior(
+
             enableMouseWheelZooming: true,
-          
+            enablePanning: true,
+            
+            // maximumZoomLevel: 1,  
             // enablePinching: true,
-              enablePinching: true,
+         
             zoomMode: ZoomMode.x,
             enableSelectionZooming: true
 
@@ -57,10 +60,14 @@ class LineCharts extends StatelessWidget {
             maximum:400,
           ),
         primaryXAxis: DateTimeAxis(
+                initialVisibleMinimum: DateTime(DateTime.now().year,DateTime.now().month,1),
+                interval:1,
                 dateFormat: DateFormat('d h:m:s'),
                 autoScrollingMode: AutoScrollingMode.end,
+                autoScrollingDelta: 20,
+                autoScrollingDeltaType: DateTimeIntervalType.hours,
           initialZoomPosition: 1,
-          initialZoomFactor: 0.01,
+          initialZoomFactor: 0.5,
          
           
                 

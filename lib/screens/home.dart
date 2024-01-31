@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'dart:isolate';
+
 import 'package:floodsystem/const.dart';
 import 'package:floodsystem/providers/imphalriverprovider.dart';
 import 'package:floodsystem/providers/irilprovider.dart';
@@ -7,9 +10,13 @@ import 'package:floodsystem/screens/mobile.dart';
 import 'package:floodsystem/screens/mobile/errorscreen.dart';
 import 'package:floodsystem/screens/mobile/graphscreen.dart';
 import 'package:floodsystem/screens/mobile/mobilesettings.dart';
+import 'package:floodsystem/services/services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
+
+import '../models/riverdetails.dart';
 
 class HomePage extends StatefulWidget {
   static const String routename = 'homescreen';
@@ -23,12 +30,14 @@ class _HomePageState extends State<HomePage> {
 
   PageController _controller = PageController(initialPage: 0,keepPage: true); 
   int _currentindex = 0;
-
+  RootIsolateToken? rootIsolateToken;
   @override
   void initState() {
     // TODO: implement initState
   WidgetsBinding.instance.addPostFrameCallback((timeStamp) { 
-
+    Provider.of<NambulProvider>(context,listen: false).isLoadingall= true;
+    rootIsolateToken = RootIsolateToken.instance!;
+    isolatesRun(rootIsolateToken);
     Provider.of<NambulProvider>(context,listen: false).timer();
     Provider.of<NambulProvider>(context,listen: false).getprefs();
   });
@@ -36,12 +45,38 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
+Future<void> isolatesRun(RootIsolateToken? rootIsolateToken) async {
+    ReceivePort receivePort = ReceivePort();
+
+    // List<RiverDetails> rivers = [];
+    await Isolate.spawn(getDataIsolatesHome,[receivePort.sendPort,rootIsolateToken]);
+    final response = await receivePort.first;
+     print("In listen isolates:${response[1]}");
+
+    try{
+      Provider.of<NambulProvider>(context,listen: false).setAllRiverData(response[0],response[1]);
+
+    }catch(e){
+      log('Error in isolates:${response[0].length}');
+    }
+  
+
+
+
+  }
+
+
+
+
   @override
   void dispose() {
     // TODO: implement dispose
     Provider.of<NambulProvider>(context,listen: false).destroy();
     super.dispose();
   }
+
+
+
 
   // final List<Widget> _navigationscreenlist =  [MobileScreen(onchanged: onSelectNavigation,),GraphScreen()];
   
@@ -146,3 +181,16 @@ onSelectNavigation(0);
     ):ErrorScreen();
   }
 }
+
+Future<void> getDataIsolatesHome(List args) async{
+  BackgroundIsolateBinaryMessenger.ensureInitialized(args[1]);
+  SendPort resultPort = args[0] as SendPort;
+  Service ser = Service();
+  List<RiverDetails> response = await ser.getdata(apicalls);
+
+
+
+  List<dynamic> d = [response, ser.responsecode];
+  Isolate.exit(resultPort, d);
+}
+

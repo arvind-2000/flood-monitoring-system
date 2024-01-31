@@ -22,6 +22,7 @@ class Tables extends StatelessWidget {
   Widget build(BuildContext context) {
     final prov2 = Provider.of<NambulProvider>(context);
     print("in tables${prov2.allrivers[args].river.length}");
+    prov2.allrivers[args].river.sort((a, b) => a.date.compareTo(b.date),);
     return CardsContainer(
       cardcolor: Theme.of(context).colorScheme.primary.withOpacity(0.5),
       
@@ -43,7 +44,7 @@ class Tables extends StatelessWidget {
               controller:_listcontroller,
               physics:const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              children: prov2.allrivers[args].river.asMap().entries.where((element) => element.value.date.year==DateTime.now().year).map((e) => Container(
+              children:   prov2.allrivers[args].river.asMap().entries.where((element) => element.value.date.year==DateTime.now().year).map((e) => Container(
             
                 padding: const EdgeInsets.all(8),
                 child:Row(
