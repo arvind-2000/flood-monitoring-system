@@ -39,9 +39,12 @@ class NambulProvider extends Logics with ChangeNotifier {
   int graphindex = 0;
   int isSensor = 0;
   int tableFilters = 0;
+  DateTime graphchooseDate = DateTime.now();
 
   List<RiverDetails> _tablegraph = [];
   List<RiverDetails> get tablegraph=>_tablegraph;
+
+  int tablesensor = 0;
 
 
   List<River> _predictions = [];
@@ -68,6 +71,9 @@ class NambulProvider extends Logics with ChangeNotifier {
     
     notifyListeners();
   }
+
+
+
 
 
   void setfromIsolates(List<RiverDetails> r,int res){
@@ -171,6 +177,11 @@ class NambulProvider extends Logics with ChangeNotifier {
   
   //   notifyListeners();
   // }
+
+void setTableSensor(int inde){
+  tablesensor = inde;
+ notifyListeners();
+}
 
 
   void setgraphindex(int index) {
@@ -328,6 +339,7 @@ class NambulProvider extends Logics with ChangeNotifier {
 
 
   void tableFiltersFunc(DateTime d){
+    graphchooseDate = d;
       if(tableFilters==0){
           _tablegraph =  getYear(allrivers);
       }

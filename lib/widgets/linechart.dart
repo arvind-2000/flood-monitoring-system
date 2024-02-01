@@ -61,8 +61,9 @@ class LineCharts extends StatelessWidget {
           ),
         primaryXAxis: DateTimeAxis(
                 initialVisibleMinimum: DateTime(DateTime.now().year,DateTime.now().month,1),
-                interval:1,
-                dateFormat: DateFormat('d h:m:s'),
+                interval:10,
+                dateFormat: DateFormat('d-m-y'),
+                 
                 autoScrollingMode: AutoScrollingMode.end,
                 autoScrollingDelta: 20,
                 autoScrollingDeltaType: DateTimeIntervalType.hours,

@@ -54,7 +54,7 @@ class GraphScreenReport extends StatelessWidget {
                    onpress();
               },
               child: Container(
-                color: Theme.of(context).colorScheme.secondary.withOpacity(e.key%2==0?0.2:0.3),
+                color: Theme.of(context).colorScheme.secondary.withOpacity(e.key==prov.graphindex?0.2:0.0),
                 padding: EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

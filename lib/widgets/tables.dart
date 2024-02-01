@@ -24,6 +24,7 @@ class Tables extends StatelessWidget {
     print("in tables${prov2.allrivers[args].river.length}");
     prov2.allrivers[args].river.sort((a, b) => a.date.compareTo(b.date),);
     return CardsContainer(
+      margins: EdgeInsets.only(left: 16,right: 16,bottom: 16),
       cardcolor: Theme.of(context).colorScheme.primary.withOpacity(0.5),
       
       childs: Column(

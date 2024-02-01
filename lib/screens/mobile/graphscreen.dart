@@ -7,6 +7,7 @@ import 'package:floodsystem/widgets/cards.dart';
 import 'package:floodsystem/widgets/graphreportscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 
 import '../../const.dart';
@@ -79,7 +80,7 @@ class _GraphScreenState extends State<GraphScreen> {
         controller: scrollController,
         child: Container(
           // margins: EdgeInsets.all(regularpadding),
-
+      
           child: Column(
             children: [
               Container(
@@ -136,9 +137,9 @@ class _GraphScreenState extends State<GraphScreen> {
                                 )
                                 .toList(),
                           )),
-
+      
                           //  Container(
-
+      
                           //    child: Row(
                           //     children: [
                           //           DropdownMenu(
@@ -153,29 +154,29 @@ class _GraphScreenState extends State<GraphScreen> {
                           //               prov.graphChooseDates(DateTime(prov.graphChooseDate.year,value!+1));
                           //             },
                           //             dropdownMenuEntries:months.asMap().entries.map((e) => DropdownMenuEntry(
-
+      
                           //               value: e.key, label: e.value)).toList()),
-
+      
                           //               DropdownMenu(
                           //           menuStyle: MenuStyle(
                           //             backgroundColor: MaterialStatePropertyAll(Theme.of(context).colorScheme.primary)
                           //           ),
                           //             enableFilter: true,
                           //             initialSelection:0,
-
+      
                           //              textStyle: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
                           //             onSelected: (value) {
                           //               prov.graphChooseDates(DateTime(value!,prov.graphChooseDate.month));
                           //             },
                           //             dropdownMenuEntries:List.generate(DateTime.now().year-2022, (index) => DropdownMenuEntry(
                           //               style: ButtonStyle(
-
+      
                           //               ),
                           //               // labelWidget: Text('${prov.graphChooseDate.year}'),
                           //               value:2023+index, label: '${2023+index}')).toList())
                           //               // SelectDay(text: 'Month'),
                           //               // SelectDay(text: 'Year'),
-
+      
                           //     ],
                           //    ),
                           //  )
