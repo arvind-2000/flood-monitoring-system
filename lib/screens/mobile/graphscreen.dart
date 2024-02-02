@@ -84,7 +84,7 @@ class _GraphScreenState extends State<GraphScreen> {
           child: Column(
             children: [
               Container(
-                height: 450,
+                height:450,
                 width: double.infinity,
                 padding: EdgeInsets.all(regularpadding),
                 margin: EdgeInsets.all(regularpadding),
@@ -102,7 +102,7 @@ class _GraphScreenState extends State<GraphScreen> {
                             flex: 5,
                             child: Container(
                               // padding: EdgeInsets.only(right: regularpadding,top: regularpadding,bottom: regularpadding),
-                              child: LineCharts(
+                              child: LineCharts(  
                                   isPinching: false, showcolorindicator: true),
                             ),
                           ),
@@ -183,6 +183,8 @@ class _GraphScreenState extends State<GraphScreen> {
                         ],
                       ),
               ),
+
+              prov.isLoadingall?SizedBox():
               GraphScreenReport(
                 onpress: scrollOntap,
               )

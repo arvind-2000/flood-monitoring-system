@@ -81,6 +81,7 @@ flutter:
     - assets/images/error.png
     - assets/images/logo.png
     - assets/images/rivers.png
+    - assets/images/riversense.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
@@ -111,3 +112,9 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_native_splash:
+  android: true
+  ios: true
+  web: false
+  color: "#ffffff"
+  image: "assets/images/riversense.png"

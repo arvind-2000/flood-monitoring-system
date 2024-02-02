@@ -41,7 +41,7 @@ class Tables extends StatelessWidget {
               ],
             ),
           ),
-            prov2.isLoadingall? Center(child: CircularProgressIndicator(color: Theme.of(context).colorScheme.secondary,)):args>=prov2.allrivers.length?SizedBox():ListView(
+            prov2.allrivers.isEmpty? Center(child: CircularProgressIndicator(color: Theme.of(context).colorScheme.secondary,)):args>=prov2.allrivers.length?SizedBox():ListView(
               controller:_listcontroller,
               physics:const NeverScrollableScrollPhysics(),
               shrinkWrap: true,

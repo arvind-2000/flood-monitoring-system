@@ -1,13 +1,11 @@
 import 'package:floodsystem/const.dart';
 
 import 'package:floodsystem/providers/riverprovider.dart';
-import 'package:floodsystem/widgets/cards.dart';
+
 import 'package:floodsystem/widgets/watercard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../../widgets/tables.dart';
@@ -47,7 +45,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
     return Scaffold(
       // floatingActionButton: FloatingActionButton(onPressed: (){
 
-          body: prov2.isLoadingall?Center(child: CircularProgressIndicator(),):Animate(
+          body: prov2.allrivers.isEmpty?Center(child: CircularProgressIndicator(),):Animate(
             effects: [FadeEffect()],
             child: CustomScrollView(
               slivers: [
@@ -70,9 +68,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                          
                           Positioned.fill(child: Image.asset('assets/images/rivers.png',fit: BoxFit.cover,filterQuality: FilterQuality.medium)),
                            Container(     decoration: BoxDecoration(
-                        gradient: LinearGradient(colors: [Colors.blue.withOpacity(0.1),Theme.of(context).colorScheme.background],
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter                      )
+                        gradient: LinearGradient(colors: [Theme.of(context).colorScheme.background,Colors.blue.withOpacity(0.2),Theme.of(context).colorScheme.background],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomLeft                       )
             
                       ),),
                         ],
@@ -171,7 +169,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                         Text(toDouble(prov[args].river.last.usv).toStringAsFixed(2),style: textStyle2,),
                                       ],
                                     ),
-                                  ),
+                                  ).animate().shimmer(duration: Duration(seconds: 2)),
                                 ),
                                 SizedBox(width: 20,),
                                 Expanded(
@@ -185,7 +183,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                         Text(toDouble(prov[args].river.last.hv).toStringAsFixed(2),style: textStyle2,),
                                       ],
                                     ),
-                                  ),
+                                  ).animate().shimmer(duration: Duration(seconds: 2)),
                                 ),
                                  SizedBox(width: 20,),
                                 Expanded(
@@ -199,7 +197,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                         Text(toDouble(prov[args].river.last.tv).toStringAsFixed(2),style: textStyle2,),
                                       ],
                                     ),
-                                  ),
+                                  ).animate().shimmer(duration: Duration(seconds: 2)),
                                 ),
                                 // ElevatedButton(onPressed:()=>showNotification( notificationsPlugin: flutterLocalNotificationsPlugin,title: appname, body: 'Water Level Raised'), child: Text('notifications'))
                               ],

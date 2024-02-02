@@ -49,6 +49,8 @@ class NambulProvider extends Logics with ChangeNotifier {
 
   List<River> _predictions = [];
   List<River> get getPredictions => _predictions;
+
+
   //get data
   Future<void> getdata() async {
 
@@ -77,6 +79,7 @@ class NambulProvider extends Logics with ChangeNotifier {
 
 
   void setfromIsolates(List<RiverDetails> r,int res){
+    print('In isolate call');
     log('$res');
     if(res==1){
         responsevalue2 = res;
@@ -87,30 +90,33 @@ class NambulProvider extends Logics with ChangeNotifier {
       // print("log: $_predictions");
       rivergraphs();
       // print(responsevalue);
-      isLoadingall = false;
+
       indicator();
       notifyListeners();
 
     }
     
-
+      isLoadingall = false;
 
   }
 
 
 
   void setAllfromIsolates(List<RiverDetails> r,int res){
+    print('in isolate all call');
     log('$res');
     if(res==1){
         responsevalue2 = res;
-  
+
      
       filterData(0, DateTime.now());
       settableFilter(0, DateTime.now());
-      isLoadingall = false;
+
 
       notifyListeners();
     }
+          isLoadingall = false;
+          notifyListeners();
   }    
   
 
@@ -129,54 +135,12 @@ class NambulProvider extends Logics with ChangeNotifier {
       filterData(0, DateTime.now());
       settableFilter(0, DateTime.now());
 
-      isLoadingall = false;
       notifyListeners();
     }
+    
+      isLoadingall = false;
+            notifyListeners();
   }    
-  // Future<void> isolatesRun() async{
-  //     Service ser = Service();
-  //     ReceivePort receivePort = ReceivePort();
-
-  //     List<RiverDetails> rivers = [];
-
-
-  //     try {
-  // Isolate.spawn(_getDataIsolates,receivePort,
-  // errorsAreFatal: true,
-  // onError: receivePort.sendPort,
-  // onExit: receivePort.sendPort
-  // ); 
-
-
-
-  //   } on Exception catch (e) {
-      
-  // // TODO
-  //   }
-
-  //   final response = await receivePort.first;
-  //   try{
-  //     log('IN isolate try');
-  //   List<RiverDetails> river = response[0];
-  //   int responsecode = response[1];
-
-  //     rivers = river;
-  //     responsevalue2 = ser.responsecode;
-  //     _allriverlist = rivers;
-  //     _predictions = Logics().predictions(_allriverlist);
-  //     print("log: $_predictions");
-  //     rivergraphs();
-  //     // print(responsevalue);
-  //     isLoadingall = false;
-  //     indicator();
-  //     notifyListeners();
-
-  //   }catch(e){
-  //       log('Error in isolates');
-  //   }
-  
-  //   notifyListeners();
-  // }
 
 void setTableSensor(int inde){
   tablesensor = inde;
@@ -327,7 +291,7 @@ void setTableSensor(int inde){
             ind = i;
         }
      }  
-    print("index of:${des[ind].name}");
+    // print("index of:${des[ind].name}");
     return ind;
   }
 

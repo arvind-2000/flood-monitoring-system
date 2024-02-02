@@ -20,29 +20,27 @@ class IndicatorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final prov = Provider.of<NambulProvider>(context);
-    return Animate(
-      effects: [SlideEffect(duration: Duration(seconds:1),begin: Offset(0,0.5)),FadeEffect(duration: Duration(seconds: 1))],
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 8),
-            padding: EdgeInsets.all(8),
-            alignment: Alignment.bottomCenter,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(16),topRight: Radius.circular(16)),
-              color: color,
-              gradient: LinearGradient(colors: [value>=prov.getThreshold?Theme.of(context).colorScheme.error:Theme.of(context).colorScheme.secondary,Theme.of(context).colorScheme.primary.withOpacity(0.1)],begin: Alignment.topCenter,end: Alignment.bottomCenter)
-            ), 
-           
-            height:value>=200?200:value),
-            
-             Text(textAlign: TextAlign.center,"${text.split(' ')[0]}\n${value.toStringAsFixed(2)}",style: TextStyle(
-              fontWeight: FontWeight.bold,
-              wordSpacing: 0.2,color: Theme.of(context).colorScheme.onSurface),),
-        ],
-      ),
-    );
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        AnimatedContainer(
+          duration: Duration(milliseconds: 500),
+          margin: EdgeInsets.symmetric(horizontal: 8),
+          padding: EdgeInsets.all(8),
+          alignment: Alignment.bottomCenter,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(16),topRight: Radius.circular(16)),
+            color: color,
+            gradient: LinearGradient(colors: [value>=prov.getThreshold?Theme.of(context).colorScheme.error:Theme.of(context).colorScheme.secondary,Theme.of(context).colorScheme.primary.withOpacity(0.1)],begin: Alignment.topCenter,end: Alignment.bottomCenter)
+          ), 
+         
+          height:value>=200?200:value),
+          
+           Text(textAlign: TextAlign.center,"${text.split(' ')[0]}\n${value.toStringAsFixed(2)}",style: TextStyle(
+            fontWeight: FontWeight.bold,
+            wordSpacing: 0.2,color: Theme.of(context).colorScheme.onSurface),),
+      ],
+    ).animate().slide(duration: Duration(seconds:1),begin: Offset(0,0.5)).fade(duration: Duration(seconds: 1)).then().shimmer(duration: Duration(seconds: 1));
       
   }
 }

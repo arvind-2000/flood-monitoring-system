@@ -5,6 +5,7 @@ import 'package:floodsystem/models/riverdetails.dart';
 import 'package:floodsystem/providers/riverprovider.dart';
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -12,7 +13,7 @@ import 'package:syncfusion_flutter_charts/charts.dart';
 
 
 
-class LineCharts extends StatelessWidget {
+class LineCharts extends StatefulWidget {
   LineCharts({
     super.key,
     required this.isPinching,
@@ -24,10 +25,20 @@ class LineCharts extends StatelessWidget {
   final bool showcolorindicator;
 
   @override
+  State<LineCharts> createState() => _LineChartsState();
+}
+
+class _LineChartsState extends State<LineCharts> {
+  int val = 20;
+
+
+  @override
   Widget build(BuildContext context) {
     final prov = Provider.of<NambulProvider>(context);
     return Stack(
       children: [
+        
+
       prov.rivergraph[0].river.isEmpty?const SizedBox(
         child: Center(child: Text('No Data'),),
        ):SfCartesianChart(
@@ -61,20 +72,53 @@ class LineCharts extends StatelessWidget {
           ),
         primaryXAxis: DateTimeAxis(
                 initialVisibleMinimum: DateTime(DateTime.now().year,DateTime.now().month,1),
-                interval:10,
+                interval:20,
                 dateFormat: DateFormat('d-m-y'),
                  
-                autoScrollingMode: AutoScrollingMode.end,
-                autoScrollingDelta: 20,
+                autoScrollingMode:AutoScrollingMode.end,
+                autoScrollingDelta: val,
                 autoScrollingDeltaType: DateTimeIntervalType.hours,
           initialZoomPosition: 1,
-          initialZoomFactor: 0.5,
+          initialZoomFactor: 0.2,
          
           
                 
         ),
         series: prov.rivergraph.asMap().entries.map((e) => linecharts(e.value, e.key,Theme.of(context).colorScheme.secondary,prov)).toList(),
        ),
+       Positioned(
+            right: 0,
+            top: 0,
+          child: Row(
+            children:[
+              IconButton(onPressed: (){
+                    setState(() {
+                      if(val<=20)
+                    {
+                      val = 20;
+                    }
+                      else{
+                        val = val - 20;
+                      }
+                    });
+
+                
+              }, icon: FaIcon(FontAwesomeIcons.plus,size: 20,)),
+              IconButton(onPressed: (){
+                  setState(() {
+                           if(val>=100)
+                    {
+                      val = 100;
+                    }
+                      else{
+                        val = val + 20;
+                      }
+                  });
+
+              }, icon: FaIcon(FontAwesomeIcons.minus,size: 16,),hoverColor: Theme.of(context).colorScheme.secondary,),
+            ]
+          ),
+        ),
       //  LineChart(
       //     LineChartData(
       //           maxY: 300,
