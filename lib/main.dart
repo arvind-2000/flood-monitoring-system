@@ -19,7 +19,7 @@ void main() async{
 //     if(value){
 //       Permission.notification.request();
 //     }
-    
+     
 //   },);
 //   await initializeService();
 // } on Exception catch (e) {

@@ -57,7 +57,7 @@ class _MobileScreenState extends State<MobileScreen> {
 
     try {
       Provider.of<NambulProvider>(context, listen: false)
-          .setAllRiverData(response[0], response[1]);
+          .setAllfromIsolates(response[0], response[1]);
     } catch (e) {
       log('Error in isolates:${response[0].length}   ');
     }

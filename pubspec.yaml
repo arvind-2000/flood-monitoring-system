@@ -95,10 +95,10 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: NotoSans
+    - family: Montserrat
       fonts:
-        - asset: fonts/NotoSans_Condensed-Bold.ttf
-        - asset: fonts/NotoSans_Condensed-Regular.ttf
+        - asset: fonts/Montserrat-Bold.ttf
+        - asset: fonts/Montserrat-Regular.ttf
     - family: Poppins
       fonts:
         - asset: fonts/Poppins-Regular.ttf

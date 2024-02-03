@@ -58,12 +58,12 @@ class _GraphScreenState extends State<GraphScreen> {
 
   }
 
-  void scrollOntap() {
-    setState(() {
-      scrollController.animateTo(scrollController.position.minScrollExtent,
-          duration: Duration(milliseconds: 400), curve: Curves.easeIn);
-    });
-  }
+  // void scrollOntap() {
+  //   setState(() {
+  //     // scrollController.animateTo(scrollController.position.minScrollExtent,
+  //     //     duration: Duration(milliseconds: 400), curve: Curves.easeIn);
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +91,7 @@ class _GraphScreenState extends State<GraphScreen> {
                 decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.primary,
                     borderRadius: BorderRadius.circular(8)),
-                child: prov.isLoadingall
+                child: prov.rivergraph.isEmpty
                     ? Center(
                         child: CircularProgressIndicator(
                         color: Theme.of(context).colorScheme.secondary,
@@ -115,10 +115,10 @@ class _GraphScreenState extends State<GraphScreen> {
                                 .map(
                                   (e) => InkWell(
                                       onTap: () {
-                                        scrollOntap();
-                                        setState(() {
+                                        // scrollOntap();
+                                    
                                           prov.changesensor(e.key);
-                                        });
+                                 
                                       },
                                       child: CardsContainer(
                                         childs: Text(
@@ -179,14 +179,14 @@ class _GraphScreenState extends State<GraphScreen> {
       
                           //     ],
                           //    ),
-                          //  )
+                          //  ) 
                         ],
                       ),
               ),
 
               prov.isLoadingall?SizedBox():
               GraphScreenReport(
-                onpress: scrollOntap,
+                // onpress: scrollOntap,
               )
             ],
           ),

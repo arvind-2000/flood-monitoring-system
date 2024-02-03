@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:floodsystem/const.dart';
 import 'package:floodsystem/providers/riverprovider.dart';
@@ -21,12 +22,20 @@ class MobileSettings extends StatefulWidget {
 }
 
 class _MobileSettingsState extends State<MobileSettings> {
+
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   bool _checkThresholdfield = false;
   bool isSaved = false;
   final TextEditingController _thresholdfield = TextEditingController();
   void checkthreshold() {
+    
     setState(() {
+
+
+      if(!_checkThresholdfield){
+        setprefs(double.parse(_thresholdfield.text));
+      }
+
       _checkThresholdfield = !_checkThresholdfield;
       // if(_checkThresholdfield){
       //   _checkThresholdfield = false;
@@ -38,6 +47,7 @@ class _MobileSettingsState extends State<MobileSettings> {
   void initState() {
     // TODO: implement initState
     Provider.of<NambulProvider>(context,listen: false).getprefs();
+
     super.initState();
   }
   void setprefs(double? d) async{
@@ -153,7 +163,7 @@ class _MobileSettingsState extends State<MobileSettings> {
             ),
           ),
 
-          CardsContainer(
+         Platform.isAndroid?CardsContainer(
             
             childs: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -185,8 +195,8 @@ class _MobileSettingsState extends State<MobileSettings> {
 
             ],
           ),  margins: EdgeInsets.all(16),
-            paddings: EdgeInsets.all(8),
-            cardcolor: Theme.of(context).colorScheme.primary,),
+            paddings: EdgeInsets.all(16),
+            cardcolor: Theme.of(context).colorScheme.primary,):SizedBox(),
 
           // ElevatedButton(
           //   onPressed: () {

@@ -10,9 +10,9 @@ import '../const.dart';
 class GraphScreenReport extends StatelessWidget {
   const GraphScreenReport({
     super.key,
-    required this.onpress
+    // required this.onpress
   });
-  final Function onpress;
+  // final Function onpress;
   @override
   Widget build(BuildContext context) {
     final prov = Provider.of<NambulProvider>(context);
@@ -52,7 +52,7 @@ class GraphScreenReport extends StatelessWidget {
               onTap: (){
                
                   prov.setgraphindex(e.key);
-                   onpress();
+                  //  onpress();
               },
               child: Container(
                 color: Theme.of(context).colorScheme.secondary.withOpacity(e.key==prov.graphindex?0.2:0.0),

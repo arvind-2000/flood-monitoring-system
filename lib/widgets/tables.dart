@@ -53,16 +53,18 @@ class Tables extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children:[
                 Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center ,
-                    
-                    children: [
-                      Text('${getDate(e.value.date)}',style: TextStyle(fontSize:12,fontWeight: FontWeight.bold),),
-                    
-                      Text('${gethour(e.value.date)}',style: TextStyle(fontSize:12,),),
-                   
-                    ],
+                  child: Center(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center ,
+                      
+                      children: [
+                        Text('${getDate(e.value.date)}',style: TextStyle(fontSize:12,fontWeight: FontWeight.bold),),
+                      
+                        Text('${gethour(e.value.date)}',style: TextStyle(fontSize:12,),),
+                     
+                      ],
+                    ),
                   ),
                 ),
                 Expanded(

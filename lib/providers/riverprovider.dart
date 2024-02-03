@@ -90,7 +90,8 @@ class NambulProvider extends Logics with ChangeNotifier {
       // print("log: $_predictions");
       rivergraphs();
       // print(responsevalue);
-
+      filterData(0, DateTime.now());
+      settableFilter(0, DateTime.now());
       indicator();
       notifyListeners();
 
@@ -107,7 +108,9 @@ class NambulProvider extends Logics with ChangeNotifier {
     log('$res');
     if(res==1){
         responsevalue2 = res;
-
+      
+        _allriverlist = r;
+      _predictions = Logics().predictions(_allriverlist);
      
       filterData(0, DateTime.now());
       settableFilter(0, DateTime.now());
@@ -163,7 +166,7 @@ void setTableSensor(int inde){
     // RiverDetails d =  RiverDetails(id: _allriverlist[graphindex].id, name: _allriverlist[graphindex].name, river: _allriverlist[graphindex].river.reversed.take(_allriverlist[graphindex].river.length>20?20:_allriverlist[graphindex].river.length).toList().reversed.toList());
     RiverDetails d =  RiverDetails(id: _riverisolates[graphindex].id, name: _riverisolates[graphindex].name, river: _riverisolates[graphindex].river);
     _rivergraph = [d];
-    print("river graph: ${_rivergraph[0].river.length}");
+    print("river graph: ${_rivergraph[0].name}");
     notifyListeners();
   }
 
