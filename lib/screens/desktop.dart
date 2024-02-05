@@ -91,8 +91,18 @@ class _DesktopScreenState extends State<DesktopScreen> {
                   ),
                 ),
               ),),
-          
-                  Expanded(child: IndicatorCardWidget(riverprovider: prov, cardwidth: 400)),
+              SizedBox(height: 10,),  
+                  Expanded(child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        child: IndicatorCardWidget(riverprovider: prov, cardwidth: 400),
+                      ),
+                      SizedBox(width: 20,),
+                      Expanded(child: RiverListHome(riverprovider: prov,showlist: false,))
+                    ],
+                  )),
                   
                 ],
       ),

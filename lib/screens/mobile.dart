@@ -151,163 +151,7 @@ class _MobileScreenState extends State<MobileScreen> {
               SizedBox(
                 height: 60,
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  return CardsContainer(
-                      cardcolor: Theme.of(context).colorScheme.primary,
-                      // paddings: EdgeInsets.all(16),
-                      margins: EdgeInsets.symmetric(vertical: 8),
-                      childs: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  riverprovider.getnambulrivers[index].name
-                                      .replaceFirst(' ', '\n'),
-                                  style: TextStyle(
-                                      height: 1,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 20),
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.pushNamed(
-                                        context, DetailsScreen.routename,
-                                        arguments: index);
-                                  },
-                                  child: CardsContainer(
-                                    paddings: EdgeInsets.all(16),
-                                    childs: FaIcon(
-                                      FontAwesomeIcons.arrowRight,
-                                      size: 16,
-                                      color: Colors.white,
-                                    ),
-                                    cardcolor:
-                                        Theme.of(context).colorScheme.secondary,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          CardsContainer(
-                            paddings: EdgeInsets.symmetric(
-                                vertical: 8, horizontal: 16),
-                            cardcolor: Theme.of(context)
-                                .colorScheme
-                                .secondary
-                                .withOpacity(0.2),
-                            childs: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  riverprovider
-                                          .getnambulrivers[index].river.isEmpty
-                                      ? 'No data'
-                                      : '${getDate(riverprovider.getnambulrivers[index].river.last.date)}\n${gethour(riverprovider.getnambulrivers[index].river.last.date)}',
-                                  style: TextStyle(height: 1, fontSize: 12),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                riverprovider
-                                        .getnambulrivers[index].river.isEmpty
-                                    ? SizedBox()
-                                    : Row(
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text('Lev'),
-                                              Text(
-                                                  toDouble(riverprovider
-                                                          .getnambulrivers[
-                                                              index]
-                                                          .river
-                                                          .last
-                                                          .usv)
-                                                      .toStringAsFixed(2)+levelunit,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .secondary)),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            width: 20,
-                                          ),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'Humidity',
-                                              ),
-                                              Text(
-                                                  toDouble(riverprovider
-                                                          .getnambulrivers[
-                                                              index]
-                                                          .river
-                                                          .last
-                                                          .hv)
-                                                      .toStringAsFixed(2)+humiditylevel,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .secondary)),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            width: 20,
-                                          ),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text('Temp'),
-                                              Text(
-                                                  toDouble(riverprovider
-                                                          .getnambulrivers[
-                                                              index]
-                                                          .river
-                                                          .last
-                                                          .tv)
-                                                      .toStringAsFixed(2)+templevel,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      color: Theme.of(context)
-                                                          .colorScheme
-                                                          .secondary)),
-                                            ],
-                                          ),
-                                          SizedBox(
-                                            width: 20,
-                                          ),
-                                        ],
-                                      ),
-                              ],
-                            ),
-                          )
-                        ],
-                      ));
-                },
-                itemCount: riverprovider.getnambulrivers.length,
-              ),
+              RiverListHome(riverprovider: riverprovider),
             ],
           ),
         ),
@@ -328,6 +172,177 @@ class _MobileScreenState extends State<MobileScreen> {
             xValueMapper: (d, x) => e.name,
             yValueMapper: (r, v) => double.parse(r.usv)))
         .toList();
+  }
+}
+
+class RiverListHome extends StatelessWidget {
+  const RiverListHome({
+    super.key,
+    required this.riverprovider,
+    this.showlist = true
+  });
+  final showlist;
+  final NambulProvider riverprovider;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      shrinkWrap: true,
+      physics: NeverScrollableScrollPhysics(),
+      itemBuilder: (context, index) {
+        return CardsContainer(
+            cardcolor: Theme.of(context).colorScheme.primary,
+            // paddings: EdgeInsets.all(16),
+            margins: EdgeInsets.symmetric(vertical: 8),
+            childs: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        riverprovider.getnambulrivers[index].name
+                            .replaceFirst(' ', '\n'),
+                        style: TextStyle(
+                            height: 1,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                              context, DetailsScreen.routename,
+                              arguments: index);
+                        },
+                        child: CardsContainer(
+                          paddings: EdgeInsets.all(16),
+                          childs: FaIcon(
+                            FontAwesomeIcons.arrowRight,
+                            size: 16,
+                            color: Colors.white,
+                          ),
+                          cardcolor:
+                              Theme.of(context).colorScheme.secondary,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                CardsContainer(
+                  paddings: EdgeInsets.symmetric(
+                      vertical: 8, horizontal: 16),
+                  cardcolor: Theme.of(context)
+                      .colorScheme
+                      .secondary
+                      .withOpacity(0.2),
+                  childs: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        riverprovider
+                                .getnambulrivers[index].river.isEmpty
+                            ? 'No data'
+                            : '${getDate(riverprovider.getnambulrivers[index].river.last.date)}\n${gethour(riverprovider.getnambulrivers[index].river.last.date)}',
+                        style: TextStyle(height: 1, fontSize: 12),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      riverprovider
+                              .getnambulrivers[index].river.isEmpty && !showlist
+                          ? SizedBox()
+                          : Row(
+                              children: [
+                                Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Lev'),
+                                    Text(
+                                        toDouble(riverprovider
+                                                .getnambulrivers[
+                                                    index]
+                                                .river
+                                                .last
+                                                .usv)
+                                            .toStringAsFixed(2)+levelunit,
+                                        style: TextStyle(
+                                            fontWeight:
+                                                FontWeight.bold,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary)),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Humidity',
+                                    ),
+                                    Text(
+                                        toDouble(riverprovider
+                                                .getnambulrivers[
+                                                    index]
+                                                .river
+                                                .last
+                                                .hv)
+                                            .toStringAsFixed(2)+humiditylevel,
+                                        style: TextStyle(
+                                            fontWeight:
+                                                FontWeight.bold,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary)),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                                Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: [
+                                    Text('Temp'),
+                                    Text(
+                                        toDouble(riverprovider
+                                                .getnambulrivers[
+                                                    index]
+                                                .river
+                                                .last
+                                                .tv)
+                                            .toStringAsFixed(2)+templevel,
+                                        style: TextStyle(
+                                            fontWeight:
+                                                FontWeight.bold,
+                                            color: Theme.of(context)
+                                                .colorScheme
+                                                .secondary)),
+                                  ],
+                                ),
+                                SizedBox(
+                                  width: 20,
+                                ),
+                              ],
+                            ),
+                    ],
+                  ),
+                )
+              ],
+            ));
+      },
+      itemCount: riverprovider.getnambulrivers.length,
+    );
   }
 }
 
