@@ -28,13 +28,14 @@ class _MobileSettingsState extends State<MobileSettings> {
   bool isSaved = false;
   final TextEditingController _thresholdfield = TextEditingController();
   void checkthreshold() {
+          if(_checkThresholdfield){
+        setprefs(double.parse(_thresholdfield.text));
+      }
+
     
     setState(() {
 
 
-      if(!_checkThresholdfield){
-        setprefs(double.parse(_thresholdfield.text));
-      }
 
       _checkThresholdfield = !_checkThresholdfield;
       // if(_checkThresholdfield){

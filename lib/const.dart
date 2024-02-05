@@ -21,6 +21,12 @@ const double regularpadding = 16;
 const double radius = 16;
 const threshold  = 60;
 const normalbanner = 'Normal';
+
+const levelunit = "ft";
+const humiditylevel = "%";
+const templevel = "°C";
+ 
+
 const Map<int,String> graphIntervals = {0:'latest',1:'1D',2:'1M',3:'1Y'};
 List<String> sensorslist = ['Levels','Humidity','Temp'];
 List<Color?> rivercolors = [Colors.blue.withOpacity(0.5),Colors.brown.withOpacity(0.5),Colors.greenAccent.withOpacity(0.5)];

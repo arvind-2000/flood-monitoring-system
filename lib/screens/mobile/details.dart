@@ -82,75 +82,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   
                 ),
             
-                    // prov2.isLoadingall?Center(child: CircularProgressIndicator(),) :Container(
-                    //   color: Theme.of(context).colorScheme.background,
-                    //   padding: EdgeInsets.all(regularpadding),
-                    //   child: Column(
-                    //     crossAxisAlignment: CrossAxisAlignment.start,
-                    //   children: [
-                    //     Text(prov[args].name.replaceFirst(' ', '\n'),style: TextStyle(fontWeight: FontWeight.bold,fontSize: headersize),),
-                    //     SizedBox(height: 20,),
-                    //     prov[args].river.isEmpty?Text('No information',style: textStyle,):
-                    //     Container(
-                    //       child:Row(
-                    //         crossAxisAlignment: CrossAxisAlignment.start,
-                    //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //         children: [
-                    //           Expanded(
-                    //             child: WaterCard(
-                    //               colors:Theme.of(context).colorScheme.secondary.withOpacity(0.3),
-                    //               child: Column(
-                    //                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //                 children: [
-                    //                   Text('USV',style: textStyle,),
-                    //                   SizedBox(height: 20,),
-                    //                   Text(toDouble(prov[args].river.last.usv).toStringAsFixed(2),style: textStyle2,),
-                    //                 ],
-                    //               ),
-                    //             ),
-                    //           ),
-                    //           SizedBox(width: 20,),
-                    //           Expanded(
-                    //             child: WaterCard(
-                    //               colors:Theme.of(context).colorScheme.secondary.withOpacity(0.3),
-                    //               child: Column(
-                    //                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //                 children: [
-                    //                   Text('HV',style: textStyle,),
-                    //                   SizedBox(height: 20,),
-                    //                   Text(toDouble(prov[args].river.last.hv).toStringAsFixed(2),style: textStyle2,),
-                    //                 ],
-                    //               ),
-                    //             ),
-                    //           ),
-                    //            SizedBox(width: 20,),
-                    //           Expanded(
-                    //             child: WaterCard(
-                    //              colors:Theme.of(context).colorScheme.secondary.withOpacity(0.3),
-                    //               child: Column(
-                    //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //                 children: [
-                    //                   Text('TV',style: textStyle,),
-                    //                   SizedBox(height: 20,),
-                    //                   Text(toDouble(prov[args].river.last.tv).toStringAsFixed(2),style: textStyle2,),
-                    //                 ],
-                    //               ),
-                    //             ),
-                    //           ),
-                    //           // ElevatedButton(onPressed:()=>showNotification( notificationsPlugin: flutterLocalNotificationsPlugin,title: appname, body: 'Water Level Raised'), child: Text('notifications'))
-                    //         ],
-                    //       ),
-                    //     ),
-                    //     SizedBox(height: 40,),
-                    
-                    //     Tables( args: args, listcontroller: _listcontroller),
-                    
-                    
-                    
-                    //   ],
-                    //   ),
-                      
-                    // ),
                     SliverToBoxAdapter(
                       child: Container(
                         padding: EdgeInsets.all(16),
@@ -166,7 +97,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                       children: [
                                         Text('USV',style: textStyle,),
                                         SizedBox(height: 20,),
-                                        Text(toDouble(prov[args].river.last.usv).toStringAsFixed(2),style: textStyle2,),
+                                        Text("${toDouble(prov[args].river.last.usv).toStringAsFixed(0)} $levelunit",style: textStyle2,),
                                       ],
                                     ),
                                   ).animate().shimmer(duration: Duration(seconds: 2)),
@@ -180,7 +111,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                       children: [
                                         Text('HV',style: textStyle,),
                                         SizedBox(height: 20,),
-                                        Text(toDouble(prov[args].river.last.hv).toStringAsFixed(2),style: textStyle2,),
+                                        Text("${toDouble(prov[args].river.last.hv).toStringAsFixed(0)} $humiditylevel",style: textStyle2,),
                                       ],
                                     ),
                                   ).animate().shimmer(duration: Duration(seconds: 2)),
@@ -194,7 +125,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                       children: [
                                         Text('TV',style: textStyle,),
                                         SizedBox(height: 20,),
-                                        Text(toDouble(prov[args].river.last.tv).toStringAsFixed(2),style: textStyle2,),
+                                        Text("${toDouble(prov[args].river.last.tv).toStringAsFixed(0)} $templevel",style: textStyle2,),
                                       ],
                                     ),
                                   ).animate().shimmer(duration: Duration(seconds: 2)),

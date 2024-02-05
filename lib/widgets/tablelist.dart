@@ -48,7 +48,7 @@ class TableList extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         
                         children: [
-                        Text(toDouble(prov.tablesensor==0?e.usv:prov.tablesensor==1?e.hv:e.tv).toStringAsFixed(2)),
+                        Text(prov.tablesensor==0?'${toDouble(e.usv).toStringAsFixed(0)} $levelunit':prov.tablesensor==1?'${toDouble(e.hv).toStringAsFixed(0)} $humiditylevel':'${toDouble(e.tv).toStringAsFixed(0)} $templevel'),
                       
                                           ]),
 

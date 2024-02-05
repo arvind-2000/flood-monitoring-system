@@ -38,7 +38,8 @@ class GraphScreenReport extends StatelessWidget {
                             //   Text('Table',style: TextStyle(fontSize: 16,color: Colors.white),),
                             // SizedBox(width: 10,),
                             IconButton(onPressed: (){
-                              Navigator.pushNamed(context, TableScreen.routename);
+                              Future.delayed(Duration(milliseconds: 500)).then((value) =>    Navigator.pushNamed(context, TableScreen.routename));
+                          
                             },icon: FaIcon(FontAwesomeIcons.arrowRight,size: 16,color: Theme.of(context).colorScheme.secondary,))],
                           
                 
@@ -68,9 +69,9 @@ class GraphScreenReport extends StatelessWidget {
                        child: Row(
                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                          children: [
-                           Text('${toDouble(e.value.river.last.usv).toStringAsFixed(2)}'),
-                           Text('${toDouble(e.value.river.last.hv).toStringAsFixed(2)}'),    
-                           Text('${toDouble(e.value.river.last.tv).toStringAsFixed(2)}'),
+                           Text('${toDouble(e.value.river.last.usv).toStringAsFixed(0)}$levelunit'),
+                           Text('${toDouble(e.value.river.last.hv).toStringAsFixed(0)}$humiditylevel'),    
+                           Text('${toDouble(e.value.river.last.tv).toStringAsFixed(0)}$templevel'),
                          ],
                        ),
                      )

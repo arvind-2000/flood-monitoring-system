@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:io';
 import 'dart:isolate';
 import 'package:floodsystem/const.dart';
 import 'package:floodsystem/models/riverdetails.dart';
@@ -36,12 +37,18 @@ class _MobileScreenState extends State<MobileScreen> {
       FlutterLocalNotificationsPlugin();
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
-  RootIsolateToken? rootIsolateToken;
+ 
 
   @override
   void initState() {
-    rootIsolateToken = RootIsolateToken.instance!;
+
+    if(Platform.isAndroid){
+       RootIsolateToken? rootIsolateToken;
+     rootIsolateToken = RootIsolateToken.instance!;
     isolatesRun(rootIsolateToken);
+
+    }
+  
     // TODO: implement initState
     super.initState();
   }
@@ -126,7 +133,7 @@ class _MobileScreenState extends State<MobileScreen> {
                                     Text(e.name,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold)),
-                                    Text(e.usv,
+                                    Text(e.usv+levelunit,
                                         style: TextStyle(
                                             fontWeight: FontWeight.bold)),
                                   ],
@@ -140,162 +147,7 @@ class _MobileScreenState extends State<MobileScreen> {
               SizedBox(
                 height: 20,
               ),
-              CardsContainer(
-                cardcolor:
-                    Theme.of(context).colorScheme.primary.withOpacity(0.3),
-                childs: Container(
-                  height: 380,
-                  width: double.infinity,
-                  // margin: EdgeInsets.all(8),
-                  padding: EdgeInsets.all(16),
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(8)),
-
-                  // child: SfCartesianChart(
-                  //     // zoomPanBehavior: ZoomPanBehavior(enablePinching: true,enablePanning: true),
-                  //     plotAreaBorderWidth: 0,
-                  //     borderWidth:0,
-                  //     enableAxisAnimation: true,
-                  //     primaryXAxis: const CategoryAxis(
-                  //       borderWidth: 0,
-
-                  //       majorGridLines: MajorGridLines(width: 0),
-                  //     ),
-                  //     primaryYAxis: NumericAxis(
-                  //       isVisible:true,
-
-                  //       majorGridLines: MajorGridLines(width: 0),
-                  //       borderWidth: 0,
-                  //     ),
-                  //   series:_getColumnSeries(riverprovider.getnambulrivers,riverprovider),
-                  // ),
-
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Indicator",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                  context, GraphScreen.routename);
-                              // widget.onchanged(1);
-                            },
-                            child: Container(
-                              padding: EdgeInsets.all(12),
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(16),
-                                  color:
-                                      Theme.of(context).colorScheme.secondary),
-                              child: Row(
-                                children: [
-                                  Text(
-                                    'Charts',
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.white),
-                                  ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  FaIcon(
-                                    FontAwesomeIcons.arrowRight,
-                                    size: 16,
-                                    color: Colors.white,
-                                  )
-                                ],
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Expanded(
-                        child: Stack(
-                          children: [
-                            Container(
-                                height: 250,
-                                width: double.infinity,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: riverprovider.getnambulrivers
-                                      .map(
-                                        (e) =>
-                                            // Expanded(child: IndicatorCard(value: 100,heights: 300,color: Colors.amber,text:'fhjdhfj',)),
-                                            Expanded(
-                                                child: IndicatorCard(
-                                          value: e.river.length > 0
-                                              ? toDouble(e.river.last.usv)
-                                              : 0,
-                                          heights: 300,
-                                          color: Colors.amber,
-                                          text: e.name,
-                                        )),
-                                      )
-                                      .toList(),
-                                )),
-
-                            //  Positioned(
-                            //   bottom: riverprovider.getThreshold>200?200:riverprovider.getThreshold<0?10:riverprovider.getThreshold,
-
-                            //   child: Container(height: 2,width: MediaQuery.of(context).size.width,
-                            //   decoration: BoxDecoration(
-                            //           color: Theme.of(context).colorScheme.error,
-
-                            //   ),
-                            //   )),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              children: [
-                                FaIcon(
-                                  FontAwesomeIcons.circle,
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  size: 13,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text("Normal")
-                              ],
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Row(
-                              children: [
-                                FaIcon(
-                                  FontAwesomeIcons.circle,
-                                  color: Theme.of(context).colorScheme.error,
-                                  size: 13,
-                                ),
-                                SizedBox(
-                                  width: 10,
-                                ),
-                                Text("Danger")
-                              ],
-                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
+              IndicatorCardWidget(riverprovider: riverprovider,cardwidth: double.infinity,),
               SizedBox(
                 height: 60,
               ),
@@ -384,7 +236,7 @@ class _MobileScreenState extends State<MobileScreen> {
                                                           .river
                                                           .last
                                                           .usv)
-                                                      .toStringAsFixed(3),
+                                                      .toStringAsFixed(2)+levelunit,
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
@@ -410,7 +262,7 @@ class _MobileScreenState extends State<MobileScreen> {
                                                           .river
                                                           .last
                                                           .hv)
-                                                      .toStringAsFixed(3),
+                                                      .toStringAsFixed(2)+humiditylevel,
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
@@ -434,7 +286,7 @@ class _MobileScreenState extends State<MobileScreen> {
                                                           .river
                                                           .last
                                                           .tv)
-                                                      .toStringAsFixed(3),
+                                                      .toStringAsFixed(2)+templevel,
                                                   style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
@@ -476,6 +328,176 @@ class _MobileScreenState extends State<MobileScreen> {
             xValueMapper: (d, x) => e.name,
             yValueMapper: (r, v) => double.parse(r.usv)))
         .toList();
+  }
+}
+
+class IndicatorCardWidget extends StatelessWidget {
+  const IndicatorCardWidget({
+    super.key,
+    required this.riverprovider,
+    required this.cardwidth
+  });
+
+  final NambulProvider riverprovider;
+  final double cardwidth;
+  @override
+  Widget build(BuildContext context) {
+    return CardsContainer(
+      cardcolor:
+          Theme.of(context).colorScheme.primary.withOpacity(0.3),
+      childs: Container(
+        height: 380,
+        width: cardwidth,
+        // margin: EdgeInsets.all(8),
+        padding: EdgeInsets.all(16),
+        decoration:
+            BoxDecoration(borderRadius: BorderRadius.circular(8)),
+    
+        // child: SfCartesianChart(
+        //     // zoomPanBehavior: ZoomPanBehavior(enablePinching: true,enablePanning: true),
+        //     plotAreaBorderWidth: 0,
+        //     borderWidth:0,
+        //     enableAxisAnimation: true,
+        //     primaryXAxis: const CategoryAxis(
+        //       borderWidth: 0,
+    
+        //       majorGridLines: MajorGridLines(width: 0),
+        //     ),
+        //     primaryYAxis: NumericAxis(
+        //       isVisible:true,
+    
+        //       majorGridLines: MajorGridLines(width: 0),
+        //       borderWidth: 0,
+        //     ),
+        //   series:_getColumnSeries(riverprovider.getnambulrivers,riverprovider),
+        // ),
+    
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Indicator",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 20),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(
+                        context, GraphScreen.routename);
+                    // widget.onchanged(1);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color:
+                            Theme.of(context).colorScheme.secondary),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Charts',
+                          style: TextStyle(
+                              fontSize: 16, color: Colors.white),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        FaIcon(
+                          FontAwesomeIcons.arrowRight,
+                          size: 16,
+                          color: Colors.white,
+                        )
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Expanded(
+              child: Stack(
+                children: [
+                  Container(
+                      height: 250,
+                      width: double.infinity,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: riverprovider.getnambulrivers
+                            .map(
+                              (e) =>
+                                  // Expanded(child: IndicatorCard(value: 100,heights: 300,color: Colors.amber,text:'fhjdhfj',)),
+                                  Expanded(
+                                      child: IndicatorCard(
+                                value: e.river.length > 0
+                                    ? toDouble(e.river.last.usv)
+                                    : 0,
+                                heights: 300,
+                                color: Colors.amber,
+                                text: e.name,
+                              )),
+                            )
+                            .toList(),
+                      )),
+    
+                  //  Positioned(
+                  //   bottom: riverprovider.getThreshold>200?200:riverprovider.getThreshold<0?10:riverprovider.getThreshold,
+    
+                  //   child: Container(height: 2,width: MediaQuery.of(context).size.width,
+                  //   decoration: BoxDecoration(
+                  //           color: Theme.of(context).colorScheme.error,
+    
+                  //   ),
+                  //   )),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      FaIcon(
+                        FontAwesomeIcons.circle,
+                        color:
+                            Theme.of(context).colorScheme.secondary,
+                        size: 13,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text("Normal")
+                    ],
+                  ),
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Row(
+                    children: [
+                      FaIcon(
+                        FontAwesomeIcons.circle,
+                        color: Theme.of(context).colorScheme.error,
+                        size: 13,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text("Danger")
+                    ],
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
 

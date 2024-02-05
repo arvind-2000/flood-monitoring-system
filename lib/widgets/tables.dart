@@ -35,9 +35,9 @@ class Tables extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(child: Text("Date/time",textAlign: TextAlign.center,)),
-                Expanded(child: Text("Water\nLevel",textAlign: TextAlign.center,)),
-                Expanded(child: Text("humidity",textAlign: TextAlign.center,)),
-                Expanded(child: Text("Temp",textAlign: TextAlign.center,)),
+                Expanded(child: Text("Water\nLevel\n$levelunit",textAlign: TextAlign.center,)),
+                Expanded(child: Text("humidity\n$humiditylevel",textAlign: TextAlign.center,)),
+                Expanded(child: Text("Temp\n$templevel",textAlign: TextAlign.center,)),
               ],
             ),
           ),

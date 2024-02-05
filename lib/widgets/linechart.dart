@@ -68,13 +68,17 @@ class _LineChartsState extends State<LineCharts> {
           enableAxisAnimation: true,
           isTransposed: prov.setgraph,
           primaryYAxis: NumericAxis(
+          
+            
             maximum:400,
           ),
         primaryXAxis: DateTimeAxis(
                 initialVisibleMinimum: DateTime(DateTime.now().year,DateTime.now().month,1),
                 interval:20,
                 dateFormat: DateFormat('d-m-y'),
-                 
+                title: AxisTitle(
+                  text: "Time"
+                ),
                 autoScrollingMode:AutoScrollingMode.end,
                 autoScrollingDelta: val,
                 autoScrollingDeltaType: DateTimeIntervalType.hours,
@@ -89,34 +93,43 @@ class _LineChartsState extends State<LineCharts> {
        Positioned(
             right: 0,
             top: 0,
-          child: Row(
-            children:[
-              IconButton(onPressed: (){
-                    setState(() {
-                      if(val<=20)
-                    {
-                      val = 20;
-                    }
-                      else{
-                        val = val - 20;
-                      }
-                    });
-
-                
-              }, icon: FaIcon(FontAwesomeIcons.plus,size: 20,)),
-              IconButton(onPressed: (){
-                  setState(() {
-                           if(val>=100)
-                    {
-                      val = 100;
-                    }
-                      else{
-                        val = val + 20;
-                      }
-                  });
-
-              }, icon: FaIcon(FontAwesomeIcons.minus,size: 16,),hoverColor: Theme.of(context).colorScheme.secondary,),
-            ]
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Row(
+                children:[
+                  IconButton(onPressed: (){
+                        setState(() {
+                          if(val<=20)
+                        {
+                          val = 20;
+                        }
+                          else{
+                            val = val - 20;
+                          }
+                        });
+              
+                    
+                  }, icon: FaIcon(FontAwesomeIcons.plus,size: 20,)),
+                  IconButton(onPressed: (){
+                      setState(() {
+                               if(val>=100)
+                        {
+                          val = 100;
+                        }
+                          else{
+                            val = val + 20;
+                          }
+                      });
+              
+                  }, icon: FaIcon(FontAwesomeIcons.minus,size: 16,),hoverColor: Theme.of(context).colorScheme.secondary,),
+                ]
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Text(prov.isSensor==0?levelunit:prov.isSensor==1?humiditylevel:templevel),
+              )
+            ],
           ),
         ),
       //  LineChart(

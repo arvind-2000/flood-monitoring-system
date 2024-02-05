@@ -62,6 +62,7 @@ class NambulProvider extends Logics with ChangeNotifier {
       rivers = value;
       responsevalue2 = ser.responsecode;
       _allriverlist = rivers;
+      _riverisolates =getDays(_allriverlist, graphchooseDate);
       _predictions = Logics().predictions(_allriverlist);
       print("log: $_predictions");
       rivergraphs();

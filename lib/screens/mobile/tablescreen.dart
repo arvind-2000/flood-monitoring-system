@@ -10,8 +10,6 @@ import 'package:provider/provider.dart';
 import '../../widgets/cards.dart';
 import '../../widgets/tablelist.dart';
 
-import 'package:quiver/time.dart';
-
 class TableScreen extends StatefulWidget {
   const TableScreen({super.key});
   static const String routename = "Tablescreen";
@@ -393,28 +391,11 @@ class _TableScreenState extends State<TableScreen> {
                                         .map((e) => Padding(
                                               padding: const EdgeInsets.symmetric(
                                                   vertical: 16, horizontal: 8),
-                                              child: InkWell(
-                                                hoverColor: Theme.of(context)
-                                                    .colorScheme
-                                                    .secondary,
-                                                onTap: () {
-                                                  prov.tableFilters == 0
-                                                      ? prov.settableFilter(
-                                                          1, DateTime(e.date.year))
-                                                      : prov.tableFilters == 1
-                                                          ? prov.settableFilter(
-                                                              2,
-                                                              DateTime(e.date.year,
-                                                                  e.date.month))
-                                                          : prov.settableFilter(
-                                                              0, DateTime.now());
-                                                },
-                                                child: Container(
-                                                    width: double.infinity,
-                                                    alignment: Alignment.center,
-                                                    child: Text(
-                                                        '${prov.tableFilters == 0 ? e.date.year : prov.tableFilters == 1 ? months[e.date.month - 1] : e.date.day}')),
-                                              ),
+                                              child: Container(
+                                                  width: double.infinity,
+                                                  alignment: Alignment.center,
+                                                  child: Text(
+                                                      '${prov.tableFilters == 0 ? e.date.year : prov.tableFilters == 1 ? months[e.date.month - 1] : e.date.day}')),
                                             ))
                                   ],
                                 ),
