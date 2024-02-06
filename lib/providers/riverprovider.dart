@@ -7,6 +7,7 @@ import 'package:floodsystem/models/riverdetails.dart';
 import 'package:floodsystem/providers/logics.dart';
 import 'package:floodsystem/services/services.dart';
 import 'package:flutter/material.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/river.dart';
@@ -40,7 +41,7 @@ class NambulProvider extends Logics with ChangeNotifier {
   int isSensor = 0;
   int tableFilters = 0;
   DateTime graphchooseDate = DateTime.now();
-
+  bool _istabonnotification = true;
   List<RiverDetails> _tablegraph = [];
   List<RiverDetails> get tablegraph=>_tablegraph;
 
@@ -58,11 +59,11 @@ class NambulProvider extends Logics with ChangeNotifier {
     List<RiverDetails> rivers = [];
     List<RiverDetails> riversgrap = [];
     Service ser = Service();
-    await Isolate.run(() => ser.getdata(apicalls)).then((value) {
+    ser.getdata(apicalls).then((value) {
       rivers = value;
       responsevalue2 = ser.responsecode;
       _allriverlist = rivers;
-      _riverisolates =getDays(_allriverlist, graphchooseDate);
+      _riverisolates =getDays(_allriverlist,DateTime(2024));
       _predictions = Logics().predictions(_allriverlist);
       print("log: $_predictions");
       rivergraphs();
@@ -368,6 +369,7 @@ void setTableSensor(int inde){
     }
 
   }
+
 
 
 }

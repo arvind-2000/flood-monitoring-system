@@ -1,9 +1,14 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:isolate';
 import 'package:floodsystem/const.dart';
 import 'package:floodsystem/models/riverdetails.dart';
+import 'package:floodsystem/providers/riverprovider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
+import 'package:flutter_background_service_android/flutter_background_service_android.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 import '../models/river.dart';
 
@@ -88,4 +93,7 @@ class Service{
      
 
     }
+
+
+
 }

@@ -93,7 +93,7 @@ class _HomePageState extends State<HomePage> {
     return (!prov.isLoading && prov.responsevalue == 1) || prov.isSaved
         ? WillPopScope(
             onWillPop: _onWillPop,
-            child: AdvancedDrawer(
+            child:  AdvancedDrawer(
 
               controller: _advancedController,
                backdrop: Container(
@@ -107,73 +107,69 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
-
-
            drawer: SafeArea(
         child: Container(
           child: ListTileTheme(
             textColor: Colors.white,
             iconColor: Colors.white,
-            child: Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Container(
-                    width: 128.0,
-                    height: 128.0,
-                    margin: const EdgeInsets.only(
-                      top: 24.0,
-                      bottom: 64.0,
-                    ),
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(
-                      color: Colors.black26,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Image.asset(
-                      'assets/images/logo.png',
-                    ),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Container(
+                  width: 128.0,
+                  height: 128.0,
+                  margin: const EdgeInsets.only(
+                    top: 24.0,
+                    bottom: 64.0,
                   ),
-                  Expanded(
-                    child: ListView(
-                      shrinkWrap: true,
-                      children: [
-                        ListTile(
-                          onTap: () {
-                          _advancedController.hideDrawer();
-                          },
-                          leading: Icon(Icons.home),
-                          title: Text('Home'),
-                        ),
-                        ListTile(
-                          onTap: () {
-                                    Navigator.pushNamed(context,GraphScreen.routename);
-                          },
-                          leading: FaIcon(FontAwesomeIcons.chartLine),
-                          title: Text('Charts'),
-                        ),
-                        ListTile(
-                          onTap: () {
-                            Navigator.pushNamed(context,TableScreen.routename);
-                          },
-                          leading: FaIcon(FontAwesomeIcons.table),
-                          title: Text('Tables'),
-                        ),
-                        ListTile(
-                          onTap: () {
-                                      
-                              Navigator.pushNamed(context,MobileSettings.routename);
-                          },
-                          leading: Icon(Icons.settings),
-                          title: Text('Settings'),
-                        ),
-                        Spacer(),
-      
-                      ],
-                    ),
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    color: Colors.black26,
+                    shape: BoxShape.circle,
                   ),
-                ],
-              ),
+                  child: Image.asset(
+                    'assets/images/logo.png',
+                  ),
+                ),
+               Expanded(
+                 child: Column(
+                   
+                    children: [
+                      ListTile(
+                        onTap: () {
+                        _advancedController.hideDrawer();
+                        },
+                        leading: Icon(Icons.home),
+                        title: Text('Home'),
+                      ),
+                      ListTile(
+                        onTap: () {
+                                  Navigator.pushNamed(context,GraphScreen.routename);
+                        },
+                        leading: FaIcon(FontAwesomeIcons.chartLine),
+                        title: Text('Charts'),
+                      ),
+                      ListTile(
+                        onTap: () {
+                          Navigator.pushNamed(context,TableScreen.routename);
+                        },
+                        leading: FaIcon(FontAwesomeIcons.table),
+                        title: Text('Tables'),
+                      ),
+                      ListTile(
+                        onTap: () {
+                                    
+                            Navigator.pushNamed(context,MobileSettings.routename);
+                        },
+                        leading: Icon(Icons.settings),
+                        title: Text('Settings'),
+                      ),
+                      Spacer(),
+                  
+                    ],
+                  ),
+               ),
+              ],
             ),
           ),
         ),

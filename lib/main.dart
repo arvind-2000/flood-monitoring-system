@@ -7,7 +7,6 @@ import 'package:floodsystem/screens/mobile/details.dart';
 import 'package:floodsystem/screens/mobile/graphscreen.dart';
 import 'package:floodsystem/screens/mobile/mobilesettings.dart';
 import 'package:floodsystem/screens/mobile/tablescreen.dart';
-import 'package:floodsystem/services/backgroundservice.dart';
 import 'package:floodsystem/themes/darkthemes.dart';
 import 'package:floodsystem/themes/lighttheme.dart';
 import 'package:flutter/material.dart';
@@ -15,11 +14,13 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 import 'const.dart';
+import 'services/backgroundservice.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
     
      if (Platform.isAndroid) {
+    
   try {
      await Permission.notification.isDenied.then((value){
       if(value){

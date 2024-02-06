@@ -11,8 +11,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../services/backgroundservice.dart';
-
 class MobileSettings extends StatefulWidget {
   const MobileSettings({super.key});
   static const String routename = 'Settings';

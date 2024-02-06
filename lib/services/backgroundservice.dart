@@ -5,6 +5,7 @@ import 'dart:developer';
 import 'dart:ui';
 import 'package:floodsystem/models/riverdetails.dart';
 import 'package:floodsystem/providers/riverprovider.dart';
+import 'package:floodsystem/services/notifications.dart';
 import 'package:floodsystem/services/services.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_background_service_android/flutter_background_service_android.dart';
@@ -65,14 +66,21 @@ void onStart(ServiceInstance service) async{
           //check flood levels
 
           for(RiverDetails d in _prov.getnambulrivers){
-              if(toDouble(d.river.last.usv)>=_prov.getThreshold){
+              if(toDouble(d.river.last.usv)>=200){
                 log("f:$s : ${d.river.last.usv}");
                 s += "${d.name}  ${toDouble( d.river.last.usv).toStringAsFixed(2) }\n";
+                   showNotification(notificationsPlugin: _flutterLocalNotificationsPlugin, title: "Flood Level Critical", body: 'Water level raised:\n$s');
               }
+
+              
           }
             if(s.isNotEmpty){
-              d = 'Water level raised:\n $s';
-             // showNotification(notificationsPlugin: _flutterLocalNotificationsPlugin, title: "Flood Level Critical", body: 'Water level raised:\n$s');
+              d = 'Water level raised:\n Water Level Critical';
+              showNotification(notificationsPlugin: _flutterLocalNotificationsPlugin, title: "Flood Level Critical", body: 'Water level raised:\n$s'); 
+          
+            }else{
+            
+              d = "All water level normal";
             }
           
       }catch(e){

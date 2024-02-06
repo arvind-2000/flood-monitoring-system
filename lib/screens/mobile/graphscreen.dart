@@ -1,13 +1,14 @@
 import 'dart:developer';
+import 'dart:io';
 import 'dart:isolate';
-import 'dart:ui';
+
 
 import 'package:floodsystem/providers/riverprovider.dart';
 import 'package:floodsystem/widgets/cards.dart';
 import 'package:floodsystem/widgets/graphreportscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_animate/flutter_animate.dart';
+
 import 'package:provider/provider.dart';
 
 import '../../const.dart';
@@ -24,15 +25,18 @@ class GraphScreen extends StatefulWidget {
 
 class _GraphScreenState extends State<GraphScreen> {
   ScrollController scrollController = new ScrollController();
-  RootIsolateToken? rootIsolateToken ;
   @override
   void initState() {
-    // TODO: implement initState
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+
+      if (Platform.isAndroid) {
+      RootIsolateToken? rootIsolateToken ;
       rootIsolateToken= RootIsolateToken.instance!;
       isolatesRun(rootIsolateToken);
-      // Provider.of<NambulProvider>(context,listen: false).isolatesRun();
-    });
+}
+
+  WidgetsBinding.instance.addPostFrameCallback((timeStamp) { 
+    Provider.of<NambulProvider>(context,listen: false).getdata();
+  });
 
     super.initState();
   }

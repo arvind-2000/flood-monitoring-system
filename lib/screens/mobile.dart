@@ -7,7 +7,6 @@ import 'package:floodsystem/models/riverdetails.dart';
 import 'package:floodsystem/providers/riverprovider.dart';
 import 'package:floodsystem/screens/mobile/details.dart';
 import 'package:floodsystem/screens/mobile/graphscreen.dart';
-import 'package:floodsystem/services/notifications.dart';
 import 'package:floodsystem/widgets/cards.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +17,7 @@ import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../models/river.dart';
+import '../services/notifications.dart';
 import '../widgets/Indicatorcard.dart';
 
 import '../services/services.dart';
@@ -48,6 +48,10 @@ class _MobileScreenState extends State<MobileScreen> {
     isolatesRun(rootIsolateToken);
 
     }
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) { 
+    //   Provider.of<NambulProvider>(context,listen: false).getdata();
+
+    // });
   
     // TODO: implement initState
     super.initState();
@@ -396,7 +400,7 @@ class IndicatorCardWidget extends StatelessWidget {
                 Text(
                   "Indicator",
                   style: TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 20),
+                       fontSize: 20),
                 ),
                 GestureDetector(
                   onTap: () {
