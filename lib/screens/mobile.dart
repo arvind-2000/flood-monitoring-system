@@ -212,8 +212,8 @@ class RiverListHome extends StatelessWidget {
                             .replaceFirst(' ', '\n'),
                         style: TextStyle(
                             height: 1,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
+                            
+                            fontSize: 16),
                       ),
                       GestureDetector(
                         onTap: () {
@@ -238,7 +238,7 @@ class RiverListHome extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                CardsContainer(
+               !showlist? SizedBox():CardsContainer(
                   paddings: EdgeInsets.symmetric(
                       vertical: 8, horizontal: 16),
                   cardcolor: Theme.of(context)
@@ -259,7 +259,7 @@ class RiverListHome extends StatelessWidget {
                         height: 10,
                       ),
                       riverprovider
-                              .getnambulrivers[index].river.isEmpty && !showlist
+                              .getnambulrivers[index].river.isEmpty
                           ? SizedBox()
                           : Row(
                               children: [

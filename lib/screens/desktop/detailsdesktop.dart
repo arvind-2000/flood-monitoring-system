@@ -1,11 +1,9 @@
 import 'package:floodsystem/const.dart';
 
 import 'package:floodsystem/providers/riverprovider.dart';
-import 'package:floodsystem/screens/desktop/detailsdesktop.dart';
 
 import 'package:floodsystem/widgets/watercard.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
@@ -14,17 +12,17 @@ import '../../widgets/tables.dart';
 
 
 
-class DetailsScreen extends StatefulWidget {
-  static const String routename = 'DetailsScreen';
-  const DetailsScreen({super.key,
+class DetailsDesktop extends StatefulWidget {
+  static const String routename = 'DetailsScreenRoute';
+  const DetailsDesktop({super.key,
 
   });
 
   @override
-  State<DetailsScreen> createState() => _DetailsScreenState();
+  State<DetailsDesktop> createState() => _DetailsDesktopState();
 }
 
-class _DetailsScreenState extends State<DetailsScreen> {
+class _DetailsDesktopState extends State<DetailsDesktop> {
     final ScrollController _listcontroller = ScrollController();
    final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
@@ -44,50 +42,39 @@ class _DetailsScreenState extends State<DetailsScreen> {
     final args = ModalRoute.of(context)!.settings.arguments as int;
     var textStyle = TextStyle(fontWeight: FontWeight.bold);
     var textStyle2 = TextStyle(fontWeight: FontWeight.bold,fontSize: 20);
-    return LayoutBuilder(
-      builder: (context,constraints) {
-        return constraints.maxWidth>500?DetailsDesktop() :Scaffold(
-          // floatingActionButton: FloatingActionButton(onPressed: (){
-        
-              body: prov2.allrivers.isEmpty?Center(child: CircularProgressIndicator(),):Animate(
-                effects: [FadeEffect()],
-                child: CustomScrollView(
-                  slivers: [
-                    SliverAppBar(
-                      expandedHeight: 300,
-                      floating: true,
-                      pinned: true,
-                      collapsedHeight: 56,
-                        toolbarHeight: 56,
-                          title: Text(prov[args].name,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20,wordSpacing: 8,letterSpacing: 4),),
-                      flexibleSpace: FlexibleSpaceBar(
-                  collapseMode: CollapseMode.parallax,
-                 
-                               
-                        background:prov[args].river.isEmpty?Text('No information',style: textStyle,): Container(
-                      
-                     
-                          child: Stack(
-                            children: [
-                             
-                              Positioned.fill(child: Image.asset('assets/images/rivers.png',fit: BoxFit.cover,filterQuality: FilterQuality.medium)),
-                               Container(     decoration: BoxDecoration(
-                            gradient: LinearGradient(colors: [Theme.of(context).colorScheme.background,Colors.blue.withOpacity(0.2),Theme.of(context).colorScheme.background],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomLeft                       )
-                
-                          ),),
-                            ],
-                          ),
-                        ),
+    return Scaffold(
+      appBar: AppBar(
+        title:   Text(prov2.getnambulrivers[args].name),
+      ),
+      // floatingActionButton: FloatingActionButton(onPressed: (){
+
+          body: prov2.allrivers.isEmpty?Center(child: CircularProgressIndicator(),):Animate(
+            effects: [FadeEffect()],
+            child: SingleChildScrollView(
+           
+              child:Container(
+                padding: EdgeInsets.all(30),
+                child: Column(
+                  children: [
+                    // Container(
                         
-                      ),
-                  
-                      
-                    ),
-                
-                        SliverToBoxAdapter(
-                          child: Container(
+                       
+                    //         child: Stack(
+                    //           children: [
+                               
+                    //             Positioned.fill(child: Image.asset('assets/images/rivers.png',fit: BoxFit.cover,filterQuality: FilterQuality.medium)),
+                    //              Container(     decoration: BoxDecoration(
+                    //           gradient: LinearGradient(colors: [Theme.of(context).colorScheme.background,Colors.blue.withOpacity(0.2),Theme.of(context).colorScheme.background],
+                    //           begin: Alignment.topLeft,
+                    //           end: Alignment.bottomLeft                       )
+                                
+                    //         ),),
+                    //           ],
+                    //         ),
+                    //       ),
+                        
+                                
+                          Container(
                             padding: EdgeInsets.all(16),
                             child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -138,23 +125,23 @@ class _DetailsScreenState extends State<DetailsScreen> {
                                   ],
                                 ),
                           ),
-                        ),
-                        SliverToBoxAdapter(
-                
-                          child:Tables( args: args, listcontroller: _listcontroller),
-                        )
+                         
+                                
+                     Tables( args: args, listcontroller: _listcontroller),
                   ],
                 ),
               ),
-            
-          // },child: FaIcon(FontAwesomeIcons.arrowUpFromWaterPump)),
-          // backgroundColor: Theme.of(context).colorScheme.background,
-          //   title: Text("Info",style: TextStyle(fontSize: headersize),),
-          // appBar: AppBar(
-          //   backgroundColor: Theme.of(context).colorScheme.background,
-          //  ),
-        );
-      }
+                    
+              
+            ),
+          ),
+        
+      // },child: FaIcon(FontAwesomeIcons.arrowUpFromWaterPump)),
+      // backgroundColor: Theme.of(context).colorScheme.background,
+      //   title: Text("Info",style: TextStyle(fontSize: headersize),),
+      // appBar: AppBar(
+      //   backgroundColor: Theme.of(context).colorScheme.background,
+      //  ),
     );
   }
 

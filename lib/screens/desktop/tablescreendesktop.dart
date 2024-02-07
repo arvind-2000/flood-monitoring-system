@@ -62,9 +62,8 @@ class _TableScreenState extends State<TableScreen> {
                       height: 420,
                       width: double.infinity,
                       color: Theme.of(context).colorScheme.primary,
-                      child: ListView(
-                        shrinkWrap: true,
-                        // crossAxisAlignment: CrossAxisAlignment.start,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -185,8 +184,7 @@ class _TableScreenState extends State<TableScreen> {
                           prov.tableFilters == 1
                               ? Animate(
                                   effects: [FadeEffect()],
-                                  child: Container(
-                                    height: 60,
+                                  child: Expanded(
                                     child: ListView(
                                         shrinkWrap: true,
                                         scrollDirection: Axis.horizontal,
@@ -222,11 +220,9 @@ class _TableScreenState extends State<TableScreen> {
                               : prov.tableFilters == 2
                                   ? Animate(
                                       effects: [FadeEffect()],
-                                      child: Container(
-                                        height: 60,
+                                      child: Expanded(
                                         child: ListView(
                                             shrinkWrap: true,
-                                            
                                             scrollDirection: Axis.horizontal,
                                             children: List.generate(
                                                 12,
@@ -266,81 +262,84 @@ class _TableScreenState extends State<TableScreen> {
                             height: 10,
                           ),
                         
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 8),
-                                child: Text('Levels',style: TextStyle(fontWeight: FontWeight.bold),),
-                              ),
-                              SizedBox(height: 5,),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 8),
-                                child: Row(
-                                  children: [
-                                    GestureDetector(
-                                      onTap: () {
-                                        setstates(() {
-                                          prov.setTableSensor(0);
-                                        });
-                                      },
-                                      child: CardsContainer(
-                                        paddings: EdgeInsets.symmetric(
-                                            horizontal: 16, vertical: 8),
-                                        childs: Text(
-                                          "USV",
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                        cardcolor: Colors.transparent,
-                                        isBorder: prov.tablesensor == 0,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        setstates(() {
-                                          prov.setTableSensor(1);
-                                        });
-                                      },
-                                      child: CardsContainer(
-                                        paddings: EdgeInsets.symmetric(
-                                            horizontal: 16, vertical: 8),
-                                        childs: Text("Humidity",
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                            )),
-                                        cardcolor: Colors.transparent,
-                                        isBorder: prov.tablesensor == 1,
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      width: 10,
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        setstates(() {
-                                          prov.setTableSensor(2);
-                                        });
-                                      },
-                                      child: CardsContainer(
-                                        paddings: EdgeInsets.symmetric(
-                                            horizontal: 16, vertical: 8),
-                                        childs: Text("Temp",
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                            )),
-                                        cardcolor: Colors.transparent,
-                                        isBorder: prov.tablesensor == 2,
-                                      ),
-                                    ),
-                                  ],
+                          Expanded(
+                            flex: 1,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                                  child: Text('Levels',style: TextStyle(fontWeight: FontWeight.bold),),
                                 ),
-                              ),
-                            ],
+                                SizedBox(height: 5,),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                                  child: Row(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          setstates(() {
+                                            prov.setTableSensor(0);
+                                          });
+                                        },
+                                        child: CardsContainer(
+                                          paddings: EdgeInsets.symmetric(
+                                              horizontal: 16, vertical: 8),
+                                          childs: Text(
+                                            "USV",
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                          cardcolor: Colors.transparent,
+                                          isBorder: prov.tablesensor == 0,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          setstates(() {
+                                            prov.setTableSensor(1);
+                                          });
+                                        },
+                                        child: CardsContainer(
+                                          paddings: EdgeInsets.symmetric(
+                                              horizontal: 16, vertical: 8),
+                                          childs: Text("Humidity",
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                              )),
+                                          cardcolor: Colors.transparent,
+                                          isBorder: prov.tablesensor == 1,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 10,
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          setstates(() {
+                                            prov.setTableSensor(2);
+                                          });
+                                        },
+                                        child: CardsContainer(
+                                          paddings: EdgeInsets.symmetric(
+                                              horizontal: 16, vertical: 8),
+                                          childs: Text("Temp",
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                              )),
+                                          cardcolor: Colors.transparent,
+                                          isBorder: prov.tablesensor == 2,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                           SizedBox(
                             height: 10,
@@ -373,7 +372,7 @@ class _TableScreenState extends State<TableScreen> {
                         child: Text( prov.tableFilters==1?"${prov.graphchooseDate.year}":"${months[prov.graphchooseDate.month-1]} ${prov.graphchooseDate.year}",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16)),
                       ):SizedBox(),
                        CardsContainer(
-                        margins: EdgeInsets.all(16),
+                        margins: EdgeInsets.all(8),
                         paddings: EdgeInsets.only(top: 8),
                         cardcolor:
                             Theme.of(context).colorScheme.primary.withOpacity(0.3),
