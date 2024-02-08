@@ -91,104 +91,39 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final prov = Provider.of<NambulProvider>(context);
 
-
-    
     return (!prov.isLoading && prov.responsevalue == 1) || prov.isSaved
         ? WillPopScope(
             onWillPop: _onWillPop,
-            child: LayoutBuilder(
-              builder: (context,constraints) {
-                  if(constraints.maxWidth<500){
-                    return AdvancedDrawer(
-                
+            child: LayoutBuilder(builder: (context, constraints) {
+              if (constraints.maxWidth < 500) {
+                return AdvancedDrawer(
                   controller: _advancedController,
-                   backdrop: Container(
-                        width: double.infinity,
-                        height: double.infinity,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [Theme.of(context).colorScheme.secondary.withOpacity(0.4),Theme.of(context).colorScheme.primary.withOpacity(0.2)],
-                          ),
-                        ),
-                      ),
-                           drawer: SafeArea(
-                        child: Container(
-                          child: ListTileTheme(
-                textColor: Colors.white,
-                iconColor: Colors.white,
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Container(
-                      width: 128.0,
-                      height: 128.0,
-                      margin: const EdgeInsets.only(
-                        top: 24.0,
-                        bottom: 64.0,
-                      ),
-                      clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
-                        color: Colors.black26,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Image.asset(
-                        'assets/images/logo.png',
-                      ),
-                    ),
-                   Expanded(
-                     child: Column(
-                       
-                        children: [
-                          ListTile(
-                            onTap: () {
-                            _advancedController.hideDrawer();
-                            },
-                            leading: Icon(Icons.home),
-                            title: Text('Home'),
-                          ),
-                          ListTile(
-                            onTap: () {
-                                      Navigator.pushNamed(context,GraphScreen.routename);
-                            },
-                            leading: FaIcon(FontAwesomeIcons.chartLine),
-                            title: Text('Charts'),
-                          ),
-                          ListTile(
-                            onTap: () {
-                              Navigator.pushNamed(context,TableScreen.routename);
-                            },
-                            leading: FaIcon(FontAwesomeIcons.table),
-                            title: Text('Tables'),
-                          ),
-                          ListTile(
-                            onTap: () {
-                                        
-                                Navigator.pushNamed(context,MobileSettings.routename);
-                            },
-                            leading: Icon(Icons.settings),
-                            title: Text('Settings'),
-                          ),
-                          Spacer(),
-                      
+                  backdrop: Container(
+                    width: double.infinity,
+                    height: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          Theme.of(context)
+                              .colorScheme
+                              .secondary
+                              .withOpacity(0.4),
+                          Theme.of(context).colorScheme.primary.withOpacity(0.2)
                         ],
                       ),
-                   ),
-                  ],
-                ),
-                          ),
-                        ),
-                      ),
-                
-                
+                    ),
+                  ),
+                  drawer: DrawerWidget(advancedController: _advancedController),
                   child: Scaffold(
                     backgroundColor: Theme.of(context).colorScheme.background,
                     appBar: AppBar(
-                      leading: IconButton(onPressed: (){
-                        _advancedController.showDrawer();
-                
-                      }, icon:const FaIcon(FontAwesomeIcons.bars)),
+                      leading: IconButton(
+                          onPressed: () {
+                            _advancedController.showDrawer();
+                          },
+                          icon: const FaIcon(FontAwesomeIcons.bars)),
                       backgroundColor: Colors.transparent,
                       title: const Text(
                         appname,
@@ -209,23 +144,90 @@ class _HomePageState extends State<HomePage> {
                         )
                       ],
                     ),
-                
-                        
                     body: Consumer<NambulProvider>(builder: (c, b, d) {
-                        return const MobileScreen();
-                     
+                      return const MobileScreen();
                     }),
                   ),
                 );
-                  }else{
-
-                   return const  DesktopScreen();
-                  }
-
-                
+              } else {
+                return const DesktopScreen();
               }
-            ),
+            }),
           )
         : ErrorScreen();
+  }
+}
+
+class DrawerWidget extends StatelessWidget {
+  const DrawerWidget({
+    super.key,
+    required AdvancedDrawerController advancedController,
+  }) : _advancedController = advancedController;
+
+  final AdvancedDrawerController _advancedController;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Container(
+        child: ListTileTheme(
+          textColor: Colors.white,
+          iconColor: Colors.white,
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Container(
+                width: 128.0,
+                height: 128.0,
+                margin: const EdgeInsets.only(
+                  top: 24.0,
+                  bottom: 64.0,
+                ),
+                clipBehavior: Clip.antiAlias,
+              
+                child: Image.asset(
+                  'assets/images/logo.png',
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  children: [
+                    ListTile(
+                      onTap: () {
+                        _advancedController.hideDrawer();
+                      },
+                      leading: Icon(Icons.home),
+                      title: Text('Home'),
+                    ),
+                    ListTile(
+                      onTap: () {
+                        Navigator.pushNamed(context, GraphScreen.routename);
+                      },
+                      leading: FaIcon(FontAwesomeIcons.chartLine),
+                      title: Text('Charts'),
+                    ),
+                    ListTile(
+                      onTap: () {
+                        Navigator.pushNamed(context, TableScreen.routename);
+                      },
+                      leading: FaIcon(FontAwesomeIcons.table),
+                      title: Text('Tables'),
+                    ),
+                    ListTile(
+                      onTap: () {
+                        Navigator.pushNamed(context, MobileSettings.routename);
+                      },
+                      leading: Icon(Icons.settings),
+                      title: Text('Settings'),
+                    ),
+                    Spacer(),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

@@ -10,15 +10,15 @@ import 'package:provider/provider.dart';
 import '../../widgets/cards.dart';
 import '../../widgets/tablelist.dart';
 
-class TableScreen extends StatefulWidget {
-  const TableScreen({super.key});
+class TableScreenDesktop extends StatefulWidget {
+  const TableScreenDesktop({super.key});
   static const String routename = "Tablescreen";
 
   @override
-  State<TableScreen> createState() => _TableScreenState();
+  State<TableScreenDesktop> createState() => _TableScreenState();
 }
 
-class _TableScreenState extends State<TableScreen> {
+class _TableScreenState extends State<TableScreenDesktop> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   int sensor = 0;

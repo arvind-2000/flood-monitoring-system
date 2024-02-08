@@ -66,7 +66,7 @@ class _MobileSettingsState extends State<MobileSettings> {
         title: Text('Settings'),
       ),
       body: SingleChildScrollView(
-        child: Container(
+        child: Container( 
             // decoration: BoxDecoration(
             //  color:cardcolor,
             //   borderRadius: BorderRadius.circular(radius)
