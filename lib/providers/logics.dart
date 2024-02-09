@@ -124,6 +124,27 @@ class Logics{
 
 
  }
+  List<RiverDetails> filterInDays(List<RiverDetails> riverdetails){
+    List<RiverDetails> filterriver = [];
+      
+    for(RiverDetails riv in riverdetails){
+        riv.river.sort((a,b)=>b.date.compareTo(a.date));
+        List<River> riverlist = [];
+        riverlist.add(riv.river.first);
+        River tempriver =  riv.river.first;
+        for(River i in riv.river){
+            if(i.date!=tempriver.date){
+              tempriver = i;
+              riverlist.add(i);
+            }
+        }
+        print("Logic : In filter days:${riverlist.length}");
+        filterriver.add(RiverDetails(id: riv.id, name: riv.name, river: riverlist));
+    }
+    return filterriver;
+  }
+
+
 
  List<RiverDetails> getDays(List<RiverDetails> riverdetails,DateTime dates){
   List<RiverDetails> riv = [];

@@ -25,8 +25,10 @@ class NambulProvider extends Logics with ChangeNotifier {
   List<RiverDetails> get riverfilters => _riverfilters;
   bool isLoading = true;
   bool isLoadingall = true;
+
   int responsevalue = 0;
   int responsevalue2 = 0;
+  
   get http => null;
   bool isSaved = false;
   List<bool> floodindicator = [];
@@ -41,7 +43,7 @@ class NambulProvider extends Logics with ChangeNotifier {
   int isSensor = 0;
   int tableFilters = 0;
   DateTime graphchooseDate = DateTime.now();
-  bool _istabonnotification = true;
+
   List<RiverDetails> _tablegraph = [];
   List<RiverDetails> get tablegraph=>_tablegraph;
 
@@ -56,17 +58,17 @@ class NambulProvider extends Logics with ChangeNotifier {
   Future<void> getdata() async {
 
 
-    List<RiverDetails> rivers = [];
-    List<RiverDetails> riversgrap = [];
+
     Service ser = Service();
     ser.getdata(apicalls).then((value) {
-      rivers = value;
+
       responsevalue2 = ser.responsecode;
-      _allriverlist = rivers;
-      _riverisolates =getDays(_allriverlist,DateTime(2024));
-      _predictions = Logics().predictions(_allriverlist);
+
+      _allriverlist =filterInDays(value);
+      
+      // _predictions = Logics().predictions(_allriverlist);
       print("log: $_predictions");
-      rivergraphs();
+      // rivergraphs();
       // print(responsevalue);
       isLoadingall = false;
       indicator();
@@ -76,6 +78,31 @@ class NambulProvider extends Logics with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> getlatest() async {
+    List<RiverDetails> rivers = [];
+    // isLoading = true;
+    notifyListeners();
+    Service ser = Service();
+    await ser.getdata(apicallslatest).then((value) {
+      rivers = value;
+      responsevalue = ser.responsecode;
+
+      _riverlist = rivers;
+      // print(responsevalue);
+      isLoading = false;
+      isSaved = true;
+      indicator();
+      notifyListeners();
+    }).timeout(
+      Duration(seconds: 15),
+      onTimeout: () {
+        isLoading = false;
+        responsevalue = 2;
+        print('Timeout');
+        notifyListeners();
+      },
+    );
+  }
 
 
 
@@ -212,31 +239,6 @@ void setTableSensor(int inde){
     _scheduler.cancel();
   }
 
-  Future<void> getlatest() async {
-    List<RiverDetails> rivers = [];
-    // isLoading = true;
-    notifyListeners();
-    Service ser = Service();
-    await ser.getdata(apicallslatest).then((value) {
-      rivers = value;
-      responsevalue = ser.responsecode;
-
-      _riverlist = rivers;
-      // print(responsevalue);
-      isLoading = false;
-      isSaved = true;
-      indicator();
-      notifyListeners();
-    }).timeout(
-      Duration(seconds: 15),
-      onTimeout: () {
-        isLoading = false;
-        responsevalue = 2;
-        print('Timeout');
-        notifyListeners();
-      },
-    );
-  }
 
   void indicator() {
     List<bool> floodIndicatorlist = [];
