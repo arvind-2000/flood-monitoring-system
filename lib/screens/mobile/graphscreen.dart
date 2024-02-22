@@ -30,11 +30,11 @@ class _GraphScreenState extends State<GraphScreen> {
   @override
   void initState() {
 
-      if (Platform.isAndroid) {
-      RootIsolateToken? rootIsolateToken ;
-      rootIsolateToken= RootIsolateToken.instance!;
-      isolatesRun(rootIsolateToken);
-}
+// if (Platform.isAndroid) {
+//       RootIsolateToken? rootIsolateToken ;
+//       rootIsolateToken= RootIsolateToken.instance!;
+//       isolatesRun(rootIsolateToken);
+// }
 
   WidgetsBinding.instance.addPostFrameCallback((timeStamp) { 
     Provider.of<NambulProvider>(context,listen: false).getdata();
@@ -43,23 +43,23 @@ class _GraphScreenState extends State<GraphScreen> {
     super.initState();
   }
 
-  Future<void> isolatesRun(RootIsolateToken? rootIsolateToken) async {
-    Service ser = Service();
-    ReceivePort receivePort = ReceivePort();
+  // Future<void> isolatesRun(RootIsolateToken? rootIsolateToken) async {
+  //   Service ser = Service();
+  //   ReceivePort receivePort = ReceivePort();
 
-    List<RiverDetails> rivers = [];
-    await Isolate.spawn(getDataIsolates,[receivePort.sendPort,rootIsolateToken]);
-    final response = await receivePort.first;
-    // print("In listen isolates:${response[1]}");
+  //   List<RiverDetails> rivers = [];
+  //   await Isolate.spawn(getDataIsolates,[receivePort.sendPort,rootIsolateToken]);
+  //   final response = await receivePort.first;
+  //   // print("In listen isolates:${response[1]}");
 
-    try{
-      Provider.of<NambulProvider>(context,listen: false).setfromIsolates(response[0],response[1]);
+  //   try{
+  //     Provider.of<NambulProvider>(context,listen: false).setfromIsolates(response[0],response[1]);
 
     }catch(e){
       log('Error in isolates:${response[0].length}');
     }
 
-  }
+  // }
 
   // void scrollOntap() {
   //   setState(() {
@@ -266,15 +266,19 @@ class SelectDay extends StatelessWidget {
   }
 }
 
-Future<void> getDataIsolates(List args) async{
-  BackgroundIsolateBinaryMessenger.ensureInitialized(args[1]);
-  NambulProvider prov = NambulProvider();
-  SendPort resultPort = args[0] as SendPort;
-  Service ser = Service();
-  List<RiverDetails> response = await ser.getdata(apicalls);
+// Future<void> getDataIsolates(List args) async{
+
+//   if(Platform.isAndroid){
+//   BackgroundIsolateBinaryMessenger.ensureInitialized(args[1]);
+//   NambulProvider prov = NambulProvider();
+//   SendPort resultPort = args[0] as SendPort;
+//   Service ser = Service();
+//   List<RiverDetails> response = await ser.getdata(apicalls);
 
 
 
-  List<dynamic> d = [prov.getDays(response, DateTime(2024)), ser.responsecode];
-  Isolate.exit(resultPort, d);
-}
+//   List<dynamic> d = [prov.getDays(response, DateTime(2024)), ser.responsecode];
+//   Isolate.exit(resultPort, d);
+//   }
+
+// }

@@ -38,37 +38,38 @@ class _MobileScreenState extends State<MobileScreen> {
   @override
   void initState() {
 
-    if(Platform.isAndroid){
-       RootIsolateToken? rootIsolateToken;
-     rootIsolateToken = RootIsolateToken.instance!;
-    isolatesRun(rootIsolateToken);
+    // if(Platform.isAndroid){
+    //    RootIsolateToken? rootIsolateToken;
+    //  rootIsolateToken = RootIsolateToken.instance!;
+    // isolatesRun(rootIsolateToken);
 
     }
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) { 
       Provider.of<NambulProvider>(context,listen: false).getdata();
 
     });
+    });
   
     // TODO: implement initState
     super.initState();
   }
 
-  Future<void> isolatesRun(RootIsolateToken? rootIsolateToken) async {
-    ReceivePort receivePort = ReceivePort();
+  // Future<void> isolatesRun(RootIsolateToken? rootIsolateToken) async {
+  //   ReceivePort receivePort = ReceivePort();
 
-    // List<RiverDetails> rivers = [];
-    await Isolate.spawn(
-        getDataIsolatesHome, [receivePort.sendPort, rootIsolateToken]);
-    final response = await receivePort.first;
-    print("In listen isolates:${response[1]}");
+  //   // List<RiverDetails> rivers = [];
+  //   await Isolate.spawn(
+  //       getDataIsolatesHome, [receivePort.sendPort, rootIsolateToken]);
+  //   final response = await receivePort.first;
+  //   print("In listen isolates:${response[1]}");
 
-    try {
-      Provider.of<NambulProvider>(context, listen: false)
-          .setAllfromIsolates(response[0], response[1]);
-    } catch (e) {
-      log('Error in isolates:${response[0].length}   ');
-    }
-  }
+  //   try {
+  //     Provider.of<NambulProvider>(context, listen: false)
+  //         .setAllfromIsolates(response[0], response[1]);
+  //   } catch (e) {
+  //     log('Error in isolates:${response[0].length}   ');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -217,6 +218,8 @@ class RiverListHome extends StatelessWidget {
                             height: 1,
                             
                             fontSize: 16),
+                            
+                            fontSize: 16),
                       ),
                       GestureDetector(
                         onTap: () {
@@ -357,9 +360,10 @@ class IndicatorCardWidget extends StatelessWidget {
   const IndicatorCardWidget({
     super.key,
     required this.riverprovider,
-    required this.cardwidth
+    required this.cardwidth,
+    this.isDesktop = false
   });
-
+  final bool isDesktop;
   final NambulProvider riverprovider;
   final double cardwidth;
   @override
@@ -411,13 +415,13 @@ class IndicatorCardWidget extends StatelessWidget {
                         context, GraphScreen.routename);
                     // widget.onchanged(1);
                   },
-                  child: Container(
-                    padding: EdgeInsets.all(12),
+                  child:isDesktop?const SizedBox():Container(
+                    padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
                         color:
                             Theme.of(context).colorScheme.secondary),
-                    child: Row(
+                    child:const  Row(
                       children: [
                         Text(
                           'Charts',
@@ -523,12 +527,15 @@ class IndicatorCardWidget extends StatelessWidget {
   }
 }
 
-Future<void> getDataIsolatesHome(List args) async {
-  BackgroundIsolateBinaryMessenger.ensureInitialized(args[1]);
-  SendPort resultPort = args[0] as SendPort;
-  Service ser = Service();
-  List<RiverDetails> response = await ser.getdata(apicalls);
+// Future<void> getDataIsolatesHome(List args) async {
+//   if(Platform.isAndroid){
+//   BackgroundIsolateBinaryMessenger.ensureInitialized(args[1]);
+//   SendPort resultPort = args[0] as SendPort;
+//   Service ser = Service();
+//   List<RiverDetails> response = await ser.getdata(apicalls);
 
-  List<dynamic> d = [response, ser.responsecode];
-  Isolate.exit(resultPort, d);
-}
+//   List<dynamic> d = [response, ser.responsecode];
+//   Isolate.exit(resultPort, d);
+//   }
+
+// }

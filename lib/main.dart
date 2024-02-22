@@ -19,7 +19,7 @@ import 'services/backgroundservice.dart';
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
     
-     if (Platform.isAndroid) {
+//      if (Platform.isAndroid) {
     
   try {
      await Permission.notification.isDenied.then((value){
@@ -49,14 +49,14 @@ void main() async{
       log("Error in running permission");
     }
 
-
-
-
-
-}
-
   runApp(const MyApp());
+
+
+
 }
+
+
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

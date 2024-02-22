@@ -45,6 +45,7 @@ class NambulProvider extends Logics with ChangeNotifier {
   int tableFilters = 0;
   DateTime graphchooseDate = DateTime.now();
 
+
   List<RiverDetails> _tablegraph = [];
   List<RiverDetails> get tablegraph=>_tablegraph;
 
@@ -61,15 +62,22 @@ class NambulProvider extends Logics with ChangeNotifier {
 
 
 
+
     Service ser = Service();
     ser.getdata(apicalls).then((value) {
+
 
       responsevalue2 = ser.responsecode;
 
       _allriverlist =filterInDays(value);
       
       // _predictions = Logics().predictions(_allriverlist);
+
+      _allriverlist =filterInDays(value);
+      
+      // _predictions = Logics().predictions(_allriverlist);
       print("log: $_predictions");
+      // rivergraphs();
       // rivergraphs();
       // print(responsevalue);
       isLoadingall = false;
