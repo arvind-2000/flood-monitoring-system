@@ -38,38 +38,38 @@ class _MobileScreenState extends State<MobileScreen> {
   @override
   void initState() {
 
-    // if(Platform.isAndroid){
-    //    RootIsolateToken? rootIsolateToken;
-    //  rootIsolateToken = RootIsolateToken.instance!;
-    // isolatesRun(rootIsolateToken);
+    if(Platform.isAndroid){
+       RootIsolateToken? rootIsolateToken;
+     rootIsolateToken = RootIsolateToken.instance!;
+    isolatesRun(rootIsolateToken);
 
     }
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) { 
       Provider.of<NambulProvider>(context,listen: false).getdata();
 
     });
-    });
+
   
     // TODO: implement initState
     super.initState();
   }
 
-  // Future<void> isolatesRun(RootIsolateToken? rootIsolateToken) async {
-  //   ReceivePort receivePort = ReceivePort();
+  Future<void> isolatesRun(RootIsolateToken? rootIsolateToken) async {
+    ReceivePort receivePort = ReceivePort();
 
-  //   // List<RiverDetails> rivers = [];
-  //   await Isolate.spawn(
-  //       getDataIsolatesHome, [receivePort.sendPort, rootIsolateToken]);
-  //   final response = await receivePort.first;
-  //   print("In listen isolates:${response[1]}");
+    // List<RiverDetails> rivers = [];
+    await Isolate.spawn(
+        getDataIsolatesHome, [receivePort.sendPort, rootIsolateToken]);
+    final response = await receivePort.first;
+    print("In listen isolates:${response[1]}");
 
-  //   try {
-  //     Provider.of<NambulProvider>(context, listen: false)
-  //         .setAllfromIsolates(response[0], response[1]);
-  //   } catch (e) {
-  //     log('Error in isolates:${response[0].length}   ');
-  //   }
-  // }
+    try {
+      Provider.of<NambulProvider>(context, listen: false)
+          .setAllfromIsolates(response[0], response[1]);
+    } catch (e) {
+      log('Error in isolates:${response[0].length}   ');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -215,11 +215,10 @@ class RiverListHome extends StatelessWidget {
                         riverprovider.getnambulrivers[index].name
                             .replaceFirst(' ', '\n'),
                         style: TextStyle(
-                            height: 1,
-                            
+                        
+            
                             fontSize: 16),
-                            
-                            fontSize: 16),
+                 
                       ),
                       GestureDetector(
                         onTap: () {
@@ -355,6 +354,9 @@ class RiverListHome extends StatelessWidget {
     );
   }
 }
+
+
+
 
 class IndicatorCardWidget extends StatelessWidget {
   const IndicatorCardWidget({
@@ -527,15 +529,15 @@ class IndicatorCardWidget extends StatelessWidget {
   }
 }
 
-// Future<void> getDataIsolatesHome(List args) async {
-//   if(Platform.isAndroid){
-//   BackgroundIsolateBinaryMessenger.ensureInitialized(args[1]);
-//   SendPort resultPort = args[0] as SendPort;
-//   Service ser = Service();
-//   List<RiverDetails> response = await ser.getdata(apicalls);
+Future<void> getDataIsolatesHome(List args) async {
+  if(Platform.isAndroid){
+  BackgroundIsolateBinaryMessenger.ensureInitialized(args[1]);
+  SendPort resultPort = args[0] as SendPort;
+  Service ser = Service();
+  List<RiverDetails> response = await ser.getdata(apicalls);
 
-//   List<dynamic> d = [response, ser.responsecode];
-//   Isolate.exit(resultPort, d);
-//   }
+  List<dynamic> d = [response, ser.responsecode];
+  Isolate.exit(resultPort, d);
+  }
 
-// }
+}
