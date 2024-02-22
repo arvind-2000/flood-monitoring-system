@@ -1,16 +1,10 @@
 # floodsystem
 
-A new Flutter project.
+This project is for the water level monitoring system for Rivers of Manipur.
+Done under CubeTen Technologies
 
-## Getting Started
+## Links and apk
 
-This project is a starting point for a Flutter application.
+For trying out the app download the app here.
+- [APK: River Sense]([https://docs.flutter.dev/get-started/codelab](https://drive.google.com/file/d/1VCQN7AsNMPsUV-tJ27R9SldWdrtBi9VD/view?usp=sharing)https://drive.google.com/file/d/1VCQN7AsNMPsUV-tJ27R9SldWdrtBi9VD/view?usp=sharing)
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
