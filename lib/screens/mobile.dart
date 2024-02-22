@@ -219,6 +219,7 @@ class RiverListHome extends StatelessWidget {
             
                             fontSize: 16),
                  
+                            
                       ),
                       GestureDetector(
                         onTap: () {
@@ -419,11 +420,14 @@ class IndicatorCardWidget extends StatelessWidget {
                   },
                   child:isDesktop?const SizedBox():Container(
                     padding: const EdgeInsets.all(12),
+                  child:isDesktop?const SizedBox():Container(
+                    padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
                         color:
                             Theme.of(context).colorScheme.secondary),
                     child:const  Row(
+
                       children: [
                         Text(
                           'Charts',
@@ -441,7 +445,7 @@ class IndicatorCardWidget extends StatelessWidget {
                       ],
                     ),
                   ),
-                )
+                ))
               ],
             ),
             SizedBox(
@@ -535,9 +539,20 @@ Future<void> getDataIsolatesHome(List args) async {
   SendPort resultPort = args[0] as SendPort;
   Service ser = Service();
   List<RiverDetails> response = await ser.getdata(apicalls);
+// Future<void> getDataIsolatesHome(List args) async {
+//   if(Platform.isAndroid){
+//   BackgroundIsolateBinaryMessenger.ensureInitialized(args[1]);
+//   SendPort resultPort = args[0] as SendPort;
+//   Service ser = Service();
+//   List<RiverDetails> response = await ser.getdata(apicalls);
 
   List<dynamic> d = [response, ser.responsecode];
   Isolate.exit(resultPort, d);
   }
 
 }
+//   List<dynamic> d = [response, ser.responsecode];
+//   Isolate.exit(resultPort, d);
+//   }
+
+// }
