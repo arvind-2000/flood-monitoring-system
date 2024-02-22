@@ -80,6 +80,7 @@ flutter:
     - assets/lottie/loading.json
     - assets/images/error.png
     - assets/images/logo.png
+    - assets/images/logodark.png
     - assets/images/rivers.png
     - assets/images/riversense.png
 

@@ -10,14 +10,12 @@ import 'package:floodsystem/screens/mobile/graphscreen.dart';
 import 'package:floodsystem/widgets/cards.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../models/river.dart';
-import '../services/notifications.dart';
 import '../widgets/Indicatorcard.dart';
 
 import '../services/services.dart';
@@ -33,8 +31,6 @@ class MobileScreen extends StatefulWidget {
 }
 
 class _MobileScreenState extends State<MobileScreen> {
-  final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
  
@@ -48,10 +44,10 @@ class _MobileScreenState extends State<MobileScreen> {
     isolatesRun(rootIsolateToken);
 
     }
-    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) { 
-    //   Provider.of<NambulProvider>(context,listen: false).getdata();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) { 
+      Provider.of<NambulProvider>(context,listen: false).getdata();
 
-    // });
+    });
   
     // TODO: implement initState
     super.initState();
@@ -84,10 +80,17 @@ class _MobileScreenState extends State<MobileScreen> {
       key: _refreshIndicatorKey,
       backgroundColor: Theme.of(context).colorScheme.secondary,
       onRefresh: () {
-        showNotification(
-            notificationsPlugin: _flutterLocalNotificationsPlugin,
-            title: "Flood System",
-            body: 'Water Level Raised:200');
+
+            if(Platform.isAndroid){
+       RootIsolateToken? rootIsolateToken;
+     rootIsolateToken = RootIsolateToken.instance!;
+    isolatesRun(rootIsolateToken);
+
+    }
+        // showNotification(
+        //     notificationsPlugin: _flutterLocalNotificationsPlugin,
+        //     title: "Flood System",
+        //     body: 'Water Level Raised:200');
         return riverprovider.reconnect();
       },
       child: SingleChildScrollView(
@@ -212,8 +215,8 @@ class RiverListHome extends StatelessWidget {
                             .replaceFirst(' ', '\n'),
                         style: TextStyle(
                             height: 1,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20),
+                            
+                            fontSize: 16),
                       ),
                       GestureDetector(
                         onTap: () {
@@ -238,7 +241,7 @@ class RiverListHome extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                CardsContainer(
+               !showlist? SizedBox():CardsContainer(
                   paddings: EdgeInsets.symmetric(
                       vertical: 8, horizontal: 16),
                   cardcolor: Theme.of(context)
@@ -259,7 +262,7 @@ class RiverListHome extends StatelessWidget {
                         height: 10,
                       ),
                       riverprovider
-                              .getnambulrivers[index].river.isEmpty && !showlist
+                              .getnambulrivers[index].river.isEmpty
                           ? SizedBox()
                           : Row(
                               children: [

@@ -52,15 +52,24 @@ class Logics{
     double temp = 0;
     double res = 0;
     int len = r.length>10?10:r.length;
-    for (River r in rs.river.reversed.take(len).toList().reversed){
-        temp = toDouble(r.usv) - temp;
-        res = temp+res;
-    
+
+    if(rs.river.length>1){
+
+        temp = toDouble(rs.river.reversed.toList()[1].usv) - toDouble(rs.river.reversed.toList()[0].usv);
+        
+    }else{
+        temp = 0;
     }
-  
-    double mean = res/len + res;
-    River riverpred = River(id: '', channelid: '', name: rs.name, usv: mean.toStringAsFixed(2), hv: '', tv: '', date: DateTime.now());
+      log("Prediction: $temp   ${toDouble(rs.river.last.usv)}");
+      res = toDouble(rs.river.last.usv) + temp.abs();
+
+    // double mean = res/len + res;
+    River riverpred = River(id: '', channelid: '', name: rs.name, usv: res.toStringAsFixed(2), hv: '', tv: '', date: DateTime.now());
     prediction.add(riverpred);
+
+
+
+
   }
   return prediction;
 
@@ -124,6 +133,27 @@ class Logics{
 
 
  }
+  List<RiverDetails> filterInDays(List<RiverDetails> riverdetails){
+    List<RiverDetails> filterriver = [];
+      
+    for(RiverDetails riv in riverdetails){
+        riv.river.sort((a,b)=>b.date.compareTo(a.date));
+        List<River> riverlist = [];
+        riverlist.add(riv.river.first);
+        River tempriver =  riv.river.first;
+        for(River i in riv.river){
+            if(i.date!=tempriver.date){
+              tempriver = i;
+              riverlist.add(i);
+            }
+        }
+        print("Logic : In filter days:${riverlist.length}");
+        filterriver.add(RiverDetails(id: riv.id, name: riv.name, river: riverlist));
+    }
+    return filterriver;
+  }
+
+
 
  List<RiverDetails> getDays(List<RiverDetails> riverdetails,DateTime dates){
   List<RiverDetails> riv = [];

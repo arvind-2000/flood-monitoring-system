@@ -22,8 +22,8 @@ import 'dart:ui';
     AndroidNotificationDetails androidPlatformChannelSpecifics =
         AndroidNotificationDetails(
       '1', // Change this for your app
-      'ChannelName', // Change this for your app
-      // 'your_channel_description', // Change this for your app
+      'Level Indicator', // Change this for your app
+      // '', // Change this for your app
            importance: Importance.max,
             priority: Priority.high,
             playSound: true,

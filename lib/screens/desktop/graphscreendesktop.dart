@@ -6,10 +6,7 @@ import 'dart:isolate';
 import 'package:floodsystem/providers/riverprovider.dart';
 import 'package:floodsystem/widgets/cards.dart';
 import 'package:floodsystem/widgets/graphreportscreen.dart';
-import 'package:floodsystem/widgets/linechartwidget2.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:provider/provider.dart';
 
@@ -18,23 +15,23 @@ import '../../models/riverdetails.dart';
 import '../../services/services.dart';
 import '../../widgets/linechart.dart';
 
-class GraphScreen extends StatefulWidget {
-  const GraphScreen({super.key});
+class GraphScreenDesktop extends StatefulWidget {
+  const GraphScreenDesktop({super.key});
   static const String routename = "Graphscreen";
   @override
-  State<GraphScreen> createState() => _GraphScreenState();
+  State<GraphScreenDesktop> createState() => _GraphScreenState();
 }
 
-class _GraphScreenState extends State<GraphScreen> {
+class _GraphScreenState extends State<GraphScreenDesktop> {
   ScrollController scrollController = new ScrollController();
   @override
   void initState() {
 
-      if (Platform.isAndroid) {
-      RootIsolateToken? rootIsolateToken ;
-      rootIsolateToken= RootIsolateToken.instance!;
-      isolatesRun(rootIsolateToken);
-}
+// if (Platform.isAndroid) {
+//       RootIsolateToken? rootIsolateToken ;
+//       rootIsolateToken= RootIsolateToken.instance!;
+//       isolatesRun(rootIsolateToken);
+// }
 
   WidgetsBinding.instance.addPostFrameCallback((timeStamp) { 
     Provider.of<NambulProvider>(context,listen: false).getdata();
@@ -43,23 +40,26 @@ class _GraphScreenState extends State<GraphScreen> {
     super.initState();
   }
 
-  Future<void> isolatesRun(RootIsolateToken? rootIsolateToken) async {
-    Service ser = Service();
-    ReceivePort receivePort = ReceivePort();
+  // Future<void> isolatesRun(RootIsolateToken? rootIsolateToken) async {
+  //   Service ser = Service();
+  //   ReceivePort receivePort = ReceivePort();
 
-    List<RiverDetails> rivers = [];
-    await Isolate.spawn(getDataIsolates,[receivePort.sendPort,rootIsolateToken]);
-    final response = await receivePort.first;
-    // print("In listen isolates:${response[1]}");
+  //   List<RiverDetails> rivers = [];
+  //   await Isolate.spawn(getDataIsolates,[receivePort.sendPort,rootIsolateToken]);
+  //   final response = await receivePort.first;
+  //   // print("In listen isolates:${response[1]}");
 
-    try{
-      Provider.of<NambulProvider>(context,listen: false).setfromIsolates(response[0],response[1]);
+  //   try{
+  //     Provider.of<NambulProvider>(context,listen: false).setfromIsolates(response[0],response[1]);
 
-    }catch(e){
-      log('Error in isolates:${response[0].length}');
-    }
+  //   }catch(e){
+  //     log('Error in isolates:${response[0].length}');
+  //   }
+  
 
-  }
+
+
+  // }
 
   // void scrollOntap() {
   //   setState(() {
@@ -87,7 +87,7 @@ class _GraphScreenState extends State<GraphScreen> {
           child: Column(
             children: [
               Container(
-                height:480,
+                height:450,
                 width: double.infinity,
                 padding: EdgeInsets.all(regularpadding),
                 margin: EdgeInsets.all(regularpadding),
@@ -105,52 +105,8 @@ class _GraphScreenState extends State<GraphScreen> {
                             flex: 5,
                             child: Container(
                               // padding: EdgeInsets.only(right: regularpadding,top: regularpadding,bottom: regularpadding),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(prov.rivergraph[0].name,style: TextStyle(fontSize: 18),),
-                                          Text('${months[prov.graphchooseDate.month-1]} ${prov.graphchooseDate.year}',style: const TextStyle(fontSize: 14),),
-                                        ],
-                                      ),
-                                          Row(
-                                                      children:[
-                                                        IconButton(onPressed: (){
-                                                              prov.setgraphdate(DateTime(prov.graphchooseDate.year,prov.graphchooseDate.month-1));
-
-                                                          if(prov.graphchooseDate.year>2023 && prov.graphchooseDate.month>10){
-                                                              
-                                                          }
-                                                        
-                                                          
-                                                        },icon:const FaIcon(FontAwesomeIcons.arrowLeft,size: 16,)),
-                                                        IconButton(onPressed: (){
-                                                   prov.setgraphdate(DateTime(prov.graphchooseDate.year,prov.graphchooseDate.month+1));
-                                                       if(prov.graphchooseDate.year<DateTime.now().year && prov.graphchooseDate.month<DateTime.now().month){
-                                                                 
-
-                                                          }
-                                                        
-                                                        }, icon:const FaIcon(FontAwesomeIcons.arrowRight,size: 16,) ),
-                                                        SizedBox(width: 10,),
-                                                        IconButton(onPressed: (){
-                                                            prov.changegraph();
-                                                          
-                                                        },icon: FaIcon(prov.isLinegraph?FontAwesomeIcons.chartBar:FontAwesomeIcons.chartLine,size: 16,)),
-                                                      ]
-                                                    ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 20,),
-                                  LineChartsWidget(  
-                                      isPinching: false, showcolorindicator: true),
-                                ],
-                              ),
+                              child: LineCharts(  
+                                  isPinching: false, showcolorindicator: true),
                             ),
                           ),
                           Expanded(
@@ -266,15 +222,19 @@ class SelectDay extends StatelessWidget {
   }
 }
 
-Future<void> getDataIsolates(List args) async{
-  BackgroundIsolateBinaryMessenger.ensureInitialized(args[1]);
-  NambulProvider prov = NambulProvider();
-  SendPort resultPort = args[0] as SendPort;
-  Service ser = Service();
-  List<RiverDetails> response = await ser.getdata(apicalls);
+// Future<void> getDataIsolates(List args) async{
+
+//   if(Platform.isAndroid){
+//   BackgroundIsolateBinaryMessenger.ensureInitialized(args[1]);
+//   NambulProvider prov = NambulProvider();
+//   SendPort resultPort = args[0] as SendPort;
+//   Service ser = Service();
+//   List<RiverDetails> response = await ser.getdata(apicalls);
 
 
 
-  List<dynamic> d = [prov.getDays(response, DateTime(2024)), ser.responsecode];
-  Isolate.exit(resultPort, d);
-}
+//   List<dynamic> d = [prov.getDays(response, DateTime(2024)), ser.responsecode];
+//   Isolate.exit(resultPort, d);
+//   }
+
+// }

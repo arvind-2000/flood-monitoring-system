@@ -25,14 +25,34 @@ void main() async{
      await Permission.notification.isDenied.then((value){
       if(value){
    Permission.notification.request();
+
+
+
       }
   
     },);
-    await initializeService();
+ 
   } on Exception catch (e) {
       log(e.toString());
     // TODO
   }
+
+    try{
+      await Permission.notification.isGranted.then((value){
+        if(value){
+          log("$value");
+         initializeService();
+        }
+      });
+    }catch(e)
+    {
+      log("Error in running permission");
+    }
+
+
+
+
+
 }
 
   runApp(const MyApp());

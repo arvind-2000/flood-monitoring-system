@@ -46,7 +46,7 @@ void onStart(ServiceInstance service) async{
       print("service stop");
      });
 
-     Timer.periodic(const Duration(seconds: checktime), (timer) async{ 
+     Timer.periodic(const Duration(minutes: 30), (timer) async{ 
 
      // monitor data here
       d = DateTime.now();
@@ -66,17 +66,17 @@ void onStart(ServiceInstance service) async{
           //check flood levels
 
           for(RiverDetails d in _prov.getnambulrivers){
-              if(toDouble(d.river.last.usv)>=200){
+              if(toDouble(d.river.last.usv)>=205){
                 log("f:$s : ${d.river.last.usv}");
                 s += "${d.name}  ${toDouble( d.river.last.usv).toStringAsFixed(2) }\n";
-                   showNotification(notificationsPlugin: _flutterLocalNotificationsPlugin, title: "Flood Level Critical", body: 'Water level raised:\n$s');
+                  
               }
 
               
           }
             if(s.isNotEmpty){
               d = 'Water level raised:\n Water Level Critical';
-              showNotification(notificationsPlugin: _flutterLocalNotificationsPlugin, title: "Flood Level Critical", body: 'Water level raised:\n$s'); 
+               showNotification(notificationsPlugin: _flutterLocalNotificationsPlugin, title: "Flood Level Critical", body: 'Water level raised\nAbove $threshold');
           
             }else{
             

@@ -45,7 +45,7 @@ class Tables extends StatelessWidget {
               controller:_listcontroller,
               physics:const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              children:   prov2.allrivers[args].river.asMap().entries.where((element) => element.value.date.year==DateTime.now().year).map((e) => Container(
+              children:   prov2.getDays([prov2.allrivers[args]],DateTime.now())[0].river.asMap().entries.where((element) => element.value.date.year==DateTime.now().year).map((e) => Container(
             
                 padding: const EdgeInsets.all(8),
                 child:Row(
@@ -91,7 +91,7 @@ class Tables extends StatelessWidget {
                     child: Text('${toDouble(e.value.tv).toStringAsFixed(2)}',textAlign: TextAlign.center,)),
              ),
                  
-              ],), color:toDouble(e.value.usv)>prov2.getThreshold?Theme.of(context).colorScheme.error.withOpacity(0.2) :e.key%2==0?Theme.of(context).colorScheme.secondary.withOpacity(0.1):Theme.of(context).colorScheme.secondary.withOpacity(0.2)),).toList().reversed.take(prov2.allrivers[args].river.length>10?10:prov2.allrivers[args].river.length).toList()
+              ],), color:toDouble(e.value.usv)>prov2.getThreshold?Theme.of(context).colorScheme.error.withOpacity(0.2) :e.key%2==0?Theme.of(context).colorScheme.secondary.withOpacity(0.1):Theme.of(context).colorScheme.secondary.withOpacity(0.2)),).toList()
             ),
         ],
       ),

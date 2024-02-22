@@ -1,6 +1,6 @@
 import 'package:floodsystem/const.dart';
 import 'package:floodsystem/providers/riverprovider.dart';
-import 'package:floodsystem/screens/desktop.dart';
+import 'package:floodsystem/screens/desktop/desktop.dart';
 import 'package:floodsystem/screens/mobile.dart';
 import 'package:floodsystem/screens/mobile/errorscreen.dart';
 import 'package:floodsystem/screens/mobile/graphscreen.dart';
@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -87,134 +88,143 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+
+
+
   @override
   Widget build(BuildContext context) {
     final prov = Provider.of<NambulProvider>(context);
+
+
+    
     return (!prov.isLoading && prov.responsevalue == 1) || prov.isSaved
         ? WillPopScope(
             onWillPop: _onWillPop,
-            child:  AdvancedDrawer(
-
-              controller: _advancedController,
-               backdrop: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Theme.of(context).colorScheme.secondary.withOpacity(0.4),Theme.of(context).colorScheme.primary.withOpacity(0.2)],
-          ),
-        ),
-      ),
-           drawer: SafeArea(
-        child: Container(
-          child: ListTileTheme(
-            textColor: Colors.white,
-            iconColor: Colors.white,
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Container(
-                  width: 128.0,
-                  height: 128.0,
-                  margin: const EdgeInsets.only(
-                    top: 24.0,
-                    bottom: 64.0,
-                  ),
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    color: Colors.black26,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Image.asset(
-                    'assets/images/logo.png',
-                  ),
-                ),
-               Expanded(
-                 child: Column(
-                   
-                    children: [
-                      ListTile(
-                        onTap: () {
-                        _advancedController.hideDrawer();
-                        },
-                        leading: Icon(Icons.home),
-                        title: Text('Home'),
+            child:LayoutBuilder(
+              builder: (context,constraints) {
+                  if(constraints.maxWidth<500){
+                    return AdvancedDrawer(
+                
+                  controller: _advancedController,
+                   backdrop: Container(
+                        width: double.infinity,
+                        height: double.infinity,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Theme.of(context).colorScheme.secondary.withOpacity(0.4),Theme.of(context).colorScheme.primary.withOpacity(0.2)],
+                          ),
+                        ),
                       ),
-                      ListTile(
-                        onTap: () {
-                                  Navigator.pushNamed(context,GraphScreen.routename);
-                        },
-                        leading: FaIcon(FontAwesomeIcons.chartLine),
-                        title: Text('Charts'),
+                           drawer: SafeArea(
+                        child: Container(
+                          child: ListTileTheme(
+                textColor: Theme.of(context).colorScheme.surface,
+                iconColor:  Theme.of(context).colorScheme.surface,
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Container(
+                      width: 128.0,
+                      height: 128.0,
+                      margin: const EdgeInsets.only(
+                        top: 24.0,
+                        bottom: 64.0,
                       ),
-                      ListTile(
-                        onTap: () {
-                          Navigator.pushNamed(context,TableScreen.routename);
-                        },
-                        leading: FaIcon(FontAwesomeIcons.table),
-                        title: Text('Tables'),
-                      ),
-                      ListTile(
-                        onTap: () {
-                                    
-                            Navigator.pushNamed(context,MobileSettings.routename);
-                        },
-                        leading: Icon(Icons.settings),
-                        title: Text('Settings'),
-                      ),
-                      Spacer(),
                   
-                    ],
-                  ),
-               ),
-              ],
-            ),
-          ),
-        ),
-      ),
-
-
-              child: Scaffold(
-                backgroundColor: Theme.of(context).colorScheme.background,
-                appBar: AppBar(
-                  leading: IconButton(onPressed: (){
-                    _advancedController.showDrawer();
-
-                  }, icon: FaIcon(FontAwesomeIcons.bars)),
-                  backgroundColor: Colors.transparent,
-                  title: const Text(
-                    appname,
-                    style: TextStyle(fontSize: headersize),
-                  ),
-                  actions: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 8),
-                      child: IconButton(
-                          onPressed: () {
-                            Navigator.pushNamed(
-                                context, MobileSettings.routename);
-                          },
-                          icon: FaIcon(
-                            FontAwesomeIcons.gear,
-                            color: Theme.of(context).colorScheme.surface,
-                          )),
-                    )
+              
+                      child: Image.asset(
+                      'assets/images/logodark.png',
+                      ),
+                    ),
+                   Expanded(
+                     child: Column(
+                       
+                        children: [
+                          ListTile(
+                            onTap: () {
+                            _advancedController.hideDrawer();
+                            },
+                            leading: Icon(Icons.home),
+                            title: Text('Home'),
+                          ),
+                          ListTile(
+                            onTap: () {
+                                      Navigator.pushNamed(context,GraphScreen.routename);
+                            },
+                            leading: FaIcon(FontAwesomeIcons.chartLine),
+                            title: Text('Charts'),
+                          ),
+                          ListTile(
+                            onTap: () {
+                              Navigator.pushNamed(context,TableScreen.routename);
+                            },
+                            leading: FaIcon(FontAwesomeIcons.table),
+                            title: Text('Tables'),
+                          ),
+                          ListTile(
+                            onTap: () {
+                                        
+                                Navigator.pushNamed(context,MobileSettings.routename);
+                            },
+                            leading: Icon(Icons.settings),
+                            title: Text('Settings'),
+                          ),
+                          Spacer(),
+                      
+                        ],
+                      ),
+                   ),
                   ],
                 ),
+                          ),
+                        ),
+                      ),
+                
+                
+                  child: Scaffold(
+                    backgroundColor: Theme.of(context).colorScheme.background,
+                    appBar: AppBar(
+                      leading: IconButton(onPressed: (){
+                        _advancedController.showDrawer();
+                
+                      }, icon:const FaIcon(FontAwesomeIcons.bars)),
+                      backgroundColor: Colors.transparent,
+                      title: const Text(
+                        appname,
+                        style: TextStyle(fontSize: headersize),
+                      ),
+                      actions: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: IconButton(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                    context, MobileSettings.routename);
+                              },
+                              icon: FaIcon(
+                                FontAwesomeIcons.gear,
+                                color: Theme.of(context).colorScheme.surface,
+                              )),
+                        )
+                      ],
+                    ),
+                
+                        
+                    body: Consumer<NambulProvider>(builder: (c, b, d) {
+                        return const MobileScreen();
+                     
+                    }),
+                  ),
+                );
+                  }else{
 
-        
-                body: Consumer<NambulProvider>(builder: (c, b, d) {
-                  return LayoutBuilder(builder: (context, constraint) {
-                    if (constraint.maxWidth < 500) {
-                      return MobileScreen();
-                    } else {
-                      return DesktopScreen();
-                    }
-                  });
-                }),
-              ),
+                   return const  DesktopScreen();
+                  }
+
+                
+              }
             ),
           )
         : ErrorScreen();
