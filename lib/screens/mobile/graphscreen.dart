@@ -278,3 +278,19 @@ Future<void> getDataIsolates(List args) async{
   }
 
 }
+// Future<void> getDataIsolates(List args) async{
+
+//   if(Platform.isAndroid){
+//   BackgroundIsolateBinaryMessenger.ensureInitialized(args[1]);
+//   NambulProvider prov = NambulProvider();
+//   SendPort resultPort = args[0] as SendPort;
+//   Service ser = Service();
+//   List<RiverDetails> response = await ser.getdata(apicalls);
+
+
+
+//   List<dynamic> d = [prov.getDays(response, DateTime(2024)), ser.responsecode];
+//   Isolate.exit(resultPort, d);
+//   }
+
+// }

@@ -65,11 +65,17 @@ class NambulProvider extends Logics with ChangeNotifier {
 
 
 
+
     Service ser = Service();
     ser.getdata(apicalls).then((value) {
 
 
+
       responsevalue2 = ser.responsecode;
+
+      _allriverlist =filterInDays(value);
+      
+      // _predictions = Logics().predictions(_allriverlist);
 
       _allriverlist =filterInDays(value);
       

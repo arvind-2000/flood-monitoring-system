@@ -48,7 +48,6 @@ class _MobileScreenState extends State<MobileScreen> {
       Provider.of<NambulProvider>(context,listen: false).getdata();
 
     });
-
   
     // TODO: implement initState
     super.initState();
@@ -434,7 +433,6 @@ class IndicatorCardWidget extends StatelessWidget {
                         color:
                             Theme.of(context).colorScheme.secondary),
                     child:const  Row(
-
                       children: [
                         Text(
                           'Charts',
