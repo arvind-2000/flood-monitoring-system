@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:isolate';
 import 'package:floodsystem/const.dart';
 import 'package:floodsystem/models/riverdetails.dart';
@@ -24,6 +25,8 @@ class Service{
     List<RiverDetails> datas = [];
     RiverDetails riverdata = RiverDetails(id: '', name: '', river: []);
     for (String i in api) {
+
+      log("in apicalls: $i");
   var response = await http.get(Uri.parse(i)).then((value) {
     print('in service response');
       if(value.statusCode == 200){

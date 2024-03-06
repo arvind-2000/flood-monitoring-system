@@ -55,13 +55,13 @@ class Logics{
 
     if(rs.river.length>1){
 
-        temp = toDouble(rs.river.reversed.toList()[1].usv) - toDouble(rs.river.reversed.toList()[0].usv);
+        temp = toDouble(rs.river.reversed.toList()[0].usv) - toDouble(rs.river.reversed.toList()[1].usv);
         
     }else{
         temp = 0;
     }
       log("Prediction: $temp   ${toDouble(rs.river.last.usv)}");
-      res = toDouble(rs.river.last.usv) + temp.abs();
+      res = toDouble(rs.river.last.usv) + temp;
 
     // double mean = res/len + res;
     River riverpred = River(id: '', channelid: '', name: rs.name, usv: res.toStringAsFixed(2), hv: '', tv: '', date: DateTime.now());
@@ -91,7 +91,7 @@ class Logics{
         temp = k.date.year;
       }
     }
-
+      tempo.sort((a, b) =>a.date.compareTo(b.date) );
       riv.add(RiverDetails(id: i.id, name: i.name, river: tempo));
   }
 
@@ -124,7 +124,7 @@ class Logics{
       
         }
     }
-
+  tempo.sort((a, b) =>a.date.compareTo(b.date) );
       riv.add(RiverDetails(id: i.id, name: i.name, river: tempo));
   }
 
@@ -161,10 +161,10 @@ class Logics{
 
   for(RiverDetails i in riverdetails){
      int temp = 0;
-    
+
     List<River> tempo = [];
     i.river.sort((a,b)=>b.date.compareTo(a.date));
-
+  
     for(River k in i.river){
 
       if(k.date.year == dates.year && k.date.month==dates.month){
@@ -177,7 +177,7 @@ class Logics{
       
         }
     }
-
+  tempo.sort((a, b) =>a.date.compareTo(b.date) );
       riv.add(RiverDetails(id: i.id, name: i.name, river: tempo));
   }
 

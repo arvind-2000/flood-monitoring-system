@@ -26,10 +26,12 @@ class NambulProvider extends Logics with ChangeNotifier {
   bool isLoading = true;
   bool isLoadingall = true;
   int filtertype = 0;
-
+  int _checktime = checktime;
   int responsevalue = 0;
   int responsevalue2 = 0;
   bool islinegraphs = true;
+
+  bool predictionswitch = false;
   get http => null;
   bool isSaved = false;
   List<bool> floodindicator = [];
@@ -44,7 +46,7 @@ class NambulProvider extends Logics with ChangeNotifier {
   int isSensor = 0;
   int tableFilters = 0;
   DateTime graphchooseDate = DateTime.now();
-
+  bool isBackgroundrunning = false;
 
   List<RiverDetails> _tablegraph = [];
   List<RiverDetails> get tablegraph=>_tablegraph;
@@ -55,8 +57,8 @@ class NambulProvider extends Logics with ChangeNotifier {
 
   List<River> _predictions = [];
   List<River> get getPredictions => _predictions;
-
-
+  bool updateFirsttime = false;
+  int get durationtime=>_checktime;
   //get data
   Future<void> getdata() async {
 
@@ -72,11 +74,9 @@ class NambulProvider extends Logics with ChangeNotifier {
       _allriverlist =filterInDays(value);
       
       // _predictions = Logics().predictions(_allriverlist);
-
-      _allriverlist =filterInDays(value);
       
       // _predictions = Logics().predictions(_allriverlist);
-      print("log: $_predictions");
+      print("log: $_predictions     length of rivers: $value length of filter river: $_allriverlist");
       // rivergraphs();
       // rivergraphs();
       // print(responsevalue);
@@ -103,6 +103,17 @@ class NambulProvider extends Logics with ChangeNotifier {
       isSaved = true;
       indicator();
       notifyListeners();
+      if(updateFirsttime){
+        updateAllRiverData();
+        
+      }else{
+        updateFirsttime = true;
+      }
+
+      notifyListeners();
+    
+      
+
     }).timeout(
       Duration(seconds: 15),
       onTimeout: () {
@@ -113,6 +124,28 @@ class NambulProvider extends Logics with ChangeNotifier {
       },
     );
   }
+
+
+void updateAllRiverData(){
+  try {
+  for(int i = 0;i<_allriverlist.length;i++){
+  
+    if(_allriverlist[i].river.last.date !=_riverlist[i].river.last.date){
+      _allriverlist[i].river.add(_riverlist[i].river.last);
+      
+      notifyListeners();
+      rivergraphs();
+      }
+
+  }
+} on Exception catch (e) {
+  log('error in updating river data');
+  // TODO
+}
+
+
+
+}
 
 
   void changegraph(){
@@ -139,7 +172,7 @@ notifyListeners();
 
       // _predictions = Logics().predictions(_allriverlist);
       // print("log: $_predictions");
-      rivergraphs();
+     rivergraphs();
       // print(responsevalue);
       filterData(0, DateTime.now());
       settableFilter(0, DateTime.now());
@@ -160,8 +193,10 @@ notifyListeners();
     if(res==1){
         responsevalue2 = res;
       
-        _allriverlist = r;
+      _allriverlist = r;
       _predictions = Logics().predictions(_allriverlist);
+      log('all river list: ${_allriverlist.last.river.last.usv}');
+      rivergraphs();
      
       filterData(0, DateTime.now());
       settableFilter(0, DateTime.now());
@@ -185,11 +220,11 @@ notifyListeners();
       // print("log: $_predictions");
       indicator();
       // print(responsevalue);
-      rivergraphs();
-      filterData(0, DateTime.now());
-      settableFilter(0, DateTime.now());
+   changeData();
+  filterData(0, DateTime.now());
+  settableFilter(0, DateTime.now());
 
-      notifyListeners();
+  notifyListeners();
     }
     
       isLoadingall = false;
@@ -219,6 +254,7 @@ void setTableSensor(int inde){
     _rivergraph = [d]; 
     print("river graph: ${_rivergraph[0].name}");
     notifyListeners();
+        changeData();
    
   }
 
@@ -248,18 +284,25 @@ void setTableSensor(int inde){
     getlatest();
     notifyListeners();
   }
-
+ void errorreconnect() {
+    isLoading = true;
+    notifyListeners();
+    getlatest();
+    notifyListeners();
+  }
   Future<void> timer() async {
-    _scheduler = Timer.periodic(Duration(seconds: 30), (timer) {
-      print('In timer');
+    _scheduler = Timer.periodic(Duration(seconds: _checktime), (timer) {
+      print('In timer: $_checktime');
       getlatest();
     //  isolatesRun();
     });
+    notifyListeners();
   }
 
   void destroy() {
     print('timer cancel');
     _scheduler.cancel();
+    notifyListeners();
   }
 
 
@@ -372,6 +415,9 @@ void setTableSensor(int inde){
     //getting sharedpreferences threshold values
     SharedPreferences s = await prefs;
     _threshold = s.getDouble('threshold') ?? 60;
+    isBackgroundrunning = s.getBool('background') ?? false;
+    _checktime = s.getInt('checktime') ?? checktime;
+    predictionswitch = s.getBool('prediction') ?? false;
     notifyListeners();
   }
 
@@ -388,6 +434,40 @@ void setTableSensor(int inde){
       notifyListeners();
     });
     getprefs();
+  }
+  void setPrefsbackground(bool f) async {
+    //setting threshold in local database
+    print("in set prefs");
+
+    notifyListeners();
+    SharedPreferences s = await prefs;
+    s.setBool('background', f).then((value) {
+    
+      notifyListeners();
+    });
+    getprefs();
+  }
+  
+
+
+  void setPrefschecktime(int checktimes) async {
+    //setting threshold in local database
+    print("in set prefs");
+
+    notifyListeners();
+    SharedPreferences s = await prefs;
+    s.setInt('checktime', checktimes).then((value) {
+    
+      notifyListeners();
+    });
+    getprefs();
+    destroy();
+    timer();
+  }
+
+  void resetdate(){
+    graphchooseDate = DateTime.now();
+    notifyListeners();
   }
 
   String day(){

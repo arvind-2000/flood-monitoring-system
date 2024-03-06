@@ -72,9 +72,9 @@ String dateFormatforApi(DateTime date){
    datefor = '$datefor-${date.month}';
   }
   if(date.day<10){
-    datefor = '$datefor-0${date.day}';
+    datefor = '$datefor-0${date.day+2}';
   }else{
-   datefor = '$datefor-${date.day+1}';
+   datefor = '$datefor-${date.day+2}';
   }
 
 

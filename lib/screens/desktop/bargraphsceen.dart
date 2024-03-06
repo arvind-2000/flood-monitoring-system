@@ -42,8 +42,8 @@ class BarGraphDesktopScreen extends StatelessWidget {
                         x: e.key,barRods: [
                         BarChartRodData(
                           
-                          color: Theme.of(context).colorScheme.surface.withOpacity(0.5),
-                          width: 20,
+                          color:(e.value.date.year ==  DateTime.now().year && e.value.date.month ==  DateTime.now().month) ?Theme.of(context).colorScheme.secondary.withOpacity(0.5):Theme.of(context).colorScheme.surface.withOpacity(0.5),
+                          width: 40,
                           borderRadius: BorderRadius.circular(4),
                           toY:toDouble(e.value.usv).roundToDouble()),
                         // BarChartRodData(

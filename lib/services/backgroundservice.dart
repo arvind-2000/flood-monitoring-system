@@ -10,6 +10,7 @@ import 'package:floodsystem/services/services.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_background_service_android/flutter_background_service_android.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../const.dart';
 
@@ -25,18 +26,21 @@ Future<void> initializeService() async{
 @pragma('vm:entry-point')
 void onStart(ServiceInstance service) async{
   Service ser = Service();
-  NambulProvider _prov = NambulProvider();   
+  NambulProvider _prov = NambulProvider();
+  _prov.getprefs();   
   DateTime d = DateTime.now();
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
   DartPluginRegistrant.ensureInitialized();
-  String s = 'hjg';
-
+  log('In backgrounds');
+  
   if(service is AndroidServiceInstance){
     service.on('AsForeGround').listen((event) {
       service.setAsForegroundService();
      });
   }
     if(service is AndroidServiceInstance){
+        log('In background service instance');
+      
     service.on('AsBackGround').listen((event) {
       service.setAsBackgroundService();  
      });
@@ -46,18 +50,25 @@ void onStart(ServiceInstance service) async{
       print("service stop");
      });
 
-     Timer.periodic(const Duration(minutes: 30), (timer) async{ 
-
+     Timer.periodic(Duration(seconds:10), (timer) async{ 
+      Future<SharedPreferences> prefs = SharedPreferences.getInstance(); 
+      SharedPreferences s = await prefs;
+      double threshold = s.getDouble("threshold")??_prov.getThreshold;
+      log("background in timer");
      // monitor data here
       d = DateTime.now();
-      _prov.getlatest( );
+      _prov.getlatest();
       _prov.getprefs();
+
       
+
+    log("${_prov.durationtime} $threshold");
       if(service is AndroidServiceInstance){
 
       String d = '';
       try{
             print('Backgroudn: In try ');
+          
             // s = _prov.getnambulrivers[0].name;
          
           String s = '';
@@ -66,7 +77,7 @@ void onStart(ServiceInstance service) async{
           //check flood levels
 
           for(RiverDetails d in _prov.getnambulrivers){
-              if(toDouble(d.river.last.usv)>=205){
+              if(toDouble(d.river.last.usv)>=_prov.getThreshold){
                 log("f:$s : ${d.river.last.usv}");
                 s += "${d.name}  ${toDouble( d.river.last.usv).toStringAsFixed(2) }\n";
                   

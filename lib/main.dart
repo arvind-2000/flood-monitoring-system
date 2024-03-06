@@ -12,42 +12,34 @@ import 'package:floodsystem/themes/lighttheme.dart';
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'const.dart';
 import 'services/backgroundservice.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-    
+   Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 //      if (Platform.isAndroid) {
     
   try {
      await Permission.notification.isDenied.then((value){
       if(value){
    Permission.notification.request();
-
+  
 
 
       }
   
     },);
- 
+    // initializeService();
+    //   SharedPreferences s = await prefs;
+    //   s.setBool('background', true);
   } on Exception catch (e) {
       log(e.toString());
     // TODO
   }
 
-    try{
-      await Permission.notification.isGranted.then((value){
-        if(value){
-          log("$value");
-         initializeService();
-        }
-      });
-    }catch(e)
-    {
-      log("Error in running permission");
-    }
 
   runApp(const MyApp());
 

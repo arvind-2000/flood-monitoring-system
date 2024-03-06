@@ -1,7 +1,9 @@
+
+import 'dart:developer';
 import 'package:floodsystem/const.dart';
 import 'package:floodsystem/providers/riverprovider.dart';
 import 'package:floodsystem/screens/desktop/desktop.dart';
-import 'package:floodsystem/screens/desktop/desktop.dart';
+
 import 'package:floodsystem/screens/mobile.dart';
 import 'package:floodsystem/screens/mobile/errorscreen.dart';
 import 'package:floodsystem/screens/mobile/graphscreen.dart';
@@ -11,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:permission_handler/permission_handler.dart';
+
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
@@ -28,6 +30,7 @@ class _HomePageState extends State<HomePage> {
   final _advancedController = AdvancedDrawerController();
   @override
   void initState() {
+    log('in init state home');
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       Provider.of<NambulProvider>(context, listen: false).timer();
       Provider.of<NambulProvider>(context, listen: false).getprefs();
@@ -95,7 +98,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final prov = Provider.of<NambulProvider>(context);
-
+    log('home');
 
     
     return (!prov.isLoading && prov.responsevalue == 1) || prov.isSaved
@@ -103,7 +106,7 @@ class _HomePageState extends State<HomePage> {
             onWillPop: _onWillPop,
             child:LayoutBuilder(
               builder: (context,constraints) {
-                  if(constraints.maxWidth<500){
+               
                     return AdvancedDrawer(
                 
                   controller: _advancedController,
@@ -140,7 +143,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                    Expanded(
-                     child: Column(
+                     child: ListView(
                        
                         children: [
                           ListTile(
@@ -172,7 +175,7 @@ class _HomePageState extends State<HomePage> {
                             leading: Icon(Icons.settings),
                             title: Text('Settings'),
                           ),
-                          Spacer(),
+                          // Spacer(),
                       
                         ],
                       ),
@@ -219,10 +222,7 @@ class _HomePageState extends State<HomePage> {
                     }),
                   ),
                 );
-                  }else{
-
-                   return const  DesktopScreen();
-                  }
+            
 
                 
               }

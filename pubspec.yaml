@@ -52,6 +52,7 @@ dependencies:
   syncfusion_flutter_datagrid: ^24.1.46
   syncfusion_flutter_datepicker: ^24.1.47
   flutter_advanced_drawer: ^1.3.5
+  device_info_plus: ^9.1.2
 
 dev_dependencies:
   flutter_test:

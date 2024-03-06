@@ -34,7 +34,7 @@ class IndicatorCard extends StatelessWidget {
             gradient: LinearGradient(colors: [value>=prov.getThreshold?Theme.of(context).colorScheme.error:Theme.of(context).colorScheme.secondary,Theme.of(context).colorScheme.primary.withOpacity(0.1)],begin: Alignment.topCenter,end: Alignment.bottomCenter)
           ), 
          
-          height:value>=200?200:value),
+          height:(value/200)*100),
           
            Text(textAlign: TextAlign.center,"${text.split(' ')[0]}\n${value.toStringAsFixed(2)} $levelunit",style: TextStyle(
             fontWeight: FontWeight.bold,

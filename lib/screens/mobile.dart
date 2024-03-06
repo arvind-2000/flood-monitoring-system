@@ -100,58 +100,65 @@ class _MobileScreenState extends State<MobileScreen> {
           width: double.infinity,
           child: Column(
             children: [
-              CardsContainer(
+             riverprovider.predictionswitch?CardsContainer(
                 cardcolor:
                     Theme.of(context).colorScheme.primary.withOpacity(0.3),
-                childs: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                    colors: [
-                      Theme.of(context).colorScheme.secondary.withOpacity(0.2),
-                      Theme.of(context).colorScheme.primary.withOpacity(0.3)
-                    ],
-                    end: Alignment.bottomRight,
-                    begin: Alignment.topLeft,
-                  )),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Prediction',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 20),
-                      ),
-                      Text(
-                        'Next $checktime mins',
-                        style: TextStyle(
-                            color: Theme.of(context)
-                                .colorScheme
-                                .surface
-                                .withOpacity(0.5)),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: riverprovider.getPredictions
-                            .map((e) => Column(
-                                  children: [
-                                    Text(e.name,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
-                                    Text(e.usv+levelunit,
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold)),
-                                  ],
-                                ))
-                            .toList(),
-                      ),
-                    ],
+                childs: InkWell(
+                  onTap: (){
+                    log('in prediction');
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    decoration: BoxDecoration(
+                    //     gradient: LinearGradient(
+                    //   colors: [
+                    //     Theme.of(context).colorScheme.secondary.withOpacity(0.2),
+                    //     Theme.of(context).colorScheme.primary.withOpacity(0.3)
+                    //   ],
+                    //   end: Alignment.bottomRight,
+                    //   begin: Alignment.topLeft,
+                    // )
+                    color: Theme.of(context).colorScheme.secondary.withOpacity(0.7)
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Prediction',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                        Text(
+                          'Next ${riverprovider.durationtime} mins',
+                          style: TextStyle( 
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .surface
+                                  .withOpacity(0.5)),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: riverprovider.getPredictions
+                              .map((e) => Column(
+                                    children: [
+                                      Text(e.name,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold)),
+                                      Text(e.usv+levelunit,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.bold)),
+                                    ],
+                                  ))
+                              .toList(),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
+              ):SizedBox(),
               SizedBox(
                 height: 20,
               ),
@@ -375,7 +382,7 @@ class IndicatorCardWidget extends StatelessWidget {
       cardcolor:
           Theme.of(context).colorScheme.primary.withOpacity(0.3),
       childs: Container(
-        height: 380,
+        height:400,
         width: cardwidth,
         // margin: EdgeInsets.all(8),
         padding: EdgeInsets.all(16),
@@ -454,6 +461,7 @@ class IndicatorCardWidget extends StatelessWidget {
             Expanded(
               child: Stack(
                 children: [
+
                   Container(
                       height: 250,
                       width: double.infinity,
@@ -465,7 +473,7 @@ class IndicatorCardWidget extends StatelessWidget {
                                   // Expanded(child: IndicatorCard(value: 100,heights: 300,color: Colors.amber,text:'fhjdhfj',)),
                                   Expanded(
                                       child: IndicatorCard(
-                                value: e.river.length > 0
+                                value:e.river.length > 0
                                     ? toDouble(e.river.last.usv)
                                     : 0,
                                 heights: 300,
@@ -476,15 +484,27 @@ class IndicatorCardWidget extends StatelessWidget {
                             .toList(),
                       )),
     
-                  //  Positioned(
-                  //   bottom: riverprovider.getThreshold>200?200:riverprovider.getThreshold<0?10:riverprovider.getThreshold,
-    
-                  //   child: Container(height: 2,width: MediaQuery.of(context).size.width,
-                  //   decoration: BoxDecoration(
-                  //           color: Theme.of(context).colorScheme.error,
-    
-                  //   ),
-                  //   )),
+                   Positioned(
+                    // bottom: riverprovider.getThreshold>200?200:riverprovider.getThreshold<0?10:riverprovider.getThreshold,
+                      bottom: (riverprovider.getThreshold/200)*100 +20,
+                    child: Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Text('Threshold',style: TextStyle(fontSize: 12),),
+                            Text(riverprovider.getThreshold.toStringAsFixed(0),style:const TextStyle(fontWeight: FontWeight.bold),),
+                          ],
+                        ),
+                        SizedBox(width: 20,),
+                        Container(height: 2,width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.error.withOpacity(0.3),
+                            
+                        ),
+                        ),
+                      ],
+                    )),
                 ],
               ),
             ),

@@ -32,6 +32,8 @@ class _TableScreenState extends State<TableScreen> {
       Provider.of<NambulProvider>(context, listen: false)
           .settableFilter(0, DateTime.now());
     });
+
+    Provider.of<NambulProvider>(context, listen: false).resetdate();
     super.initState();
   }
 
@@ -49,7 +51,6 @@ class _TableScreenState extends State<TableScreen> {
     return Scaffold(
         appBar: AppBar(
           title: Text("Table Data"),
-
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -82,11 +83,13 @@ class _TableScreenState extends State<TableScreen> {
                                 ],
                               ),
                               IconButton(
-                                onPressed: (){
-                                  Future.delayed(const Duration(milliseconds: 500)).then((value) =>  Navigator.pop(context));
-                                 
-                                },
-                                icon: FaIcon(FontAwesomeIcons.xmark)),
+                                  onPressed: () {
+                                    Future.delayed(
+                                            const Duration(milliseconds: 500))
+                                        .then(
+                                            (value) => Navigator.pop(context));
+                                  },
+                                  icon: FaIcon(FontAwesomeIcons.xmark)),
                             ],
                           ),
                           SizedBox(
@@ -116,7 +119,9 @@ class _TableScreenState extends State<TableScreen> {
                                           .withOpacity(0.4)),
                                 )),
                           ),
-                          SizedBox(height: 20,),
+                          SizedBox(
+                            height: 20,
+                          ),
                           Row(
                             children: [
                               GestureDetector(
@@ -226,7 +231,6 @@ class _TableScreenState extends State<TableScreen> {
                                         height: 60,
                                         child: ListView(
                                             shrinkWrap: true,
-                                            
                                             scrollDirection: Axis.horizontal,
                                             children: List.generate(
                                                 12,
@@ -265,17 +269,23 @@ class _TableScreenState extends State<TableScreen> {
                           SizedBox(
                             height: 10,
                           ),
-                        
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 8),
-                                child: Text('Levels',style: TextStyle(fontWeight: FontWeight.bold),),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8),
+                                child: Text(
+                                  'Levels',
+                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                ),
                               ),
-                              SizedBox(height: 5,),
+                              SizedBox(
+                                height: 5,
+                              ),
                               Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 8),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8),
                                 child: Row(
                                   children: [
                                     GestureDetector(
@@ -354,7 +364,7 @@ class _TableScreenState extends State<TableScreen> {
           mouseCursor: MouseCursor.uncontrolled,
           focusColor: Theme.of(context).colorScheme.secondary,
           backgroundColor: Theme.of(context).colorScheme.secondary,
-          child:const FaIcon(
+          child: const FaIcon(
             FontAwesomeIcons.filter,
             color: Colors.white,
           ),
@@ -362,21 +372,31 @@ class _TableScreenState extends State<TableScreen> {
         body: prov.isLoadingall && prov.tablegraph.isNotEmpty
             ? const Center(child: CircularProgressIndicator())
             : Animate(
-              effects: const [FadeEffect()],
-              child: SingleChildScrollView(
+                effects: const [FadeEffect()],
+                child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                  
-                      prov.tableFilters!=0?Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Text( prov.tableFilters==1?"${prov.graphchooseDate.year}":"${months[prov.graphchooseDate.month-1]} ${prov.graphchooseDate.year}",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16)),
-                      ):SizedBox(),
-                       CardsContainer(
+                      prov.tableFilters != 0
+                          ? Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16),
+                              child: Text(
+                                  prov.tableFilters == 1
+                                      ? "${prov.graphchooseDate.year}"
+                                      : "${months[prov.graphchooseDate.month - 1]} ${prov.graphchooseDate.year}",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16)),
+                            )
+                          : SizedBox(),
+                      CardsContainer(
                         margins: EdgeInsets.all(16),
                         paddings: EdgeInsets.only(top: 8),
-                        cardcolor:
-                            Theme.of(context).colorScheme.primary.withOpacity(0.3),
+                        cardcolor: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.3),
                         childs: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -385,11 +405,18 @@ class _TableScreenState extends State<TableScreen> {
                                 shrinkWrap: true,
                                 physics: NeverScrollableScrollPhysics(),
                                 children: [
-                                    Center(child: FaIcon(FontAwesomeIcons.calendar,size: 16,)),
-                                    SizedBox(height: 3,),
+                                  Center(
+                                      child: FaIcon(
+                                    FontAwesomeIcons.calendar,
+                                    size: 16,
+                                  )),
+                                  SizedBox(
+                                    height: 3,
+                                  ),
                                   Center(child: Text(prov.day())),
-                                
-                                  ...prov.tablegraph[prov.getindexs(prov.tablegraph)]
+                                  ...prov
+                                      .tablegraph[
+                                          prov.getindexs(prov.tablegraph)]
                                       .river
                                       .map((e) => Padding(
                                             padding: const EdgeInsets.symmetric(
@@ -406,15 +433,15 @@ class _TableScreenState extends State<TableScreen> {
                             ...prov.tablegraph
                                 .asMap()
                                 .entries
-                                .map((e) =>
-                                    TableList(filterRiver: e.value, index: e.key))
+                                .map((e) => TableList(
+                                    filterRiver: e.value, index: e.key))
                                 .toList()
                           ],
                         ),
-                                               ),
+                      ),
                     ],
                   ),
                 ),
-            ));
+              ));
   }
 }

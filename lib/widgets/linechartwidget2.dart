@@ -103,7 +103,7 @@ class _LineChartsWidgetState extends State<LineChartsWidget> {
            ),
 
                 // axisLabelFormatter:(axisLabelRenderArgs) => ChartAxisLabel(prov.filtertype==0?months[int.parse(axisLabelRenderArgs.text)]:axisLabelRenderArgs.text, TextStyle(fontSize:12)),
-                axisLabelFormatter: prov.filtertype!=0?(axisLabelRenderArgs) => ChartAxisLabel(  months[prov.rivergraph[prov.getindexs(prov.rivergraph)].river[int.parse(axisLabelRenderArgs.text)].date.month-1],const TextStyle(fontSize:12)) :(axisLabelRenderArgs) => ChartAxisLabel(  prov.rivergraph[prov.getindexs(prov.rivergraph)].river[int.parse(axisLabelRenderArgs.text)].date.day.toString(),const TextStyle(fontSize:12)) ,
+                axisLabelFormatter:(axisLabelRenderArgs) => ChartAxisLabel( prov.rivergraph[prov.getindexs(prov.rivergraph)].river.length<2?prov.rivergraph[prov.getindexs(prov.rivergraph)].river.last.date.day.toString() :prov.rivergraph[prov.getindexs(prov.rivergraph)].river[int.parse(axisLabelRenderArgs.text)].date.day.toString(),const TextStyle(fontSize:12)) ,
                   interval:1,
                   
                   // maximum: prov.filtertype==0?12:null,

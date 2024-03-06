@@ -29,12 +29,12 @@ class DashboardCard extends StatelessWidget {
            Expanded(
             flex: 2,
             child: Padding(
-              padding: EdgeInsets.all(regularpadding),
+              padding:const EdgeInsets.all(regularpadding),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(riverlist.name.replaceFirst(' ', '\n'),style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
-                  floodindicator?FaIcon(FontAwesomeIcons.triangleExclamation,color: errorColor,):SizedBox()
+                  Text(riverlist.name.replaceFirst(' ', '\n'),style:const TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
+                  floodindicator?const FaIcon(FontAwesomeIcons.triangleExclamation,color: errorColor,):const SizedBox()
                 ],
               ),
             ),
@@ -42,7 +42,7 @@ class DashboardCard extends StatelessWidget {
           Expanded(
             flex: 3,
             child: Container(
-              padding: EdgeInsets.all(regularpadding),
+              padding:const EdgeInsets.all(regularpadding),
               width: double.infinity,
               decoration: BoxDecoration(
                 color:  floodindicator?errorColor:normalColor,
@@ -52,12 +52,12 @@ class DashboardCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Water Level',style: TextStyle(fontWeight: FontWeight.bold,fontSize: regularfontsize)),
-                  Text(riverlist.river.isEmpty?'No data':riverlist.river.last.usv,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14)),
-                  Text('Humidity',style: TextStyle(fontWeight: FontWeight.bold,fontSize: regularfontsize)),
-                  Text(riverlist.river.isEmpty?'No data':riverlist.river.last.hv,style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14)),
+                  const Text('Water Level',style: TextStyle(fontWeight: FontWeight.bold,fontSize: regularfontsize)),
+                  Text(riverlist.river.isEmpty?'No data':riverlist.river.last.usv,style:const TextStyle(fontWeight: FontWeight.bold,fontSize: 14)),
+                  const Text('Humidity',style: TextStyle(fontWeight: FontWeight.bold,fontSize: regularfontsize)),
+                  Text(riverlist.river.isEmpty?'No data':riverlist.river.last.hv,style:const TextStyle(fontWeight: FontWeight.bold,fontSize: 14)),
                   SizedBox(height: 10,),
-                  Text(floodindicator?alertbannertext:normalbanner,style: TextStyle(fontWeight: FontWeight.bold,fontSize: regularfontsize),),
+                  Text(floodindicator?alertbannertext:normalbanner,style:const TextStyle(fontWeight: FontWeight.bold,fontSize: regularfontsize),),
                 ],
               ),
             ),

@@ -38,6 +38,7 @@ if (Platform.isAndroid) {
 
   WidgetsBinding.instance.addPostFrameCallback((timeStamp) { 
     Provider.of<NambulProvider>(context,listen: false).getdata();
+    Provider.of<NambulProvider>(context,listen: false).resetdate();
   });
 
     super.initState();
@@ -121,20 +122,15 @@ if (Platform.isAndroid) {
                                           Row(
                                                       children:[
                                                         IconButton(onPressed: (){
-                                                              prov.setgraphdate(DateTime(prov.graphchooseDate.year,prov.graphchooseDate.month-1));
+                                                               prov.setgraphdate(DateTime(prov.graphchooseDate.year,prov.graphchooseDate.month-1));
 
-                                                          if(prov.graphchooseDate.year>2023 && prov.graphchooseDate.month>10){
-                                                              
-                                                          }
+                                                       
                                                         
                                                           
                                                         },icon:const FaIcon(FontAwesomeIcons.arrowLeft,size: 16,)),
                                                         IconButton(onPressed: (){
-                                                   prov.setgraphdate(DateTime(prov.graphchooseDate.year,prov.graphchooseDate.month+1));
-                                                       if(prov.graphchooseDate.year<DateTime.now().year && prov.graphchooseDate.month<DateTime.now().month){
-                                                                 
-
-                                                          }
+                                                      prov.setgraphdate(DateTime(prov.graphchooseDate.year,prov.graphchooseDate.month+1));
+                                            
                                                         
                                                         }, icon:const FaIcon(FontAwesomeIcons.arrowRight,size: 16,) ),
                                                         SizedBox(width: 10,),
