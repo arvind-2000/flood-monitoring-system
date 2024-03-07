@@ -7,9 +7,11 @@ import 'package:floodsystem/models/riverdetails.dart';
 import 'package:floodsystem/providers/riverprovider.dart';
 import 'package:floodsystem/screens/mobile/details.dart';
 import 'package:floodsystem/screens/mobile/graphscreen.dart';
+import 'package:floodsystem/screens/mobile/predictionscreen.dart';
 import 'package:floodsystem/widgets/cards.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:provider/provider.dart';
@@ -99,11 +101,12 @@ class _MobileScreenState extends State<MobileScreen> {
           width: double.infinity,
           child: Column(
             children: [
-             riverprovider.predictionswitch?CardsContainer(
+             riverprovider.predictionswitch && riverprovider.getPredictions.isNotEmpty?CardsContainer(
                 cardcolor:
                     Theme.of(context).colorScheme.primary.withOpacity(0.3),
-                childs: InkWell(
+                childs: GestureDetector(
                   onTap: (){
+                    Navigator.pushNamed(context, PredictionScreen.routename);
                     log('in prediction');
                   },
                   child: Container(
@@ -128,7 +131,7 @@ class _MobileScreenState extends State<MobileScreen> {
                               fontWeight: FontWeight.bold, fontSize: 20),
                         ),
                         Text(
-                          'Next ${riverprovider.durationtime} mins',
+                          'Next ${riverprovider.durationtime} ${riverprovider.durationtime>1?"mins":"min"}',
                           style: TextStyle( 
                               color: Theme.of(context)
                                   .colorScheme
@@ -157,7 +160,7 @@ class _MobileScreenState extends State<MobileScreen> {
                     ),
                   ),
                 ),
-              ):SizedBox(),
+              ).animate().fade():SizedBox(),
               SizedBox(
                 height: 20,
               ),

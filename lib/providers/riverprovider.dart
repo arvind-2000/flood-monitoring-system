@@ -18,11 +18,13 @@ class NambulProvider extends Logics with ChangeNotifier {
   List<RiverDetails> _rivergraph = [];
   List<RiverDetails> _riverfilters = [];
   List<RiverDetails> _riverisolates = [];
+  List<RiverDetails> _predictionlist = [];
   // RiverDetails _riverDetails = RiverDetails(id: '', name: '', river: []);
   List<RiverDetails> get getnambulrivers => _riverlist;
   List<RiverDetails> get allrivers => _allriverlist;
   List<RiverDetails> get rivergraph => _rivergraph;
   List<RiverDetails> get riverfilters => _riverfilters;
+  List<RiverDetails> get predictionlist => _predictionlist;
   bool isLoading = true;
   bool isLoadingall = true;
   int filtertype = 0;
@@ -201,6 +203,7 @@ notifyListeners();
       
       _allriverlist = r;
       _predictions = Logics().predictions(_allriverlist);
+      changepred();
       log('all river list: ${_allriverlist.last.river.last.usv}');
       rivergraphs();
      
@@ -213,7 +216,16 @@ notifyListeners();
           isLoadingall = false;
           notifyListeners();
   }    
-  
+
+  void changepred(){
+    _predictionlist = [..._riverlist];
+    for(int i = 0;i<_riverlist.length;i++){
+      _predictionlist[i].river.add(_predictions[i]);
+
+    }
+  log('in prediction list add');
+    notifyListeners();
+  }
 
   void setAllRiverData(List<RiverDetails> r,int res){
     log('$res');
@@ -223,6 +235,7 @@ notifyListeners();
       _allriverlist = r;
       
       _predictions = Logics().predictions(_allriverlist);
+      changepred();
       // print("log: $_predictions");
       indicator();
       // print(responsevalue);
@@ -290,13 +303,15 @@ void setTableSensor(int inde){
     getlatest();
     notifyListeners();
   }
- void errorreconnect() {
+ void errorreconnect(){
     isLoading = true;
     notifyListeners();
     getlatest();
     notifyListeners();
   }
+
   Future<void> timer() async {
+    getlatest();
     _scheduler = Timer.periodic(Duration(seconds: _checktime), (timer) {
       print('In timer: $_checktime');
       getlatest();
@@ -488,7 +503,6 @@ void setTableSensor(int inde){
     }
 
   }
-
 
 
 }

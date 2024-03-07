@@ -8,6 +8,7 @@ import 'package:floodsystem/screens/home.dart';
 import 'package:floodsystem/screens/mobile/details.dart';
 import 'package:floodsystem/screens/mobile/graphscreen.dart';
 import 'package:floodsystem/screens/mobile/mobilesettings.dart';
+import 'package:floodsystem/screens/mobile/predictionscreen.dart';
 import 'package:floodsystem/screens/mobile/tablescreen.dart';
 import 'package:floodsystem/themes/darkthemes.dart';
 import 'package:floodsystem/themes/lighttheme.dart';
@@ -83,6 +84,7 @@ class MyApp extends StatelessWidget {
         MobileSettings.routename:(c)=>const MobileSettings(),
         TableScreen.routename:(c)=>const TableScreen(),
         GraphScreen.routename:(c)=>const GraphScreen(),
+        PredictionScreen.routename:(c)=>const PredictionScreen(),
       }
   ,
     ),);
